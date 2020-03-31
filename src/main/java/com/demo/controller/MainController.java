@@ -90,7 +90,7 @@ public class MainController implements Initializable {
      * @throws Exception
      */
     public void borrowInfo(ActionEvent actionEvent) throws Exception {
-        String fxml = CurrentUser.getUserAllInfo().getRole_name().endsWith("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
+        String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
         mainService.switchView(fxml, mainContainer);
     }
 
@@ -100,7 +100,7 @@ public class MainController implements Initializable {
         //设置头像
         mainService.setAvatar(userAvatar, userName);
         //将借阅信息设置为默认页
-        String fxml = CurrentUser.getUserAllInfo().getRole_name().endsWith("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
+        String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
         mainService.switchView(fxml, mainContainer);
 
 //        Platform.runLater(new Runnable() {
