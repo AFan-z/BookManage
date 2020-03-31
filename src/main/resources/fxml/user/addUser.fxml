@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="380.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.user.AddUserController">
+    <children>
+        <HBox alignment="CENTER" minHeight="50" styleClass="green-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <children>
+                <Label styleClass="font-title,green-theme,font-white" text="新增用户" />
+            </children>
+        </HBox>
+        <VBox minHeight="400" spacing="20" styleClass="default-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="55">
+            <children>
+                <TextField fx:id="job_num" promptText="工号" />
+            <HBox spacing="10">
+               <children>
+                  <TextField fx:id="password" prefWidth="290" promptText="密码" />
+                  <TextField fx:id="name" prefWidth="290" promptText="姓名" />
+               </children>
+            </HBox>
+                <HBox spacing="10">
+                    <children>
+                        <TextField fx:id="gender" prefWidth="290" promptText="性别" />
+                        <TextField fx:id="employment_year" prefWidth="290" promptText="入职年份" />
+                    </children>
+                </HBox>
+                <TextField fx:id="phone" promptText="电话" />
+            <HBox spacing="10">
+               <children>
+                  <TextField fx:id="email" prefWidth="290" promptText="电子邮箱" />
+                  <ComboBox fx:id="roleInfo" prefWidth="150.0" promptText="角色信息" />
+               </children>
+            </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10" left="50" right="50" top="10" />
+            </padding>
+        </VBox>
+        <Button onAction="#addUser" styleClass="green-theme,btn-radius" text="确认" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="180" AnchorPane.rightAnchor="180" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,92 @@
+package com.demo;
+
+import com.demo.controller.LoginController;
+import com.demo.controller.MainController;
+import com.demo.utils.ResourcesConfig;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import java.io.InputStream;
+
+/**
+ * Hello world!
+ */
+public class App extends Application {
+    private Stage stage;
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
+        stage.setTitle("图书室管理系统");
+        stage.getIcons().add(new Image(ResourcesConfig.IMG_LOGO));
+
+
+        goToLogin();
+        stage.show();
+
+        primaryStage.setTitle("图书室管理系统");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ResourcesConfig.LOGIN_FXML));
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(ResourcesConfig.CSS_STYLE);
+        primaryStage.setMaximized(true);
+        primaryStage.getIcons().add(new Image(ResourcesConfig.IMG_LOGO));
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+
+    public void goToLogin() {
+        try {
+            LoginController login = (LoginController) replaceSceneContent(ResourcesConfig.LOGIN_FXML, new AnchorPane());
+            stage.setMaximized(true);
+            login.setApp(this);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void goToMain() {
+        try {
+            MainController main = (MainController) replaceSceneContent(ResourcesConfig.MAIN_FXML, new BorderPane());
+            stage.setMaximized(true);
+            main.setApp(this);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    private Initializable replaceSceneContent(String fxml, Pane page) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        InputStream in = App.class.getResourceAsStream(fxml);
+        loader.setBuilderFactory(new JavaFXBuilderFactory());
+        loader.setLocation(App.class.getResource(fxml));
+
+        try {
+            page = loader.load(in);
+        } finally {
+            in.close();
+        }
+        Scene scene = new Scene(page);
+        //scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+        scene.getStylesheets().add("/css/style.css");
+        stage.setScene(scene);
+        //stage.sizeToScene();
+        return (Initializable) loader.getController();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

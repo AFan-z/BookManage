@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.user.PersonalController">
+   <children>
+       <HBox alignment="CENTER" minHeight="50" styleClass="green-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <children>
+              <Label styleClass="font-title,green-theme,font-white" text="个人信息" />
+          </children>
+       </HBox>
+       <VBox layoutY="50.0" minHeight="238.0" prefHeight="312.0" prefWidth="600.0" spacing="20" styleClass="default-theme" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+          <children>
+            <SplitPane dividerPositions="0.5" prefHeight="20.0" prefWidth="442.0">
+               <items>
+                    <HBox prefHeight="31.0" prefWidth="507.0" spacing="10">
+                       <children>
+                        <Label text="工号" />
+                        <Label text=":" />
+                        <Label fx:id="job_num" />
+                       </children>
+                    </HBox>
+                  <HBox prefHeight="26.0" prefWidth="470.0">
+                     <children>
+                        <Label text="密码" />
+                        <Label text="：" />
+                        <Label fx:id="password" />
+                     </children>
+                  </HBox>
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.5" prefHeight="20.0" prefWidth="442.0">
+               <items>
+                  <HBox prefHeight="31.0" prefWidth="507.0" spacing="10">
+                     <children>
+                        <Label text="姓名" />
+                        <Label text=":" />
+                        <Label fx:id="name" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="26.0" prefWidth="470.0">
+                     <children>
+                        <Label text="性别" />
+                        <Label text="：" />
+                        <Label fx:id="gender" />
+                     </children>
+                  </HBox>
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.5" prefHeight="20.0" prefWidth="442.0">
+               <items>
+                  <HBox prefHeight="31.0" prefWidth="507.0" spacing="10">
+                     <children>
+                        <Label text="入职年份" />
+                        <Label text=":" />
+                        <Label fx:id="employment_year" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="26.0" prefWidth="470.0">
+                     <children>
+                        <Label text="电话" />
+                        <Label text="：" />
+                        <Label fx:id="phone" />
+                     </children>
+                  </HBox>
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.5" prefHeight="20.0" prefWidth="442.0">
+               <items>
+                  <HBox prefHeight="31.0" prefWidth="507.0" spacing="10">
+                     <children>
+                        <Label text="电子邮箱" />
+                        <Label text=":" />
+                        <Label fx:id="email" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="26.0" prefWidth="470.0">
+                     <children>
+                        <Label text="登录时间" />
+                        <Label text="：" />
+                        <Label fx:id="login_time" />
+                     </children>
+                  </HBox>
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.5" prefHeight="20.0" prefWidth="442.0">
+               <items>
+                  <HBox prefHeight="31.0" prefWidth="507.0" spacing="10">
+                     <children>
+                        <Label text="上次登录时间" />
+                        <Label text=":" />
+                        <Label fx:id="last_login_time" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="26.0" prefWidth="470.0">
+                     <children>
+                        <Label text="登录次数" />
+                        <Label text="：" />
+                        <Label fx:id="login_num" />
+                     </children>
+                  </HBox>
+               </items>
+            </SplitPane>
+             <Button onAction="#editPersonInfo" styleClass="green-theme,btn-radius" text="修改个人信息" />
+          </children>
+           <padding>
+               <Insets bottom="10" left="50" right="50" top="10" />
+           </padding>
+       </VBox>
+   </children>
+</AnchorPane>

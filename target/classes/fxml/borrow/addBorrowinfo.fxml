@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+
+<AnchorPane prefHeight="174.0" prefWidth="507.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.borrow.AddOrEditBorrowController">
+    <children>
+        <HBox alignment="CENTER" minHeight="50" styleClass="green-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <children>
+                <Label styleClass="font-title,green-theme,font-white" text="新增借阅信息" />
+            </children>
+        </HBox>
+        <VBox minHeight="400" spacing="20" styleClass="default-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="55">
+            <children>
+                <TextField fx:id="jobNum" promptText="用户工号" />
+            <TextField fx:id="bookNum" promptText="图书编号" />
+            </children>
+            <padding>
+                <Insets bottom="10" left="50" right="50" top="10" />
+            </padding>
+        </VBox>
+        <Button onAction="#addBorrow" styleClass="green-theme,btn-radius" text="确认" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="180" AnchorPane.rightAnchor="180" />
+    </children>
+</AnchorPane>
