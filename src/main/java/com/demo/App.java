@@ -9,8 +9,10 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //getDBConnect();
         primaryStage.setTitle(ResourcesConfig.BOOK_MANAGE_TITLE);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ResourcesConfig.LOGIN_FXML));
         Parent root = fxmlLoader.load();
@@ -22,9 +24,29 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+/*    private void getDBConnect(){
+        new Thread(() -> {
+            Connection conn = null;
+            YMLConfig ymlConfig;
+            DBConfig dbconf;
+            // 获取连接的一个状态
+            try {
+                ymlConfig = YMLConfig.loadDataFromYML(ResourcesConfig.YML_PATH);
+                dbconf = ymlConfig.getDB();
+                conn = DBConnecter.getConnection(dbconf);
+            } catch (ClassNotFoundException e) {
+                // 数据库驱动类异常处理
+                handleErr.printErr(e, "DB Driver Load Failed!", false);
+            } catch (SQLException e1) {
+                // 数据库连接失败异常处理
+                handleErr.printErr(e1, "DB CONNECT/COMMAND FAILED!  state: " + e1.getSQLState() +'\n'+ "VendorErrCode: "+e1.getErrorCode(), false);
+            } catch (YAMLException e2) {
+                handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            } catch (Exception e3) {
+                handleErr.printErr(e3, "EXCEPTION!!!", true);
+            }
+        }).start();
+    }*/
 
 
     public boolean showLoginView(){
@@ -37,4 +59,9 @@ public class App extends Application {
         }
         return flag;
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }

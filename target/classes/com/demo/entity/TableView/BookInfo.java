@@ -48,10 +48,10 @@ public class BookInfo {
 
     public BookInfo(Book book){
         setId(book.getId());
-        setBook_num(book.getBook_num());
-        setBook_name(book.getBook_name());
-        setPublishing_house(book.getPublishing_house());
-        setPublication_year(book.getPublication_year());
+        setBook_num(book.getBookNum());
+        setBook_name(book.getBookName());
+        setPublishing_house(book.getPublishingHouse());
+        setPublication_year(book.getPublicationYear());
         setPrice(book.getPrice());
         setNumber(book.getNumber());
     }

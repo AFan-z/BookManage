@@ -1,15 +1,13 @@
 package com.demo.utils;
 
-import com.demo.entity.Role;
 import com.demo.entity.TableView.UserAllInfo;
-import com.demo.entity.User;
-import com.demo.entity.Userinfo;
+import com.demo.entity.UserAllInfoEntity;
 
 public class CurrentUser {
     private static UserAllInfo userAllInfo;
 
-    public CurrentUser(User user, Userinfo userinfo,Role role) {
-        this.userAllInfo = new UserAllInfo(user,userinfo, role);
+    public CurrentUser(UserAllInfoEntity userinfo) {
+        this.userAllInfo = new UserAllInfo(userinfo);
     }
 
     public static UserAllInfo getUserAllInfo() {

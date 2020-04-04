@@ -40,7 +40,7 @@ public class BorrowerPersonController implements Initializable {
     //表格初始化方法
     private void initTable() throws ParseException {
         //水平方向不显示滚动条，表格的列宽会均匀分布
-        borrowTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        //borrowTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //将实体集合作为参数，调用显示数据的方法
         showUserData(borrowService.getBorrowPersonList());

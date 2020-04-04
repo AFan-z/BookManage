@@ -31,7 +31,7 @@ public interface BorrowService {
 
     void newBorrowStage(String fxml) throws Exception;
 
-    void exitBorrow(ComboBox<String> isReturn, DatePicker returnTime, TextField renewNum) throws ParseException;
+    boolean exitBorrow(ComboBox<String> isReturn, DatePicker returnTime, TextField renewNum) throws ParseException;
 
-    void addBorrow(TextField jobNum, TextField bookNum);
+    boolean addBorrow(TextField jobNum, TextField bookNum) throws ParseException;
 }

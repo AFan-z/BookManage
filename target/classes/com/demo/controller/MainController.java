@@ -5,6 +5,7 @@ import com.demo.service.MainService;
 import com.demo.utils.CurrentUser;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -90,25 +91,26 @@ public class MainController implements Initializable {
      * @throws Exception
      */
     public void borrowInfo(ActionEvent actionEvent) throws Exception {
-        String fxml = CurrentUser.getUserAllInfo().getRole_name().endsWith("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
+        String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
         mainService.switchView(fxml, mainContainer);
     }
 
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //设置头像
-        mainService.setAvatar(userAvatar, userName);
+        //开启一个UI线程,设置头像
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                mainService.setAvatar(userAvatar, userName);
+            }
+        });
+
         //将借阅信息设置为默认页
-        String fxml = CurrentUser.getUserAllInfo().getRole_name().endsWith("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
+        String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
         mainService.switchView(fxml, mainContainer);
 
-//        Platform.runLater(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
+
     }
 
 

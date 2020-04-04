@@ -31,16 +31,6 @@ public class User {
     private Date create_time;
 
     /**
-     * 登录时间
-     */
-    private Date login_time;
-
-    /**
-     * 上次登录时间
-     */
-    private Date last_login_time;
-
-    /**
      * 登录次数
      */
     private int login_num;

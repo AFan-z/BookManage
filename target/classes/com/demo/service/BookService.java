@@ -28,8 +28,9 @@ public interface BookService {
     List<BookInfo> getBookList();
 
     void newBookStage(String fxml) throws Exception;
-    void addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
-    void editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
+    boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
+    boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
+    boolean deleteBook();
 
 
     }

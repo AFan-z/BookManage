@@ -1,8 +1,6 @@
 package com.demo.entity.TableView;
 
-import com.demo.entity.Role;
-import com.demo.entity.User;
-import com.demo.entity.Userinfo;
+import com.demo.entity.UserAllInfoEntity;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -30,15 +28,6 @@ public class UserAllInfo {
      */
     private SimpleStringProperty create_time = new SimpleStringProperty("");
 
-    /**
-     * 登录时间
-     */
-    private SimpleStringProperty login_time = new SimpleStringProperty("");
-
-    /**
-     * 上次登录时间
-     */
-    private SimpleStringProperty last_login_time = new SimpleStringProperty("");
 
     /**
      * 登录次数
@@ -48,7 +37,7 @@ public class UserAllInfo {
     /**
      * 用户信息id
      */
-    //private SimpleIntegerProperty userinfo_id = new SimpleIntegerProperty();
+    private SimpleIntegerProperty userinfo_id = new SimpleIntegerProperty();
 
     /**
      * 姓名
@@ -91,24 +80,22 @@ public class UserAllInfo {
     private SimpleStringProperty role_info = new SimpleStringProperty("");
 
 
-    public UserAllInfo(User user, Userinfo userinfo, Role role){
+    public UserAllInfo(UserAllInfoEntity userAllInfo){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        setId(user.getId());
-        setJob_num(user.getJob_num());
-        setPassword(user.getPassword());
-        setCreate_time(dateFormat.format(user.getCreate_time()));
-        setLogin_time(dateFormat.format(user.getLogin_time()));
-        setLast_login_time(dateFormat.format(user.getLast_login_time()));
-        setLogin_num(user.getLogin_num());
-        //setUserinfo_id(user.getUserinfo_id());
-        setName(userinfo.getName());
-        setGender(userinfo.getGender());
-        setEmployment_year(dateFormat.format(userinfo.getEmployment_year()));
-        setPhone(userinfo.getPhone());
-        setEmail(userinfo.getEmail());
-        setAvatar(userinfo.getAvatar());
-        setRole_name(role.getRole_name());
-        setRole_info(role.getRole_info());
+        setId(userAllInfo.getId());
+        setJob_num(userAllInfo.getJobNum());
+        setPassword(userAllInfo.getPassword());
+        setCreate_time(dateFormat.format(userAllInfo.getCreateTime()));
+        setLogin_num(userAllInfo.getLoginNum());
+        setUserinfo_id(userAllInfo.getUserinfoId());
+        setName(userAllInfo.getName());
+        setGender(userAllInfo.getGender());
+        setEmployment_year(dateFormat.format(userAllInfo.getEmploymentYear()));
+        setPhone(userAllInfo.getPhone());
+        setEmail(userAllInfo.getEmail());
+        setAvatar(userAllInfo.getAvatar());
+        setRole_name(userAllInfo.getRoleName());
+        setRole_info(userAllInfo.getRoleInfo());
     }
 
     public UserAllInfo(){
@@ -163,30 +150,6 @@ public class UserAllInfo {
         this.create_time.set(create_time);
     }
 
-    public String getLogin_time() {
-        return login_time.get();
-    }
-
-    public SimpleStringProperty login_timeProperty() {
-        return login_time;
-    }
-
-    public void setLogin_time(String login_time) {
-        this.login_time.set(login_time);
-    }
-
-    public String getLast_login_time() {
-        return last_login_time.get();
-    }
-
-    public SimpleStringProperty last_login_timeProperty() {
-        return last_login_time;
-    }
-
-    public void setLast_login_time(String last_login_time) {
-        this.last_login_time.set(last_login_time);
-    }
-
     public int getLogin_num() {
         return login_num.get();
     }
@@ -199,17 +162,17 @@ public class UserAllInfo {
         this.login_num.set(login_num);
     }
 
-//    public int getUserinfo_id() {
-//        return userinfo_id.get();
-//    }
-//
-//    public SimpleIntegerProperty userinfo_idProperty() {
-//        return userinfo_id;
-//    }
-//
-//    public void setUserinfo_id(int userinfo_id) {
-//        this.userinfo_id.set(userinfo_id);
-//    }
+    public int getUserinfo_id() {
+        return userinfo_id.get();
+    }
+
+    public SimpleIntegerProperty userinfo_idProperty() {
+        return userinfo_id;
+    }
+
+    public void setUserinfo_id(int userinfo_id) {
+        this.userinfo_id.set(userinfo_id);
+    }
 
     public String getName() {
         return name.get();

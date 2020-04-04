@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -16,6 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddUserController implements Initializable {
+
     @FXML
     private TextField job_num;
     @FXML
@@ -25,7 +27,7 @@ public class AddUserController implements Initializable {
     @FXML
     private TextField gender;
     @FXML
-    private TextField employment_year;
+    private DatePicker employment_year;
     @FXML
     private TextField phone;
     @FXML

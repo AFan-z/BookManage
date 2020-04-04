@@ -4,21 +4,20 @@ import com.demo.entity.Role;
 import com.demo.entity.TableView.RoleInfo;
 import com.demo.entity.TableView.UserAllInfo;
 import com.demo.entity.User;
+import com.demo.entity.UserAllInfoEntity;
 import com.demo.entity.Userinfo;
+import com.demo.mapper.RoleMapper;
+import com.demo.mapper.UserMapper;
 import com.demo.service.UserService;
-import com.demo.utils.ComponentUtil;
-import com.demo.utils.CurrentUser;
-import com.demo.utils.Operate;
-import com.demo.utils.ResourcesConfig;
+import com.demo.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.yaml.snakeyaml.error.YAMLException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +26,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private static UserAllInfo userAllInfo;
+    private UserMapper userMapper = MapperFactory.getUserMapperInstance();
+    private RoleMapper roleMapper = MapperFactory.getRoleMapperInstance();
+
+
     @Override
     public void addButtonToTableView(String text, String theme, TableColumn<UserAllInfo, UserAllInfo> col, Operate operate) {
 
@@ -76,40 +79,18 @@ public class UserServiceImpl implements UserService {
     public List<UserAllInfo> getUserList() {
         List<UserAllInfo> userList = new ArrayList<>();
 
-        //假数据
-        User user = User.builder()
-                .id(1)
-                .job_num("2018102146")
-                .password("123456")
-                .create_time(new Date())
-                .login_time(new Date())
-                .last_login_time(new Date())
-                .login_num(6)
-                .userinfo_id(1)
-                .build();
-        Userinfo userinfo = Userinfo.builder()
-                .id(1)
-                .name("测试用户")
-                .gender("男")
-                .employment_year(new Date())
-                .phone("1313131313")
-                .email("2130643@qq.com")
-                .avatar("/image/avatar/1.jpg")
-                .build();
+        try {
+            List<UserAllInfoEntity> userAllInfoEntities = userMapper.select();
+            for (UserAllInfoEntity entity : userAllInfoEntities){
+                UserAllInfo userAllInfo = new UserAllInfo(entity);
+                userList.add(userAllInfo);
+            }
 
-        Role role = Role.builder().role_info("系统管理员").build();
-
-        UserAllInfo userAllInfo = new UserAllInfo(user,userinfo,role);
-
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
-        userList.add(userAllInfo);
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
 
         return userList;
     }
@@ -125,8 +106,6 @@ public class UserServiceImpl implements UserService {
         employment_year.setText(CurrentUser.getUserAllInfo().getEmployment_year());
         phone.setText(CurrentUser.getUserAllInfo().getPhone());
         email.setText(CurrentUser.getUserAllInfo().getEmail());
-        login_time.setText(CurrentUser.getUserAllInfo().getLogin_time());
-        last_login_time.setText(CurrentUser.getUserAllInfo().getLast_login_time());
         login_num.setText(CurrentUser.getUserAllInfo().getLogin_num() + "");
 
     }
@@ -147,12 +126,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(TextField job_num, TextField password, TextField name, TextField gender, TextField employment_year, TextField phone, TextField email, int roleId) {
+    public void addUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) {
 
         //TODO 调用数据库，将数据存入数据库中
         System.out.println(job_num);
         System.out.println(job_num.getText());
-        if(roleId == 0 || job_num.getText().equals("") || password.getText().equals("") || name.getText().equals("") || gender.getText().equals("") || employment_year.getText().equals("") || phone.getText().equals("") || email.getText().equals("")){
+        if(roleId == 0 || job_num.getText().equals("") || password.getText().equals("") || name.getText().equals("") || gender.getText().equals("") || employment_year.getValue().toString().equals("") || phone.getText().equals("") || email.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("请补全信息！！！");
@@ -168,7 +147,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(TextField job_num, TextField password, TextField name, TextField gender, TextField employment_year, TextField phone, TextField email, int roleId) {
+    public void editUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) {
         //TODO 调用数据库，将修改数据数据存入数据库中
 
         //userAllInfo,为所要修改的用户之前信息
@@ -181,22 +160,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    //假数据
     @Override
     public List<RoleInfo> getRoleList(){
         List<RoleInfo> roleList = new ArrayList<>();
-
-        Role role1 = Role.builder().id(1).role_name("system_admin").role_info("系统管理员").build();
-        Role role2 = Role.builder().id(2).role_name("book_admin").role_info("图书管理员").build();
-        Role role3 = Role.builder().id(3).role_name("user").role_info("用户").build();
-
-        RoleInfo roleInfo1 = new RoleInfo(role1);
-        RoleInfo roleInfo2 = new RoleInfo(role2);
-        RoleInfo roleInfo3 = new RoleInfo(role3);
-
-        roleList.add(roleInfo1);
-        roleList.add(roleInfo2);
-        roleList.add(roleInfo3);
+        List<Role> roles = roleMapper.select();
+        for (Role role : roles){
+            RoleInfo roleInfo = new RoleInfo(role);
+            roleList.add(roleInfo);
+        }
         return roleList;
     }
 

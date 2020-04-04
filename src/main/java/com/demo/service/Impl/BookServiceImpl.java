@@ -2,10 +2,13 @@ package com.demo.service.Impl;
 
 import com.demo.entity.Book;
 import com.demo.entity.TableView.BookInfo;
+import com.demo.mapper.BookMapper;
 import com.demo.service.BookService;
 import com.demo.utils.ComponentUtil;
+import com.demo.utils.MapperFactory;
 import com.demo.utils.Operate;
 import com.demo.utils.ResourcesConfig;
+
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,8 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.yaml.snakeyaml.error.YAMLException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class BookServiceImpl implements BookService {
 
     //获取所要修改或删除的图书信息
     private static BookInfo bookInfo;
+    private BookMapper bookMapper = MapperFactory.getBookMapperInstance();
 
     @Override
     public void addButtonToTableView(String text, String theme, TableColumn<BookInfo, BookInfo> col, Operate operate) {
@@ -49,16 +53,12 @@ public class BookServiceImpl implements BookService {
                     switch (operate){
                         case ADD://增
                             break;
-                        case DELETE:// TODO 删
-//                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                            alert.setTitle("提示");
-//                            alert.setContentText("！！！！");
-//                            alert.showAndWait();
+                        case DELETE:
+                            deleteBook();
                             break;
-                        case UPDATE:// TODO 改
+                        case UPDATE:
                             try {
                                 newBookStage(ResourcesConfig.EDIT_BOOK_FXML);
-                                System.out.println(book.getId());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -74,27 +74,19 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookInfo> getBookList() {
 
-        //TODO 图书集合，存放数据库图书表各种查询的结果
             List<BookInfo> bookInfoList = new ArrayList<>();
+            try {
+                List<Book> bookLists = bookMapper.select();
 
-            //假数据
-            Book book1 = new Book(1,"sa123456789","测试1","机械工业出版","2020",44.21,10);
-            Book book2 = new Book(2,"5402451dsf","测试2","机械工业出版","2018",4.21,88);
-
-            BookInfo bookInfo1 = new BookInfo(book1);
-            BookInfo bookInfo2 = new BookInfo(book2);
-
-            bookInfoList.add(bookInfo1);
-            bookInfoList.add(bookInfo2);
-            bookInfoList.add(bookInfo1);
-            bookInfoList.add(bookInfo2);
-            bookInfoList.add(bookInfo1);
-            bookInfoList.add(bookInfo2);
-            bookInfoList.add(bookInfo2);
-            bookInfoList.add(bookInfo1);
-            bookInfoList.add(bookInfo1);
-            bookInfoList.add(bookInfo2);
-
+                for (Book book : bookLists){
+                    BookInfo bookInfo = new BookInfo(book);
+                    bookInfoList.add(bookInfo);
+                }
+            } catch (YAMLException e2) {
+                //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            } catch (Exception e3) {
+                //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            }
         return bookInfoList;
     }
 
@@ -115,36 +107,129 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public void addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
-        //TODO 调用数据库添加新增数据
+    public boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
 
-        System.out.println(bookNum.getText());
+        boolean flag = false;
 
-        //弹窗
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示信息");
-        alert.setHeaderText("新增图书成功!");
-        alert.showAndWait();
-        Stage stage = (Stage) bookName.getScene().getWindow();
-        stage.close();
+        if(bookNum.getText().equals("") || bookName.getText().equals("") || publishingHouse.getText().equals("") || publicationYear.getText().equals("") || price.getText().equals("") || number.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示信息");
+            alert.setHeaderText("请补全信息！！！");
+            alert.showAndWait();
+            return flag;
+        }
+
+        Book book = Book.builder()
+                .bookNum(bookNum.getText())
+                .bookName(bookName.getText())
+                .publishingHouse(publishingHouse.getText())
+                .publicationYear(publicationYear.getText())
+                .price(Double.valueOf(price.getText()))
+                .number(Integer.parseInt(number.getText()))
+                .build();
+
+        try {
+            boolean b = bookMapper.insert(book);
+            if (b){
+                //弹窗
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("新增图书成功!!!");
+                alert.showAndWait();
+                Stage stage = (Stage) bookName.getScene().getWindow();
+                stage.close();
+            }else {
+                //弹窗
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("新增图书失败!!!");
+                alert.showAndWait();
+                Stage stage = (Stage) bookName.getScene().getWindow();
+                stage.close();
+            }
+            flag = b;
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return false;
     }
 
 
     @Override
-    public void editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
-        //TODO 调用数据库添加修改数据
-        System.out.println(bookInfo.getId());
+    public boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
+        boolean flag = false;
+        if(bookNum.getText().equals("")){
+            bookNum.setText(bookInfo.getBook_num());
+        }
+        if(bookName.getText().equals("")){
+            bookName.setText(bookInfo.getBook_name());
+        }
+        if(publishingHouse.getText().equals("")){
+            publishingHouse.setText(bookInfo.getPublishing_house());
+        }
+        if(publicationYear.getText().equals("")){
+            publicationYear.setText(bookInfo.getPublication_year());
+        }
+        if(price.getText().equals("")){
+            price.setText(bookInfo.getPrice()+"");
+        }
+        if(number.getText().equals("")){
+            number.setText(bookInfo.getNumber()+"");
+        }
 
-        System.out.println(bookNum.getText());
+        try {
 
-
-        //弹窗
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示信息");
-        alert.setHeaderText("修改图书成功!");
-        alert.showAndWait();
-        Stage stage = (Stage) bookName.getScene().getWindow();
-        stage.close();
+            boolean b = bookMapper.update(bookNum.getText(), bookName.getText(), publishingHouse.getText(),
+                    publicationYear.getText(),Double.valueOf(price.getText()), Integer.parseInt(number.getText()), bookInfo.getId());
+            if (b) {
+                //弹窗
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("修改图书成功！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) bookName.getScene().getWindow();
+                stage.close();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("修改图书失败！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) bookName.getScene().getWindow();
+                stage.close();
+            }
+            flag = b;
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
     }
 
+    @Override
+    public boolean deleteBook() {
+        boolean flag = false;
+        try {
+            boolean b = bookMapper.delete(bookInfo.getId());
+            if (b) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("删除图书成功!!!");
+                alert.showAndWait();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("删除图书失败!!!");
+                alert.showAndWait();
+            }
+            flag = b;
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
+    }
 }

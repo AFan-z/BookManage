@@ -111,7 +111,7 @@
     -fx-text-fill: #fff;
 }
 
-/*蓝色主题*/
+/*渐变色主题*/
 .grad-theme {
     -fx-background-color: linear-gradient(to right, #32ff9d, #10e6ff);;
     -fx-text-fill: #fff;

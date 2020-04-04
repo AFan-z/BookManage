@@ -61,7 +61,7 @@ public class BookController implements Initializable {
     //表格初始化方法
     private void initTable() {
         //水平方向不显示滚动条，表格的列宽会均匀分布
-        bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        //bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //调用查询所有图书的方法，
         //将实体集合作为参数，调用显示数据的方法，可以在界面的表格中显示图书模型集合的值

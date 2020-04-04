@@ -26,7 +26,7 @@
                 <Button onAction="#search" styleClass="green-theme" text="搜索" />
             </children>
         </HBox>
-        <TableView fx:id="userTable" layoutX="5.0" layoutY="500.0" prefWidth="1550" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
+        <TableView fx:id="userTable" layoutX="5.0" layoutY="500.0" prefWidth="1350" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
             <columns>
                 <TableColumn text="ID">
                     <cellValueFactory>
@@ -46,16 +46,6 @@
                 <TableColumn text="创建时间">
                     <cellValueFactory>
                         <PropertyValueFactory property="create_time" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="登录时间">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="login_time" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="上次登录时间">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="last_login_time" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="登录次数">

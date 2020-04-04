@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 @Data
+@Builder
 public class Book {
 
     /**
@@ -16,22 +17,22 @@ public class Book {
     /**
      * 编号
      */
-    private String book_num;
+    private String bookNum;
 
     /**
      *书名
      */
-    private String book_name;
+    private String bookName;
 
     /**
      *出版社
      */
-    private String publishing_house;
+    private String publishingHouse;
 
     /**
      *出版年限
      */
-    private String publication_year;
+    private String publicationYear;
 
     /**
      *价格
@@ -44,13 +45,6 @@ public class Book {
     private int number;
 
 
-    public Book(int id, String book_num, String book_name, String publishing_house, String publication_year, double price, int number) {
-        this.id = id;
-        this.book_num = book_num;
-        this.book_name = book_name;
-        this.publishing_house = publishing_house;
-        this.publication_year = publication_year;
-        this.price = price;
-        this.number = number;
-    }
+    @Tolerate
+    public Book(){}
 }

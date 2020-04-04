@@ -1,8 +1,6 @@
 package com.demo.entity.TableView;
 
-import com.demo.entity.Book;
-import com.demo.entity.Borrow;
-import com.demo.entity.User;
+import com.demo.entity.BorrowAllInfoEntity;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -52,18 +50,18 @@ public class BorrowInfo {
      */
     private SimpleIntegerProperty renew_num = new SimpleIntegerProperty();
 
-    public BorrowInfo(User user, Book book, Borrow borrow){
+    public BorrowInfo(BorrowAllInfoEntity entity) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        setUser_id(borrow.getUser_id());
-        setJob_num(user.getJob_num());
-        setBook_id(borrow.getBook_id());
-        setBook_num(book.getBook_num());
-        setBook_name(book.getBook_name());
-        if(borrow.getIsReturn() == 0){
+        setUser_id(entity.getUserId());
+        setJob_num(entity.getJobNum());
+        setBook_id(entity.getBookId());
+        setBook_num(entity.getBookNum());
+        setBook_name(entity.getBookName());
+        if(entity.getIsReturn() == 0){
             setIsReturn("否");
         }else setIsReturn("是");
-        setReturn_time(dateFormat.format(borrow.getReturn_time()));
-        setRenew_num(borrow.getRenew_num());
+        setReturn_time(dateFormat.format(entity.getReturnTime()));
+        setRenew_num(entity.getRenewNum());
     }
 
     public int getUser_id() {

@@ -8,8 +8,8 @@ import lombok.experimental.Tolerate;
 @Builder
 public class Role {
     private int id;
-    private String role_name;
-    private String role_info;
+    private String roleName;
+    private String roleInfo;
 
     @Tolerate
     public Role(){}

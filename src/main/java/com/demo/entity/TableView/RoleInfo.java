@@ -3,9 +3,6 @@ package com.demo.entity.TableView;
 import com.demo.entity.Role;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import lombok.Builder;
-import lombok.Data;
-import lombok.experimental.Tolerate;
 
 public class RoleInfo {
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
@@ -14,8 +11,8 @@ public class RoleInfo {
 
     public RoleInfo(Role role){
         setId(role.getId());
-        setRole_name(role.getRole_name());
-        setRole_info(role.getRole_info());
+        setRole_name(role.getRoleName());
+        setRole_info(role.getRoleInfo());
     }
 
     public int getId() {

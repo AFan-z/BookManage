@@ -6,10 +6,7 @@ import com.demo.entity.TableView.RoleInfo;
 import com.demo.entity.TableView.UserAllInfo;
 import com.demo.utils.Operate;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,9 +21,9 @@ public interface UserService {
 
     void newUserStage(String fxml) throws Exception;
 
-    void addUser(TextField job_num, TextField password, TextField name, TextField gender, TextField employment_year, TextField phone, TextField email, int roleId);
+    void addUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId);
 
-    void editUser(TextField job_num, TextField password, TextField name, TextField gender, TextField employment_year, TextField phone, TextField email, int roleId);
+    void editUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId);
 
     List<RoleInfo> getRoleList();
 

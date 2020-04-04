@@ -28,7 +28,7 @@ public class AddOrEditBorrowController {
        borrowService.exitBorrow(isReturn, returnTime, renewNum);
     }
 
-    public void addBorrow(ActionEvent actionEvent) {
+    public void addBorrow(ActionEvent actionEvent) throws ParseException {
         borrowService.addBorrow(jobNum, bookNum);
     }
 }

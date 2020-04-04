@@ -1,14 +1,12 @@
 package com.demo.service.Impl;
 
-import com.demo.entity.Book;
-import com.demo.entity.Borrow;
+import com.demo.entity.BorrowAllInfoEntity;
 import com.demo.entity.TableView.BorrowInfo;
-import com.demo.entity.User;
+import com.demo.mapper.BookMapper;
+import com.demo.mapper.BorrowMapper;
+import com.demo.mapper.UserMapper;
 import com.demo.service.BorrowService;
-import com.demo.utils.ComponentUtil;
-import com.demo.utils.CurrentUser;
-import com.demo.utils.Operate;
-import com.demo.utils.ResourcesConfig;
+import com.demo.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,9 +14,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.yaml.snakeyaml.error.YAMLException;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +28,11 @@ import java.util.List;
 public class BorrowServiceImpl implements BorrowService {
 
     private static BorrowInfo borrowInfo;
+    private BorrowMapper borrowMapper = MapperFactory.getBorrowMapperInstance();
+    private UserMapper userMapper = MapperFactory.getUserMapperInstance();
+    private BookMapper bookMapper = MapperFactory.getBookMapperInstance();
+
+
     @Override
     public void addButtonToTableView(String text, String theme, TableColumn<BorrowInfo, BorrowInfo> col, Operate operate) {
         //操作列的相关设置
@@ -48,11 +55,7 @@ public class BorrowServiceImpl implements BorrowService {
                     switch (operate){
                         case ADD://增
                             break;
-                        case DELETE://删
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("提示");
-                            alert.setContentText("！！！！");
-                            alert.showAndWait();
+                        case DELETE:// TODO 删
                             break;
                         case UPDATE://改
                             try {
@@ -64,8 +67,14 @@ public class BorrowServiceImpl implements BorrowService {
                         case SELECT://查
                             break;
                         case RENEW://续借
+                            try {
+                                renewBook();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             break;
                         case RETURN://归还
+                            borrowMapper.update(1,borrowInfo.getUser_id(),borrowInfo.getBook_id());
                             break;
                     }
                 });
@@ -73,34 +82,31 @@ public class BorrowServiceImpl implements BorrowService {
         });
     }
 
+    private boolean renewBook() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = format.parse(borrowInfo.getReturn_time());
+        boolean b = borrowMapper.update(getnewDate(date, 1), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
+        return b;
+    }
+
     @Override
     public List<BorrowInfo> getBorrowList() throws ParseException {
 
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
-        //假数据
-        User user = User.builder()
-                .id(1)
-                .job_num("2018102146")
-                .password("123456")
-                .create_time(new Date())
-                .login_time(new Date())
-                .last_login_time(new Date())
-                .login_num(6)
-                .userinfo_id(1)
-                .build();
-        Book book = new Book(1,"sa123456789","测试1","机械工业出版","2020",44.21,10);
 
-        Borrow borrow = Borrow.builder().book_id(1).user_id(1).isReturn(0).renew_num(0).return_time(getnewDate(new Date(), 1)).build();
+        try {
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.select();
 
-        BorrowInfo borrowInfo = new BorrowInfo(user,book,borrow);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
+            for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
+                BorrowInfo borrowInfo = new BorrowInfo(entity);
+                borrowInfoList.add(borrowInfo);
+            }
+        } catch (YAMLException e2) {
+           // handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+
         return borrowInfoList;
     }
 
@@ -108,30 +114,18 @@ public class BorrowServiceImpl implements BorrowService {
     public List<BorrowInfo> getBorrowPersonList() throws ParseException {
 
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
-        // TODO 加个判断工号是否为当前登录用户
+        try {
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.select(CurrentUser.getUserAllInfo().getJob_num());
 
-        //获得当前工号
-        //CurrentUser.getUserAllInfo().getJob_num();
-
-
-        //假数据
-        User user = User.builder()
-                .id(1)
-                .job_num("2018102146")
-                .password("123456")
-                .create_time(new Date())
-                .login_time(new Date())
-                .last_login_time(new Date())
-                .login_num(6)
-                .userinfo_id(1)
-                .build();
-        Book book = new Book(1,"sa123456789","测试1","机械工业出版","2020",44.21,10);
-
-        Borrow borrow = Borrow.builder().book_id(1).user_id(1).isReturn(0).renew_num(0).return_time(getnewDate(new Date(), 1)).build();
-
-        BorrowInfo borrowInfo = new BorrowInfo(user,book,borrow);
-        borrowInfoList.add(borrowInfo);
-        borrowInfoList.add(borrowInfo);
+            for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
+                BorrowInfo borrowInfo = new BorrowInfo(entity);
+                borrowInfoList.add(borrowInfo);
+            }
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
 
         return borrowInfoList;
     }
@@ -152,23 +146,82 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public void addBorrow(TextField jobNum, TextField bookNum) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
-        alert.setContentText(jobNum.getText() + "--" + bookNum.getText());
-        alert.showAndWait();
+    public boolean addBorrow(TextField jobNum, TextField bookNum) throws ParseException {
+        boolean flag = false;
+        try {
+            int user_id = userMapper.select(jobNum.getText());
+            int book_id = bookMapper.select(bookNum.getText());
+            boolean b = borrowMapper.insert(user_id, book_id, getnewDate(new Date(), 1));
+
+            if (b){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("添加借阅信息成功！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) bookNum.getScene().getWindow();
+                stage.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("添加借阅信息失败！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) bookNum.getScene().getWindow();
+                stage.close();
+            }
+            flag = b;
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+
+        return flag;
     }
 
     @Override
-    public void exitBorrow(ComboBox<String> isReturn, DatePicker returnTime, TextField renewNum) throws ParseException {
-        System.out.println(borrowInfo.getReturn_time() + "---" + isReturn.getValue());
+    public boolean exitBorrow(ComboBox<String> isReturn, DatePicker returnTime, TextField renewNum) throws ParseException {
+        boolean flag = false;
 
-        //System.out.println(editDate(returnTime.getValue().toString()));
+        if (isReturn == null){
+            isReturn.setValue(borrowInfo.getIsReturn());
+        }
+        if (returnTime.getValue() == null){
+            String dataStr[] = borrowInfo.getReturn_time().split(" ");
+            returnTime.setValue(LocalDate.parse(dataStr[0]));
+        }
+        if (renewNum.getText().equals("")){
+            renewNum.setText(borrowInfo.getRenew_num()+"");
+        }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
-        alert.setContentText(editDate(returnTime.getValue().toString()).toString());
-        alert.showAndWait();
+        int is_return = 0;
+        if (isReturn.getValue().equals("是")){
+            is_return = 1;
+        }
+        try {
+            boolean b = borrowMapper.update(is_return, editDate(returnTime.getValue().toString()), Integer.parseInt(renewNum.getText()), borrowInfo.getUser_id(), borrowInfo.getBook_id());
+            if (b){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("修改借阅信息成功！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) isReturn.getScene().getWindow();
+                stage.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("修改借阅信息失败！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) isReturn.getScene().getWindow();
+                stage.close();
+            }
+            flag = b;
+        } catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+
+        return flag;
     }
 
 
