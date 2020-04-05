@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 05/04/2020 12:37:40
+ Date: 05/04/2020 22:55:14
 */
 
 SET NAMES utf8mb4;
@@ -55,6 +55,7 @@ CREATE TABLE `borrow`  (
   `book_id` int(11) NOT NULL COMMENT '图书编号',
   `is_return` int(2) NULL DEFAULT 0 COMMENT '是否归还',
   `return_time` datetime(0) NULL DEFAULT NULL COMMENT '归还日期',
+  `renew_time` datetime(0) NULL DEFAULT NULL COMMENT '续借时间',
   `renew_num` int(11) NULL DEFAULT 0 COMMENT '续借次数',
   PRIMARY KEY (`user_id`, `book_id`) USING BTREE,
   INDEX `fk_book_id`(`book_id`) USING BTREE,
@@ -65,15 +66,15 @@ CREATE TABLE `borrow`  (
 -- ----------------------------
 -- Records of borrow
 -- ----------------------------
-INSERT INTO `borrow` VALUES (1, 1, 0, '2020-05-03 11:17:10', 0);
-INSERT INTO `borrow` VALUES (1, 3, 0, '2020-05-01 11:27:15', 0);
-INSERT INTO `borrow` VALUES (1, 8, 0, '2020-05-03 11:27:37', 0);
-INSERT INTO `borrow` VALUES (2, 2, 0, '2020-05-09 11:28:03', 0);
-INSERT INTO `borrow` VALUES (2, 5, 0, '2020-05-16 11:28:15', 0);
-INSERT INTO `borrow` VALUES (2, 6, 0, '2020-05-08 11:28:31', 0);
-INSERT INTO `borrow` VALUES (3, 3, 0, '2020-05-10 11:28:43', 0);
-INSERT INTO `borrow` VALUES (3, 4, 0, '2020-05-15 11:29:04', 0);
-INSERT INTO `borrow` VALUES (3, 7, 0, '2020-04-26 11:29:19', 0);
+INSERT INTO `borrow` VALUES (1, 1, 0, '2020-05-03 11:17:10', '2020-03-01 22:53:26', 0);
+INSERT INTO `borrow` VALUES (1, 3, 0, '2020-05-01 11:27:15', '2020-03-01 22:53:29', 0);
+INSERT INTO `borrow` VALUES (1, 8, 0, '2020-05-03 11:27:37', '2020-03-01 22:53:34', 0);
+INSERT INTO `borrow` VALUES (2, 2, 0, '2020-05-09 11:28:03', '2020-03-01 22:53:37', 0);
+INSERT INTO `borrow` VALUES (2, 5, 0, '2020-05-16 11:28:15', '2020-04-05 22:53:40', 0);
+INSERT INTO `borrow` VALUES (2, 6, 0, '2020-05-08 11:28:31', '2020-04-05 22:53:43', 0);
+INSERT INTO `borrow` VALUES (3, 3, 0, '2020-05-10 11:28:43', '2020-04-05 22:53:47', 0);
+INSERT INTO `borrow` VALUES (3, 4, 0, '2020-05-15 11:29:04', '2020-04-05 22:53:50', 0);
+INSERT INTO `borrow` VALUES (3, 7, 0, '2020-04-26 11:29:19', '2020-04-05 22:53:53', 0);
 
 -- ----------------------------
 -- Table structure for operation_log

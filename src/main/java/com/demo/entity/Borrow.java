@@ -13,12 +13,12 @@ public class Borrow {
     /**
      * 用户id
      */
-    private int user_id;
+    private int userId;
 
     /**
      * 图书id
      */
-    private int book_id;
+    private int bookId;
 
     /**
      * 是否归还
@@ -28,12 +28,19 @@ public class Borrow {
     /**
      * 归还时间（30天）
      */
-    private Date return_time;
+    private Date returnTime;
+
+    /**
+     * 续借时间
+     */
+    private Date renewTime;
 
     /**
      * 续借次数
      */
-    private int renew_num;
+    private int renewNum;
+
+
 
     @Tolerate
     public Borrow(){}

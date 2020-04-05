@@ -1,5 +1,6 @@
 package com.demo.mock;
 
+import com.demo.entity.Borrow;
 import com.demo.entity.BorrowAllInfoEntity;
 import com.demo.mapper.BorrowMapper;
 
@@ -40,7 +41,18 @@ public class BorrowMapperImpl implements BorrowMapper {
     }
 
     @Override
-    public boolean insert(int user_id, int book_id, Date return_time) {
+    public Borrow select(int user_id, int book_id) {
+        return null;
+    }
+
+    @Override
+    public boolean update(Date renew_time, int user_id, int book_id) {
+        return false;
+    }
+
+
+    @Override
+    public boolean insert(int user_id, int book_id, Date return_time, Date renew_time) {
         BorrowAllInfoEntity entity = BorrowAllInfoEntity.builder().userId(user_id).bookId(book_id).jobNum("2020032303")
                 .bookNum("9787121198854").returnTime(new Date()).isReturn(0).renewNum(0).build();
         borrows.add(entity);

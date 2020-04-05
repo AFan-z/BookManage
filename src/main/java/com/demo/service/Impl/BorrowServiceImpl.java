@@ -1,5 +1,6 @@
 package com.demo.service.Impl;
 
+import com.demo.entity.Borrow;
 import com.demo.entity.BorrowAllInfoEntity;
 import com.demo.entity.TableView.BorrowInfo;
 import com.demo.mapper.BookMapper;
@@ -25,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -111,10 +113,25 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     private boolean renewBook() throws ParseException {
+        boolean flag = false;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = format.parse(borrowInfo.getReturn_time());
-        boolean b = borrowMapper.update(getnewDate(date, 1), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
-        return b;
+        try {
+            Borrow entity = borrowMapper.select(borrowInfo.getUser_id(), borrowInfo.getBook_id());
+            if (0 == entity.getIsReturn() &&
+                    entity.getRenewTime().before(new Date())) {
+                boolean b1 = borrowMapper.update(getnewDateForDays(entity.getReturnTime(), 20),borrowInfo.getUser_id(),borrowInfo.getBook_id());
+                boolean b = borrowMapper.update(getnewDateForDays(date, 30), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
+                flag = b && b1;
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
     }
 
     @Override
@@ -129,12 +146,12 @@ public class BorrowServiceImpl implements BorrowService {
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
                 borrowInfoList.add(borrowInfo);
             }
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return borrowInfoList;
@@ -210,7 +227,7 @@ public class BorrowServiceImpl implements BorrowService {
         try {
             int user_id = userMapper.select(jobNum.getText());
             int book_id = bookMapper.select(bookNum.getText());
-            boolean b = borrowMapper.insert(user_id, book_id, getnewDate(new Date(), 1));
+            boolean b = borrowMapper.insert(user_id, book_id, getnewDateForDays(new Date(), 30), new Date());
 
             if (b){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -336,23 +353,35 @@ public class BorrowServiceImpl implements BorrowService {
         return newDate;
     }
 
-    private Date getnewDate(Date olddate, int months) throws ParseException {
+//    private Date getnewDateForMonths(Date olddate, int months) throws ParseException {
+//
+//        Date date = olddate;
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String data = format.format(date);
+//        String dataStr[] = data.split("-");
+//
+//        if ((Integer.parseInt(dataStr[1]) + months) > 12){
+//            dataStr[0]= String.valueOf(Integer.parseInt(dataStr[0]) + 1);
+//            dataStr[1]= String.valueOf((Integer.parseInt(dataStr[1]) + months) / 12);;
+//            String newdata = dataStr[0]+"-"+dataStr[1]+"-"+dataStr[2];
+//            Date newDate = format.parse(newdata);
+//            return newDate;
+//        }
+//
+//        dataStr[1]= String.valueOf(Integer.parseInt(dataStr[1]) + months);;
+//        String newdata = dataStr[0]+"-"+dataStr[1]+"-"+dataStr[2];
+//        Date newDate = format.parse(newdata);
+//        return newDate;
+//    }
 
-        Date date = olddate;
+
+    private Date getnewDateForDays(Date olddate, int days) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String data = format.format(date);
-        String dataStr[] = data.split("-");
-
-        if ((Integer.parseInt(dataStr[1]) + months) > 12){
-            dataStr[0]= String.valueOf(Integer.parseInt(dataStr[0]) + 1);
-            dataStr[1]= String.valueOf((Integer.parseInt(dataStr[1]) + months) / 12);;
-            String newdata = dataStr[0]+"-"+dataStr[1]+"-"+dataStr[2];
-            Date newDate = format.parse(newdata);
-            return newDate;
-        }
-
-        dataStr[1]= String.valueOf(Integer.parseInt(dataStr[1]) + months);;
-        String newdata = dataStr[0]+"-"+dataStr[1]+"-"+dataStr[2];
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(olddate);
+        ca.add(Calendar.DATE, days);
+        olddate = ca.getTime();
+        String newdata = format.format(olddate);
         Date newDate = format.parse(newdata);
         return newDate;
     }

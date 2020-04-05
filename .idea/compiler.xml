@@ -8,8 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="myorm-jdbc" />
-        <module name="BookManage" />
         <module name="myorm" />
+        <module name="BookManage" />
       </profile>
     </annotationProcessing>
   </component>
