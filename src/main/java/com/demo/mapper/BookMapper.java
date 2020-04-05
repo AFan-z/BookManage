@@ -1,6 +1,7 @@
 package com.demo.mapper;
 
 import com.demo.entity.Book;
+//import org.yu.myorm.core.dynproxy.SQL;
 
 import java.util.List;
 
@@ -9,8 +10,12 @@ public interface BookMapper {
 //    @SQL("SELECT * FROM book")
     List<Book> select();
 
+//    @SQL("SELECT * FROM book WHERE id = ?")
+    Book select(int id);
+
 //    @SQL("SELECT id FROM book WHERE book_num = ?")
     int select(String book_num);
+
 
 //    @SQL("INSERT INTO book VALUES (?E)")
     boolean insert(Book Entity);

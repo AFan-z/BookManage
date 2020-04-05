@@ -1,6 +1,7 @@
 package com.demo.mapper;
 
 import com.demo.entity.UserAllInfoEntity;
+//import org.yu.myorm.core.dynproxy.SQL;
 
 import java.util.List;
 
@@ -22,4 +23,9 @@ public interface UserMapper {
 //            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id " +
 //            "AND user.id = ?")
     UserAllInfoEntity select(int id);
+
+//    @SQL("DELETE FROM user WHERE id = ?" )
+    boolean delete(int id);
+
+
 }

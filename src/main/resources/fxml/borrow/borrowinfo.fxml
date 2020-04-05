@@ -21,7 +21,7 @@
         </HBox>
         <HBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="60">
             <children>
-                <TextField fx:id="keywordsField" promptText="请输入关键词" />
+                <TextField fx:id="keywordsField" promptText="请输入借阅者工号" />
                 <Button onAction="#search" styleClass="green-theme" text="搜索" />
             </children>
         </HBox>

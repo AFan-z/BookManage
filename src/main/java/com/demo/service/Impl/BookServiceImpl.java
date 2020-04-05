@@ -8,8 +8,8 @@ import com.demo.utils.ComponentUtil;
 import com.demo.utils.MapperFactory;
 import com.demo.utils.Operate;
 import com.demo.utils.ResourcesConfig;
-
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,19 +17,23 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.error.YAMLException;
+//import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+//import org.yu.myorm.core.handleErr;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
 
-
+    private static ObservableList<BookInfo> bookDataInfo;
+    private static TableView<BookInfo> bookTableInfo;
     //获取所要修改或删除的图书信息
     private static BookInfo bookInfo;
     private BookMapper bookMapper = MapperFactory.getBookMapperInstance();
 
     @Override
-    public void addButtonToTableView(String text, String theme, TableColumn<BookInfo, BookInfo> col, Operate operate) {
+    public void addButtonToTableView(String text, String theme, TableColumn<BookInfo, BookInfo> col, Operate operate,
+                                     ObservableList<BookInfo> bookInfoData, TableView<BookInfo> bookTable) {
 
         //操作列的相关设置
         col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -55,9 +59,12 @@ public class BookServiceImpl implements BookService {
                             break;
                         case DELETE:
                             deleteBook();
+                            bookInfoData.remove(book);
                             break;
                         case UPDATE:
                             try {
+                                bookDataInfo = bookInfoData;
+                                bookTableInfo =bookTable;
                                 newBookStage(ResourcesConfig.EDIT_BOOK_FXML);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -82,11 +89,31 @@ public class BookServiceImpl implements BookService {
                     BookInfo bookInfo = new BookInfo(book);
                     bookInfoList.add(bookInfo);
                 }
-            } catch (YAMLException e2) {
+                //} catch (NoSuchDataInDBException dbe) {
+                // handleErr.printErr(dbe, dbe.getMessage(), false);
+            }catch (YAMLException e2) {
                 //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
             } catch (Exception e3) {
                 //handleErr.printErr(e3, "EXCEPTION!!!", true);
             }
+        return bookInfoList;
+    }
+
+    @Override
+    public List<BookInfo> selectBookByBookNum(String bookNum) {
+        List<BookInfo> bookInfoList = new ArrayList<>();
+        try {
+             Book book = bookMapper.select(bookMapper.select(bookNum));
+             BookInfo bookInfo = new BookInfo(book);
+             bookInfoList.add(bookInfo);
+
+            //} catch (NoSuchDataInDBException dbe) {
+            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
         return bookInfoList;
     }
 
@@ -105,6 +132,12 @@ public class BookServiceImpl implements BookService {
         stage.show();
     }
 
+    @Override
+    public void newBookStage(String fxml, ObservableList<BookInfo> bookInfoData, TableView<BookInfo> bookTable) throws Exception {
+        bookDataInfo = bookInfoData;
+        bookTableInfo = bookTable;
+        newBookStage(fxml);
+    }
 
     @Override
     public boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
@@ -138,6 +171,9 @@ public class BookServiceImpl implements BookService {
                 alert.showAndWait();
                 Stage stage = (Stage) bookName.getScene().getWindow();
                 stage.close();
+                bookTableInfo.getItems().removeAll(bookDataInfo);
+                bookDataInfo.addAll(getBookList());
+                bookTableInfo.setItems(bookDataInfo);
             }else {
                 //弹窗
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -148,7 +184,9 @@ public class BookServiceImpl implements BookService {
                 stage.close();
             }
             flag = b;
-        } catch (YAMLException e2) {
+            //} catch (NoSuchDataInDBException dbe) {
+            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
             //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             //handleErr.printErr(e3, "EXCEPTION!!!", true);
@@ -191,6 +229,9 @@ public class BookServiceImpl implements BookService {
                 alert.showAndWait();
                 Stage stage = (Stage) bookName.getScene().getWindow();
                 stage.close();
+                bookTableInfo.getItems().removeAll(bookDataInfo);
+                bookDataInfo.addAll(getBookList());
+                bookTableInfo.setItems(bookDataInfo);
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
@@ -200,7 +241,9 @@ public class BookServiceImpl implements BookService {
                 stage.close();
             }
             flag = b;
-        } catch (YAMLException e2) {
+        //} catch (NoSuchDataInDBException dbe) {
+           // handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
             //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             //handleErr.printErr(e3, "EXCEPTION!!!", true);

@@ -3,9 +3,7 @@ package com.demo.service.Impl;
 import com.demo.entity.Role;
 import com.demo.entity.TableView.RoleInfo;
 import com.demo.entity.TableView.UserAllInfo;
-import com.demo.entity.User;
 import com.demo.entity.UserAllInfoEntity;
-import com.demo.entity.Userinfo;
 import com.demo.mapper.RoleMapper;
 import com.demo.mapper.UserMapper;
 import com.demo.service.UserService;
@@ -20,7 +18,6 @@ import javafx.stage.Stage;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {

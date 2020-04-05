@@ -1,6 +1,5 @@
 package com.demo.controller.user;
 
-import com.demo.entity.TableView.BookInfo;
 import com.demo.entity.TableView.UserAllInfo;
 import com.demo.service.UserService;
 import com.demo.utils.Operate;
@@ -11,13 +10,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-
 import java.util.List;
 import java.util.ResourceBundle;
 

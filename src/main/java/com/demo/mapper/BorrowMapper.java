@@ -1,6 +1,7 @@
 package com.demo.mapper;
 
 import com.demo.entity.BorrowAllInfoEntity;
+//import org.yu.myorm.core.dynproxy.SQL;
 
 import java.util.Date;
 import java.util.List;
@@ -28,4 +29,7 @@ public interface BorrowMapper {
 
 //    @SQL("UPDATE borrow SET is_return = ? WHERE user_id = ? AND book_id = ?")
     boolean update(int is_return, int user_id, int book_id);
+
+//    @SQL("DELETE FROM borrow WHERE user_id = ? AND book_id = ?")
+    boolean delete(int user_id, int book_id);
 }

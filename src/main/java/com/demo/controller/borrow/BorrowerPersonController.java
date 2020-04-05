@@ -46,7 +46,7 @@ public class BorrowerPersonController implements Initializable {
         showUserData(borrowService.getBorrowPersonList());
 
         //添加续借按钮
-        borrowService.addButtonToTableView("续借","green-theme", renewCol, Operate.RENEW);
+        borrowService.addButtonToTableView("续借","green-theme", renewCol, Operate.RENEW, borrowData, borrowTable);
         borrowTable.getColumns().add(renewCol);
 
     }

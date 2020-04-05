@@ -64,4 +64,9 @@ public class UserMapperImpl implements UserMapper {
         }
         return null;
     }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
+    }
 }
