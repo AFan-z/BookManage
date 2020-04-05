@@ -12,13 +12,33 @@
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <fx.version>11</fx.version>
     </properties>
-
     <dependencies>
+        <dependency>
+            <groupId>org.yu</groupId>
+            <artifactId>myorm</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--        JavaFX JDK11+ -->
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-controls</artifactId>-->
+<!--            <version>${fx.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-fxml</artifactId>-->
+<!--            <version>${fx.version}</version>-->
+<!--        </dependency>-->
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -32,22 +52,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
             <scope>provided</scope>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.25</version>
         </dependency>
 
 
@@ -81,6 +85,17 @@
 
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
+                <!--                javaFX JDK11+ needed-->
+<!--                <plugin>-->
+<!--                    <groupId>org.openjfx</groupId>-->
+<!--                    <artifactId>javafx-maven-plugin</artifactId>-->
+<!--                    <version>0.0.4</version>-->
+<!--                    <configuration>-->
+<!--                        <mainClass>com.demo.App</mainClass>-->
+<!--                    </configuration>-->
+<!--                </plugin>-->
+
+
                 <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -94,6 +109,10 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
+<!--                    <configuration>-->
+<!--                        <source>11</source>-->
+<!--                        <target>11</target>-->
+<!--                    </configuration>-->
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
