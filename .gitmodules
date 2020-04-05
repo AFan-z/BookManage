@@ -1,0 +1,3 @@
+[submodule "myorm-jdbc"]
+	path = myorm-jdbc
+	url = https://github.com/sky5454/myORM-jdbc
