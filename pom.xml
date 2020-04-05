@@ -15,11 +15,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <fx.version>11</fx.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <fx.version>11.0.2</fx.version>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>org.yu</groupId>
             <artifactId>myorm</artifactId>
@@ -27,16 +28,16 @@
             <scope>compile</scope>
         </dependency>
         <!--        JavaFX JDK11+ -->
-<!--        <dependency>-->
-<!--            <groupId>org.openjfx</groupId>-->
-<!--            <artifactId>javafx-controls</artifactId>-->
-<!--            <version>${fx.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.openjfx</groupId>-->
-<!--            <artifactId>javafx-fxml</artifactId>-->
-<!--            <version>${fx.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${fx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${fx.version}</version>
+        </dependency>
 
 
         <dependency>
@@ -86,14 +87,14 @@
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <!--                javaFX JDK11+ needed-->
-<!--                <plugin>-->
-<!--                    <groupId>org.openjfx</groupId>-->
-<!--                    <artifactId>javafx-maven-plugin</artifactId>-->
-<!--                    <version>0.0.4</version>-->
-<!--                    <configuration>-->
-<!--                        <mainClass>com.demo.App</mainClass>-->
-<!--                    </configuration>-->
-<!--                </plugin>-->
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>0.0.4</version>
+                    <configuration>
+                        <mainClass>com.demo.App</mainClass>
+                    </configuration>
+                </plugin>
 
 
                 <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
