@@ -39,6 +39,11 @@ public class BookMapperImpl implements BookMapper {
     }
 
     @Override
+    public Book select(int id) {
+        return null;
+    }
+
+    @Override
     public boolean insert(Book Entity) {
 
         //自增id
@@ -76,4 +81,5 @@ public class BookMapperImpl implements BookMapper {
         }
         return false;
     }
+
 }

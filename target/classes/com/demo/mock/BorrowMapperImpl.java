@@ -11,11 +11,11 @@ public class BorrowMapperImpl implements BorrowMapper {
     private List<BorrowAllInfoEntity> borrows = new ArrayList<>();
 
     private BorrowAllInfoEntity entity1 = BorrowAllInfoEntity.builder().userId(1).bookId(1).jobNum("2020032301")
-            .bookNum("9787115373557").returnTime(new Date()).isReturn(0).renewNum(0).build();
+            .bookNum("9787115373557").bookName("数学之美(第二版)").returnTime(new Date()).isReturn(0).renewNum(0).build();
     private BorrowAllInfoEntity entity2 = BorrowAllInfoEntity.builder().userId(2).bookId(2).jobNum("2020032302")
-            .bookNum("9787111603702").returnTime(new Date()).isReturn(0).renewNum(0).build();
+            .bookNum("9787111603702").bookName("Java核心技术 卷I 基础知识（原书第11版）").returnTime(new Date()).isReturn(0).renewNum(0).build();
     private BorrowAllInfoEntity entity3 = BorrowAllInfoEntity.builder().userId(3).bookId(3).jobNum("2020032303")
-            .bookNum("9787121198854").returnTime(new Date()).isReturn(0).renewNum(0).build();
+            .bookNum("9787121198854").bookName("高性能MySQL（第3版）").returnTime(new Date()).isReturn(0).renewNum(0).build();
 
     {
         borrows.add(entity1);
@@ -51,7 +51,10 @@ public class BorrowMapperImpl implements BorrowMapper {
     public boolean update(int is_return, Date return_time, int renew_num, int user_id, int book_id) {
         for (BorrowAllInfoEntity entity : borrows){
             if (entity.getUserId() == user_id && entity.getBookId() == book_id){
-
+                entity.setIsReturn(is_return);
+                entity.setReturnTime(return_time);
+                entity.setRenewNum(renew_num);
+                return true;
             }
         }
         return false;
@@ -59,11 +62,29 @@ public class BorrowMapperImpl implements BorrowMapper {
 
     @Override
     public boolean update(Date return_time, int renew_num, int user_id, int book_id) {
+        for (BorrowAllInfoEntity entity : borrows){
+            if (entity.getUserId() == user_id && entity.getBookId() == book_id){
+                entity.setReturnTime(return_time);
+                entity.setRenewNum(renew_num);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean update(int is_return, int user_id, int book_id) {
+        for (BorrowAllInfoEntity entity : borrows){
+            if (entity.getUserId() == user_id && entity.getBookId() == book_id){
+                entity.setIsReturn(is_return);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete(int user_id, int book_id) {
         return false;
     }
 }

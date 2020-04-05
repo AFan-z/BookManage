@@ -1,8 +1,8 @@
 package com.demo.controller.borrow;
 
 import com.demo.entity.TableView.BorrowInfo;
-import com.demo.entity.TableView.UserAllInfo;
 import com.demo.service.BorrowService;
+import com.demo.utils.ExcelExport;
 import com.demo.utils.Operate;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
@@ -11,13 +11,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.text.ParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,17 +41,26 @@ public class BorrowController implements Initializable {
     private BorrowService borrowService = ServiceFactory.getBorrowServiceInstance();
 
     public void newBorrwowStage(ActionEvent actionEvent) throws Exception {
-        borrowService.newBorrowStage(ResourcesConfig.ADD_BORROW_FXML);
+        borrowService.newBorrowStage(ResourcesConfig.ADD_BORROW_FXML, borrowData, borrowTable);
     }
 
     public void export(ActionEvent actionEvent) {
+        ExcelExport.exportBorrow(borrowService.getBorrowList());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("提示信息");
+        alert.setHeaderText("图书数据已导出!请到D盘根目录查看!");
+        alert.showAndWait();
     }
 
     public void search(ActionEvent actionEvent) {
+        if (!keywordsField.getText().equals("")) {
+            borrowTable.getItems().removeAll(borrowData);
+            showUserData(borrowService.selectBorrowByJobNum(keywordsField.getText()));
+        }
     }
 
     //表格初始化方法
-    private void initTable() throws ParseException {
+    private void initTable() {
         //水平方向不显示滚动条，表格的列宽会均匀分布
         //borrowTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -59,19 +68,19 @@ public class BorrowController implements Initializable {
         showUserData(borrowService.getBorrowList());
 
         //添加续借按钮
-        borrowService.addButtonToTableView("续借","green-theme", renewCol, Operate.RENEW);
+        borrowService.addButtonToTableView("续借","green-theme", renewCol, Operate.RENEW, borrowData, borrowTable);
         borrowTable.getColumns().add(renewCol);
 
         //添加归还按钮
-        borrowService.addButtonToTableView("归还","warm-theme", returnCol, Operate.RETURN);
+        borrowService.addButtonToTableView("归还","warm-theme", returnCol, Operate.RETURN, borrowData, borrowTable);
         borrowTable.getColumns().add(returnCol);
 
         //添加修改按钮
-        borrowService.addButtonToTableView("修改","blue-theme", editCol, Operate.UPDATE);
+        borrowService.addButtonToTableView("修改","blue-theme", editCol, Operate.UPDATE, borrowData, borrowTable);
         borrowTable.getColumns().add(editCol);
 
         //添加删除按钮
-        borrowService.addButtonToTableView("删除", "warning-theme", delCol, Operate.DELETE);
+        borrowService.addButtonToTableView("删除", "warning-theme", delCol, Operate.DELETE, borrowData, borrowTable);
         borrowTable.getColumns().add(delCol);
     }
 

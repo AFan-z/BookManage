@@ -22,7 +22,7 @@
         <HBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="60">
             <children>
 <!--                <ComboBox fx:id="typeComboBox" prefWidth="150" promptText="选择图书类别" />-->
-                <TextField fx:id="keywordsField" promptText="请输入关键词" />
+                <TextField fx:id="keywordsField" promptText="请输入工号查询" />
                 <Button onAction="#search" styleClass="green-theme" text="搜索" />
             </children>
         </HBox>

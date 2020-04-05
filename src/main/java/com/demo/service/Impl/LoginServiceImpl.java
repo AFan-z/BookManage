@@ -13,6 +13,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+import org.yu.myorm.core.handleErr;
 
 
 public class LoginServiceImpl implements LoginService {
@@ -24,12 +26,15 @@ public class LoginServiceImpl implements LoginService {
         boolean flag = false;
         try {
             int id = userMapper.select(account, password);
+            userMapper.update(userMapper.select(id).getLoginNum() + 1, id);
             new CurrentUser(userMapper.select(id));
             flag = true;
-        } catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return flag;

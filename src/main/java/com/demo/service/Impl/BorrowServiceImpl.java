@@ -16,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+import org.yu.myorm.core.handleErr;
 //import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 //import org.yu.myorm.core.handleErr;
 
@@ -79,7 +81,11 @@ public class BorrowServiceImpl implements BorrowService {
                             try {
                                 renewBook();
                                 borrowTable.getItems().removeAll(borrowData);
-                                borrowData.addAll(getBorrowList());
+                                if (CurrentUser.getUserAllInfo().getRole_id() != 3){
+                                    borrowData.addAll(getBorrowList());
+                                }else {
+                                    borrowData.addAll(getBorrowPersonList());
+                                }
                                 borrowTable.setItems(borrowData);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -145,12 +151,12 @@ public class BorrowServiceImpl implements BorrowService {
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
                 borrowInfoList.add(borrowInfo);
             }
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return borrowInfoList;
@@ -166,12 +172,12 @@ public class BorrowServiceImpl implements BorrowService {
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
                 borrowInfoList.add(borrowInfo);
             }
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return borrowInfoList;
     }
@@ -226,12 +232,12 @@ public class BorrowServiceImpl implements BorrowService {
                 stage.close();
             }
             flag = b;
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return flag;
@@ -282,12 +288,12 @@ public class BorrowServiceImpl implements BorrowService {
                 stage.close();
             }
             flag = b;
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return flag;
@@ -310,12 +316,12 @@ public class BorrowServiceImpl implements BorrowService {
                 alert.showAndWait();
             }
             flag = b;
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
     }
