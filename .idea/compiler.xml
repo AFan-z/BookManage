@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="myorm-jdbc" />
         <module name="BookManage" />
+        <module name="myorm" />
       </profile>
     </annotationProcessing>
   </component>

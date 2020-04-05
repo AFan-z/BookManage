@@ -16,9 +16,29 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <fx.version>11</fx.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.yu</groupId>
+            <artifactId>myorm</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--        JavaFX JDK11+ -->
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-controls</artifactId>-->
+<!--            <version>${fx.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-fxml</artifactId>-->
+<!--            <version>${fx.version}</version>-->
+<!--        </dependency>-->
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -34,18 +54,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.yu</groupId>
-            <artifactId>myorm</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>14</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <dependency>
