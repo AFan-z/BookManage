@@ -70,6 +70,11 @@ public class UserAllInfo {
     private SimpleStringProperty avatar = new SimpleStringProperty("");
 
     /**
+     * 角色id
+     */
+    private SimpleIntegerProperty role_id = new SimpleIntegerProperty();
+
+    /**
      * 角色名
      */
     private SimpleStringProperty role_name = new SimpleStringProperty("");
@@ -94,6 +99,7 @@ public class UserAllInfo {
         setPhone(userAllInfo.getPhone());
         setEmail(userAllInfo.getEmail());
         setAvatar(userAllInfo.getAvatar());
+        setRole_id(userAllInfo.getRoleId());
         setRole_name(userAllInfo.getRoleName());
         setRole_info(userAllInfo.getRoleInfo());
     }
@@ -268,5 +274,17 @@ public class UserAllInfo {
 
     public void setRole_name(String role_name) {
         this.role_name.set(role_name);
+    }
+
+    public int getRole_id() {
+        return role_id.get();
+    }
+
+    public SimpleIntegerProperty role_idProperty() {
+        return role_id;
+    }
+
+    public void setRole_id(int role_id) {
+        this.role_id.set(role_id);
     }
 }

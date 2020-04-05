@@ -88,6 +88,12 @@
                </items>
             </SplitPane>
              <Button onAction="#editPersonInfo" styleClass="green-theme,btn-radius" text="修改个人信息" />
+            <Button mnemonicParsing="false" onAction="#refreshUser" text="刷新">
+               <styleClass>
+                  <String fx:value="green-theme" />
+                  <String fx:value="btn-radius" />
+               </styleClass>
+            </Button>
           </children>
            <padding>
                <Insets bottom="10" left="50" right="50" top="10" />

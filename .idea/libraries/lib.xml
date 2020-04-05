@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/myorm-jdbc/lib/mysql-connector-java-8.0.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/myorm-jdbc/lib/snakeyaml-1.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/myorm-jdbc/lib/snakeyaml-1.25-javadoc.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

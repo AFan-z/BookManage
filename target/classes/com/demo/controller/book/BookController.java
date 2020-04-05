@@ -2,7 +2,7 @@ package com.demo.controller.book;
 
 import com.demo.entity.TableView.BookInfo;
 import com.demo.service.BookService;
-import com.demo.utils.CurrentUser;
+import com.demo.utils.ExcelExport;
 import com.demo.utils.Operate;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
@@ -11,7 +11,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,13 +49,22 @@ public class BookController implements Initializable {
      * @throws IOException
      */
     public void newBookStage(ActionEvent actionEvent) throws Exception {
-        bookService.newBookStage(ResourcesConfig.ADD_BOOK_FXML);
+        bookService.newBookStage(ResourcesConfig.ADD_BOOK_FXML, bookInfoData, bookTable);
     }
 
     public void export(ActionEvent actionEvent) {
+        ExcelExport.exportBook(bookService.getBookList());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("提示信息");
+        alert.setHeaderText("图书数据已导出!请到D盘根目录查看!");
+        alert.showAndWait();
     }
 
     public void search(ActionEvent actionEvent) {
+        if (!keywordsField.getText().equals("")) {
+            bookTable.getItems().removeAll(bookInfoData);
+            showBookData(bookService.selectBookByBookNum(keywordsField.getText()));
+        }
     }
 
 
@@ -68,12 +80,12 @@ public class BookController implements Initializable {
         showBookData(bookService.getBookList());
 
         //添加修改按钮
-        bookService.addButtonToTableView("修改","blue-theme", editCol, Operate.UPDATE);
+        bookService.addButtonToTableView("修改","blue-theme", editCol, Operate.UPDATE, bookInfoData, bookTable);
         //将编辑列加入图书表格
         bookTable.getColumns().add(editCol);
 
         //添加删除按钮
-        bookService.addButtonToTableView("删除", "warning-theme", delCol, Operate.DELETE);
+        bookService.addButtonToTableView("删除", "warning-theme", delCol, Operate.DELETE, bookInfoData, bookTable);
         bookTable.getColumns().add(delCol);
     }
 

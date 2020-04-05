@@ -7,15 +7,12 @@ import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -99,17 +96,17 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //开启一个UI线程,设置头像
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                mainService.setAvatar(userAvatar, userName);
-            }
-        });
+        mainService.setAvatar(userAvatar, userName);
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
 
         //将借阅信息设置为默认页
         String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
         mainService.switchView(fxml, mainContainer);
-
 
     }
 

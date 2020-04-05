@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
+
 @Data
 @Builder
 public class Userinfo {
@@ -43,6 +44,11 @@ public class Userinfo {
      * 头像
      */
     private String avatar;
+
+    /**
+     * 角色表id
+     */
+    private int roleId;
 
     @Tolerate
     public Userinfo(){}

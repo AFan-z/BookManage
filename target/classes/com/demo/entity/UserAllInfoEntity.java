@@ -72,6 +72,11 @@ public class UserAllInfoEntity {
     private String avatar;
 
     /**
+     * 角色id
+     */
+    private int roleId;
+
+    /**
      * 角色名
      */
     private String roleName;

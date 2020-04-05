@@ -28,23 +28,21 @@ public class PersonalController implements Initializable {
     @FXML
     private Label email;
     @FXML
-    private Label login_time;
-    @FXML
-    private Label last_login_time;
-    @FXML
     private Label login_num;
-
-
 
     private UserService userService = ServiceFactory.getUserServiceInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        userService.getUserInfo(job_num,password,name,gender,employment_year,phone,email,login_time,last_login_time,login_num);
+        userService.getUserInfo(job_num,password,name,gender,employment_year,phone,email,login_num);
     }
 
 
     public void editPersonInfo(ActionEvent actionEvent) throws Exception {
         userService.newUserStage(ResourcesConfig.EDIT_PERSONAL_FXML);
+    }
+
+    public void refreshUser(ActionEvent actionEvent) {
+        userService.getUserInfo(job_num,password,name,gender,employment_year,phone,email,login_num);
     }
 }

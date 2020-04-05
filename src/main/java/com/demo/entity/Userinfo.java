@@ -45,6 +45,11 @@ public class Userinfo {
      */
     private String avatar;
 
+    /**
+     * 角色表id
+     */
+    private int roleId;
+
     @Tolerate
     public Userinfo(){}
 }

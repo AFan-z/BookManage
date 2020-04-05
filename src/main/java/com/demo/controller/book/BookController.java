@@ -2,6 +2,7 @@ package com.demo.controller.book;
 
 import com.demo.entity.TableView.BookInfo;
 import com.demo.service.BookService;
+import com.demo.utils.ExcelExport;
 import com.demo.utils.Operate;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
@@ -10,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -51,11 +53,18 @@ public class BookController implements Initializable {
     }
 
     public void export(ActionEvent actionEvent) {
+        ExcelExport.exportBook(bookService.getBookList());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("提示信息");
+        alert.setHeaderText("图书数据已导出!请到D盘根目录查看!");
+        alert.showAndWait();
     }
 
     public void search(ActionEvent actionEvent) {
-        bookTable.getItems().removeAll(bookInfoData);
-        showBookData(bookService.selectBookByBookNum(keywordsField.getText()));
+        if (!keywordsField.getText().equals("")) {
+            bookTable.getItems().removeAll(bookInfoData);
+            showBookData(bookService.selectBookByBookNum(keywordsField.getText()));
+        }
     }
 
 

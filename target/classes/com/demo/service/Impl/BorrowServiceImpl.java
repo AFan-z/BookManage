@@ -8,6 +8,7 @@ import com.demo.mapper.UserMapper;
 import com.demo.service.BorrowService;
 import com.demo.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,9 +16,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+import org.yu.myorm.core.handleErr;
+//import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+//import org.yu.myorm.core.handleErr;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -27,6 +30,8 @@ import java.util.List;
 
 public class BorrowServiceImpl implements BorrowService {
 
+    private static ObservableList<BorrowInfo> borrowDataInfo;
+    private static TableView<BorrowInfo> borrowTableInfo;
     private static BorrowInfo borrowInfo;
     private BorrowMapper borrowMapper = MapperFactory.getBorrowMapperInstance();
     private UserMapper userMapper = MapperFactory.getUserMapperInstance();
@@ -34,7 +39,9 @@ public class BorrowServiceImpl implements BorrowService {
 
 
     @Override
-    public void addButtonToTableView(String text, String theme, TableColumn<BorrowInfo, BorrowInfo> col, Operate operate) {
+    public void addButtonToTableView(String text, String theme, TableColumn<BorrowInfo, BorrowInfo> col,
+                                     Operate operate, ObservableList<BorrowInfo> borrowData, TableView<BorrowInfo> borrowTable) {
+
         //操作列的相关设置
         col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 
@@ -56,9 +63,13 @@ public class BorrowServiceImpl implements BorrowService {
                         case ADD://增
                             break;
                         case DELETE:// TODO 删
+                            deleteBorrow();
+                            borrowData.remove(borrow);
                             break;
                         case UPDATE://改
                             try {
+                                borrowDataInfo = borrowData;
+                                borrowTableInfo = borrowTable;
                                 newBorrowStage(ResourcesConfig.EDIT_BORROW_FXML);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -69,12 +80,29 @@ public class BorrowServiceImpl implements BorrowService {
                         case RENEW://续借
                             try {
                                 renewBook();
+                                borrowTable.getItems().removeAll(borrowData);
+                                if (CurrentUser.getUserAllInfo().getRole_id() != 3){
+                                    borrowData.addAll(getBorrowList());
+                                }else {
+                                    borrowData.addAll(getBorrowPersonList());
+                                }
+                                borrowTable.setItems(borrowData);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             break;
                         case RETURN://归还
-                            borrowMapper.update(1,borrowInfo.getUser_id(),borrowInfo.getBook_id());
+                            try {
+                                borrowMapper.update(1,borrowInfo.getUser_id(),borrowInfo.getBook_id());
+//                                borrowData.remove(borrow);
+//                                borrow.setIsReturn("是");
+//                                borrowData.add(borrow);
+                                borrowTable.getItems().removeAll(borrowData);
+                                borrowData.addAll(getBorrowList());
+                                borrowTable.setItems(borrowData);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             break;
                     }
                 });
@@ -90,7 +118,7 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public List<BorrowInfo> getBorrowList() throws ParseException {
+    public List<BorrowInfo> getBorrowList() {
 
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
 
@@ -101,8 +129,10 @@ public class BorrowServiceImpl implements BorrowService {
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
                 borrowInfoList.add(borrowInfo);
             }
-        } catch (YAMLException e2) {
-           // handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            //} catch (NoSuchDataInDBException dbe) {
+            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             //handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -121,12 +151,34 @@ public class BorrowServiceImpl implements BorrowService {
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
                 borrowInfoList.add(borrowInfo);
             }
-        } catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
+        return borrowInfoList;
+    }
+
+    @Override
+    public List<BorrowInfo> selectBorrowByJobNum(String jobNum) {
+        List<BorrowInfo> borrowInfoList = new ArrayList<>();
+        try {
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.select(jobNum);
+
+            for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
+                BorrowInfo borrowInfo = new BorrowInfo(entity);
+                borrowInfoList.add(borrowInfo);
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
         return borrowInfoList;
     }
 
@@ -146,6 +198,13 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
+    public void newBorrowStage(String fxml, ObservableList<BorrowInfo> borrowData, TableView<BorrowInfo> borrowTable) throws Exception {
+        borrowDataInfo = borrowData;
+        borrowTableInfo = borrowTable;
+        newBorrowStage(fxml);
+    }
+
+    @Override
     public boolean addBorrow(TextField jobNum, TextField bookNum) throws ParseException {
         boolean flag = false;
         try {
@@ -160,6 +219,10 @@ public class BorrowServiceImpl implements BorrowService {
                 alert.showAndWait();
                 Stage stage = (Stage) bookNum.getScene().getWindow();
                 stage.close();
+                //刷新数据
+                borrowTableInfo.getItems().removeAll(borrowDataInfo);
+                borrowDataInfo.addAll(getBorrowList());
+                borrowTableInfo.setItems(borrowDataInfo);
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
@@ -169,10 +232,12 @@ public class BorrowServiceImpl implements BorrowService {
                 stage.close();
             }
             flag = b;
-        } catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return flag;
@@ -194,9 +259,13 @@ public class BorrowServiceImpl implements BorrowService {
         }
 
         int is_return = 0;
+        if (isReturn.getValue() == null){
+            isReturn.setValue(borrowInfo.getIsReturn());
+        }
         if (isReturn.getValue().equals("是")){
             is_return = 1;
         }
+
         try {
             boolean b = borrowMapper.update(is_return, editDate(returnTime.getValue().toString()), Integer.parseInt(renewNum.getText()), borrowInfo.getUser_id(), borrowInfo.getBook_id());
             if (b){
@@ -206,6 +275,10 @@ public class BorrowServiceImpl implements BorrowService {
                 alert.showAndWait();
                 Stage stage = (Stage) isReturn.getScene().getWindow();
                 stage.close();
+                //刷新数据
+                borrowTableInfo.getItems().removeAll(borrowDataInfo);
+                borrowDataInfo.addAll(getBorrowList());
+                borrowTableInfo.setItems(borrowDataInfo);
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
@@ -215,15 +288,43 @@ public class BorrowServiceImpl implements BorrowService {
                 stage.close();
             }
             flag = b;
-        } catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return flag;
     }
 
+    @Override
+    public boolean deleteBorrow() {
+        boolean flag = false;
+        try {
+            boolean b = borrowMapper.delete(borrowInfo.getUser_id(), borrowInfo.getBook_id());
+            if (b) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("删除图书成功!!!");
+                alert.showAndWait();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("删除图书失败!!!");
+                alert.showAndWait();
+            }
+            flag = b;
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
+    }
 
     private Date editDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

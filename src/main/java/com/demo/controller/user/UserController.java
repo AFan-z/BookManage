@@ -2,6 +2,7 @@ package com.demo.controller.user;
 
 import com.demo.entity.TableView.UserAllInfo;
 import com.demo.service.UserService;
+import com.demo.utils.ExcelExport;
 import com.demo.utils.Operate;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
@@ -10,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -35,13 +37,23 @@ public class UserController implements Initializable {
 
 
     public void newUserStage(ActionEvent actionEvent) throws Exception {
-        userService.newUserStage(ResourcesConfig.ADD_USER_FXML);
+        userService.newUserStage(ResourcesConfig.ADD_USER_FXML, userData, userTable);
     }
 
     public void export(ActionEvent actionEvent) {
+        ExcelExport.exportUser(userService.getUserList());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("提示信息");
+        alert.setHeaderText("图书数据已导出!请到D盘根目录查看!");
+        alert.showAndWait();
     }
 
     public void search(ActionEvent actionEvent) {
+        if (!keywordsField.getText().equals("")){
+            userTable.getItems().removeAll(userData);
+            showUserData(userService.selectUserByJobNum(keywordsField.getText()));
+        }
+
     }
 
 
@@ -54,11 +66,11 @@ public class UserController implements Initializable {
         showUserData(userService.getUserList());
 
         //添加修改按钮
-        userService.addButtonToTableView("修改","blue-theme", editCol, Operate.UPDATE);
+        userService.addButtonToTableView("修改","blue-theme", editCol, Operate.UPDATE, userData, userTable);
         userTable.getColumns().add(editCol);
 
         //添加删除按钮
-        userService.addButtonToTableView("删除", "warning-theme", delCol, Operate.DELETE);
+        userService.addButtonToTableView("删除", "warning-theme", delCol, Operate.DELETE, userData, userTable);
         userTable.getColumns().add(delCol);
     }
 

@@ -1,31 +1,36 @@
 package com.demo.service;
 
-import com.demo.entity.Role;
-import com.demo.entity.TableView.BookInfo;
-import com.demo.entity.TableView.RoleInfo;
-import com.demo.entity.TableView.UserAllInfo;
-import com.demo.utils.Operate;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
+        import com.demo.entity.TableView.RoleInfo;
+        import com.demo.entity.TableView.UserAllInfo;
+        import com.demo.utils.Operate;
+        import javafx.collections.ObservableList;
+        import javafx.fxml.FXML;
+        import javafx.scene.control.*;
 
-import java.io.IOException;
-import java.util.List;
+        import java.text.ParseException;
+        import java.util.List;
 
 public interface UserService {
 
-    void addButtonToTableView(String text, String theme, TableColumn<UserAllInfo, UserAllInfo> col, Operate operate);
+    void addButtonToTableView(String text, String theme, TableColumn<UserAllInfo, UserAllInfo> col, Operate operate, ObservableList<UserAllInfo> userData, TableView<UserAllInfo> userTable);
 
     List<UserAllInfo> getUserList();
 
-    void getUserInfo(Label job_num, Label password, Label name, Label gender, Label employment_year, Label phone, Label email, Label login_time, Label last_login_time, Label login_num);
+    List<UserAllInfo> selectUserByJobNum(String jobNum);
+
+    void getUserInfo(Label job_num, Label password, Label name, Label gender, Label employment_year, Label phone, Label email, Label login_num);
 
     void newUserStage(String fxml) throws Exception;
 
-    void addUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId);
+    void newUserStage(String fxml, ObservableList<UserAllInfo> userData, TableView<UserAllInfo> userTable) throws Exception;
 
-    void editUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId);
+    boolean addUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) throws ParseException;
+
+    boolean editUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) throws ParseException;
 
     List<RoleInfo> getRoleList();
 
-    void editPersonal(TextField password, TextField name, TextField gender, TextField email, TextField phone);
+    boolean editPersonal(TextField password, TextField name, TextField gender, TextField email, TextField phone);
+
+    boolean delete();
 }

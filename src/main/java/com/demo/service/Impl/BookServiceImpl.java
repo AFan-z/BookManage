@@ -17,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+import org.yu.myorm.core.handleErr;
 //import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 //import org.yu.myorm.core.handleErr;
 
@@ -89,12 +91,12 @@ public class BookServiceImpl implements BookService {
                     BookInfo bookInfo = new BookInfo(book);
                     bookInfoList.add(bookInfo);
                 }
-                //} catch (NoSuchDataInDBException dbe) {
-                // handleErr.printErr(dbe, dbe.getMessage(), false);
+            } catch (NoSuchDataInDBException dbe) {
+                handleErr.printErr(dbe, dbe.getMessage(), false);
             }catch (YAMLException e2) {
-                //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+                handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
             } catch (Exception e3) {
-                //handleErr.printErr(e3, "EXCEPTION!!!", true);
+                handleErr.printErr(e3, "EXCEPTION!!!", true);
             }
         return bookInfoList;
     }
@@ -107,12 +109,12 @@ public class BookServiceImpl implements BookService {
              BookInfo bookInfo = new BookInfo(book);
              bookInfoList.add(bookInfo);
 
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return bookInfoList;
     }
@@ -184,12 +186,12 @@ public class BookServiceImpl implements BookService {
                 stage.close();
             }
             flag = b;
-            //} catch (NoSuchDataInDBException dbe) {
-            // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+         handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return false;
     }
@@ -241,12 +243,12 @@ public class BookServiceImpl implements BookService {
                 stage.close();
             }
             flag = b;
-        //} catch (NoSuchDataInDBException dbe) {
-           // handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         }catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
     }
@@ -268,10 +270,12 @@ public class BookServiceImpl implements BookService {
                 alert.showAndWait();
             }
             flag = b;
-        } catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
     }

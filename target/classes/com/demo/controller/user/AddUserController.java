@@ -13,7 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 public class AddUserController implements Initializable {
@@ -39,7 +39,7 @@ public class AddUserController implements Initializable {
     private UserService userService = ServiceFactory.getUserServiceInstance();
     private ObservableList<RoleInfo> roleData = FXCollections.observableArrayList();
 
-    public void addUser(ActionEvent actionEvent) {
+    public void addUser(ActionEvent actionEvent) throws ParseException {
         userService.addUser(job_num, password, name, gender, employment_year, phone, email, roleId);
     }
 

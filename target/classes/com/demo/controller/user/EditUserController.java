@@ -8,12 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 public class EditUserController implements Initializable {
@@ -38,7 +38,7 @@ public class EditUserController implements Initializable {
     private UserService userService = ServiceFactory.getUserServiceInstance();
     private ObservableList<RoleInfo> roleData = FXCollections.observableArrayList();
 
-    public void editUser(ActionEvent actionEvent) {
+    public void editUser(ActionEvent actionEvent) throws ParseException {
         userService.editUser(job_num, password, name, gender, employment_year, phone, email, roleId);
     }
 

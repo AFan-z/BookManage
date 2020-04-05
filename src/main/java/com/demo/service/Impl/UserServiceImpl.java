@@ -3,12 +3,16 @@ package com.demo.service.Impl;
 import com.demo.entity.Role;
 import com.demo.entity.TableView.RoleInfo;
 import com.demo.entity.TableView.UserAllInfo;
+import com.demo.entity.User;
 import com.demo.entity.UserAllInfoEntity;
+import com.demo.entity.Userinfo;
 import com.demo.mapper.RoleMapper;
 import com.demo.mapper.UserMapper;
 import com.demo.service.UserService;
 import com.demo.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,23 +20,31 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+import org.yu.myorm.core.handleErr;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class UserServiceImpl implements UserService {
 
+    private static ObservableList<UserAllInfo> userDataInfo;
+    private static TableView<UserAllInfo> userTableInfo;
     private static UserAllInfo userAllInfo;
     private UserMapper userMapper = MapperFactory.getUserMapperInstance();
     private RoleMapper roleMapper = MapperFactory.getRoleMapperInstance();
 
 
     @Override
-    public void addButtonToTableView(String text, String theme, TableColumn<UserAllInfo, UserAllInfo> col, Operate operate) {
+    public void addButtonToTableView(String text, String theme, TableColumn<UserAllInfo, UserAllInfo> col, Operate operate, ObservableList<UserAllInfo> userData, TableView<UserAllInfo> userTable) {
 
         //操作列的相关设置
         col.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-
         col.setCellFactory(param -> new TableCell<UserAllInfo, UserAllInfo>() {
             //通过ComponentUtil工具类的静态方法，传入按钮文字和样式，获得一个按钮对象
             private final Button editButton = ComponentUtil.getButton(text, theme);
@@ -51,13 +63,13 @@ public class UserServiceImpl implements UserService {
                         case ADD://增
                             break;
                         case DELETE://删
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("提示");
-                            alert.setContentText("！！！！");
-                            alert.showAndWait();
+                            delete();
+                            userData.remove(user);
                             break;
                         case UPDATE://改
                             try {
+                                userDataInfo = userData;
+                                userTableInfo = userTable;
                                 newUserStage(ResourcesConfig.EDIT_USER_FXML);
 
                             } catch (Exception e) {
@@ -82,11 +94,31 @@ public class UserServiceImpl implements UserService {
                 UserAllInfo userAllInfo = new UserAllInfo(entity);
                 userList.add(userAllInfo);
             }
-
-        } catch (YAMLException e2) {
-            //handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
-            //handleErr.printErr(e3, "EXCEPTION!!!", true);
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+
+        return userList;
+    }
+
+    @Override
+    public List<UserAllInfo> selectUserByJobNum(String jobNum) {
+        List<UserAllInfo> userList = new ArrayList<>();
+
+        try {
+            UserAllInfoEntity entity = userMapper.selectByJobNum(jobNum);
+            UserAllInfo userAllInfo = new UserAllInfo(entity);
+            userList.add(userAllInfo);
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
         return userList;
@@ -95,7 +127,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void getUserInfo(Label job_num, Label password, Label name,
                             Label gender, Label employment_year, Label phone,
-                            Label email, Label login_time, Label last_login_time, Label login_num) {
+                            Label email, Label login_num) {
         job_num.setText(CurrentUser.getUserAllInfo().getJob_num());
         password.setText(CurrentUser.getUserAllInfo().getPassword());
         name.setText(CurrentUser.getUserAllInfo().getName());
@@ -123,61 +155,238 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) {
+    public void newUserStage(String fxml, ObservableList<UserAllInfo> userData, TableView<UserAllInfo> userTable) throws Exception {
+        userDataInfo = userData;
+        userTableInfo = userTable;
+        newUserStage(fxml);
+    }
 
-        //TODO 调用数据库，将数据存入数据库中
-        System.out.println(job_num);
-        System.out.println(job_num.getText());
-        if(roleId == 0 || job_num.getText().equals("") || password.getText().equals("") || name.getText().equals("") || gender.getText().equals("") || employment_year.getValue().toString().equals("") || phone.getText().equals("") || email.getText().equals("")){
+    @Override
+    public boolean addUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) throws ParseException {
+        boolean flag = false;
+        if(roleId == 0 || job_num.getText().equals("") || password.getText().equals("") || name.getText().equals("") || gender.getText().equals("") || employment_year.getValue() == null || phone.getText().equals("") || email.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("请补全信息！！！");
             alert.showAndWait();
-            return;
+            return flag;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
-        alert.setContentText("角色id" + roleId);
-        alert.showAndWait();
+        try {
+            Userinfo userinfo = Userinfo.builder().name(name.getText()).gender(gender.getText())
+                    .employment_year(editDate(employment_year.getValue().toString())).phone(phone.getText())
+                    .email(email.getText()).avatar("/image/avatar/" + (new Random().nextInt(7) + 1) + ".jpg").roleId(roleId).build();
 
+            boolean b = userMapper.insert(userinfo);
+            if (b){
+                User user = User.builder().job_num(job_num.getText()).password(password.getText()).create_time(new Date())
+                        .userinfo_id(userMapper.select(name.getText(), phone.getText(), email.getText())).build();
+                boolean b1 = userMapper.insert(user);
+                if (b1){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("提示");
+                    alert.setContentText("新增用户添加数据成功！！！");
+                    alert.showAndWait();
+                    Stage stage = (Stage) job_num.getScene().getWindow();
+                    stage.close();
+                    userTableInfo.getItems().removeAll(userDataInfo);
+                    userDataInfo.addAll(getUserList());
+                    userTableInfo.setItems(userDataInfo);
+                    flag = true;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("提示");
+                    alert.setContentText("新增用户添加数据成功！！！");
+                    alert.showAndWait();
+                    Stage stage = (Stage) job_num.getScene().getWindow();
+                    stage.close();
+
+                }
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
     }
 
     @Override
-    public void editUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) {
-        //TODO 调用数据库，将修改数据数据存入数据库中
+    public boolean editUser(TextField job_num, TextField password, TextField name, TextField gender, DatePicker employment_year, TextField phone, TextField email, int roleId) throws ParseException {
 
+        boolean flag = false;
+
+        if (job_num.getText().equals("")){
+            job_num.setText(userAllInfo.getJob_num());
+        }
+        if (password.getText().equals("")){
+            password.setText(userAllInfo.getPassword());
+        }
+
+        if (gender.getText().equals("")){
+            gender.setText(userAllInfo.getGender());
+        }
+
+        if (employment_year.getValue() == null){
+            String dataStr[] = userAllInfo.getEmployment_year().split(" ");
+            employment_year.setValue(LocalDate.parse(dataStr[0]));
+        }
+
+        if (phone.getText().equals("")){
+            phone.setText(userAllInfo.getPhone());
+        }
+
+        if (email.getText().equals("")){
+            email.setText(userAllInfo.getEmail());
+        }
+
+        if (roleId == 0){
+            roleId = userAllInfo.getRole_id();
+        }
         //userAllInfo,为所要修改的用户之前信息
-
-        System.out.println(userAllInfo.getEmail());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
-        alert.setContentText("角色id" + roleId + "修改之前的id" + userAllInfo.getId());
-        alert.showAndWait();
+        try {
+            boolean b1 = userMapper.update(job_num.getText(), password.getText(), userAllInfo.getId());
+            boolean b2 = userMapper.update(name.getText(), gender.getText(), editDate(employment_year.getValue().toString()),
+                    phone.getText(),email.getText(),roleId, userAllInfo.getUserinfo_id());
+            if (b1 && b2){
+//            new CurrentUser(userMapper.select(userAllInfo.getId()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("修改用户信息成功！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) job_num.getScene().getWindow();
+                stage.close();
+                userTableInfo.getItems().removeAll(userDataInfo);
+                userDataInfo.addAll(getUserList());
+                userTableInfo.setItems(userDataInfo);
+                flag = true;
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("修改用户信息失败！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) job_num.getScene().getWindow();
+                stage.close();
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
     }
 
 
     @Override
     public List<RoleInfo> getRoleList(){
         List<RoleInfo> roleList = new ArrayList<>();
-        List<Role> roles = roleMapper.select();
-        for (Role role : roles){
-            RoleInfo roleInfo = new RoleInfo(role);
-            roleList.add(roleInfo);
-        }
-        return roleList;
+        try {
+            List<Role> roles = roleMapper.select();
+            for (Role role : roles) {
+                RoleInfo roleInfo = new RoleInfo(role);
+                roleList.add(roleInfo);
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }        return roleList;
     }
 
     @Override
-    public void editPersonal(TextField password, TextField name, TextField gender, TextField email, TextField phone) {
-        //TODO 修改当前用户的个人信息
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
-        alert.setContentText("id:"+ CurrentUser.getUserAllInfo().getId() + ",密码：" + password.getText());
-        alert.showAndWait();
+    public boolean editPersonal(TextField password, TextField name, TextField gender, TextField email, TextField phone) {
 
-        //TODO 更新当前用户信息
-        //new CurrentUser(user,userinfo);
+        boolean flag = false;
+
+        if (password.getText().equals("")){
+            password.setText(CurrentUser.getUserAllInfo().getPassword());
+        }
+
+        if (name.getText().equals("")){
+            name.setText(CurrentUser.getUserAllInfo().getName());
+        }
+
+        if (gender.getText().equals("")){
+            gender.setText(CurrentUser.getUserAllInfo().getGender());
+        }
+
+        if (phone.getText().equals("")){
+            phone.setText(CurrentUser.getUserAllInfo().getPhone());
+        }
+
+        if (email.getText().equals("")){
+            email.setText(CurrentUser.getUserAllInfo().getEmail());
+        }
+
+        try {
+            boolean b1 = userMapper.update(CurrentUser.getUserAllInfo().getJob_num(), password.getText(), CurrentUser.getUserAllInfo().getId());
+            boolean b2 = userMapper.update(name.getText(), gender.getText(), phone.getText(), email.getText(), CurrentUser.getUserAllInfo().getUserinfo_id());
+
+            if (b1 && b2){
+                new CurrentUser(userMapper.select(CurrentUser.getUserAllInfo().getId()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("修改用户信息成功！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) password.getScene().getWindow();
+                stage.close();
+                flag = true;
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("修改用户信息失败！！！");
+                alert.showAndWait();
+                Stage stage = (Stage) password.getScene().getWindow();
+                stage.close();
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
     }
 
+    @Override
+    public boolean delete() {
+        boolean flag = false;
+        try {
+            boolean b = userMapper.delete(userAllInfo.getId());
+            if (b) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("删除用户成功!!!");
+                alert.showAndWait();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示信息");
+                alert.setHeaderText("删除用户失败!!!");
+                alert.showAndWait();
+            }
+            flag = b;
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        }catch (YAMLException e2) {
+            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return flag;
+    }
+
+    private Date editDate(String date) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String newdate = date + " 00:00:00";
+        Date newDate = format.parse(newdate);
+        return newDate;
+    }
 }

@@ -60,7 +60,6 @@
                                         <VBox minHeight="130" spacing="10" styleClass="dark-theme">
                                             <children>
                                                 <Button onAction="#listPersonal" styleClass="menu-btn" text="个人信息" />
-                                                <Button styleClass="menu-btn" text="数据备份" />
                                             </children>
                                         </VBox>
                                     </content>
