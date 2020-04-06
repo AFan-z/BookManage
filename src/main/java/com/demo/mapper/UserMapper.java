@@ -11,7 +11,8 @@ import java.util.List;
 public interface UserMapper {
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
             "name, gender, employment_year, phone, email, avatar, role_id, role_name, role_info " +
-            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id")
+            "FROM user, userinfo, role " +
+            "WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id")
     List<UserAllInfoEntity> select();
 
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
@@ -20,16 +21,16 @@ public interface UserMapper {
     UserAllInfoEntity selectByJobNum(String job_num);
 
 
-    @SQL("SELECT id FROM user WHERE job_num = ? AND password = ?")
+    @SQL("SELECT id FROM user WHERE job_num = ? AND password = ? limit 1")
     int select(String job_num, String password);
 
-    @SQL("SELECT id FROM user WHERE job_num = ?")
+    @SQL("SELECT id FROM user WHERE job_num = ? limit 1")
     int select(String job_num);
 
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
             "name, gender, employment_year, phone, email, avatar, role_id, role_name, role_info " +
-            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id " +
-            "AND user.id = ?")
+            "FROM user, userinfo, role " +
+            "WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id AND user.id = ?")
     UserAllInfoEntity select(int id);
 
     @SQL("DELETE FROM user WHERE id = ?" )
@@ -41,7 +42,7 @@ public interface UserMapper {
     @SQL("INSERT INTO userinfo VALUES (?E)")
     boolean insert(Userinfo userinfo);
 
-     @SQL("SELECT id FROM userinfo WHERE name = ? AND phone = ? AND email = ?")
+     @SQL("SELECT id FROM userinfo WHERE name = ? AND phone = ? AND email = ? limit 1")
     int select(String name, String phone, String email);
 
     @SQL("UPDATE user SET job_num = ?, password = ? WHERE id = ?")

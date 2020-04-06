@@ -20,7 +20,7 @@ public interface BorrowMapper {
             " AND job_num = ?")
     List<BorrowAllInfoEntity> select(String job_num);
 
-    @SQL("SELECT * FROM borrow WHERE user_id = ? AND book_id = ?")
+    @SQL("SELECT * FROM borrow WHERE user_id = ? AND book_id = ? limit 1")
     Borrow select(int user_id, int book_id);
 
     @SQL("UPDATE borrow SET renew_time = ? WHERE user_id = ? AND book_id = ?")

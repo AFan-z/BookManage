@@ -11,10 +11,10 @@ public interface BookMapper {
     @SQL("SELECT * FROM book")
     List<Book> select();
 
-    @SQL("SELECT * FROM book WHERE id = ?")
+    @SQL("SELECT * FROM book WHERE id = ? limit 1")
     Book select(int id);
 
-    @SQL("SELECT id FROM book WHERE book_num = ?")
+    @SQL("SELECT id FROM book WHERE book_num = ? limit 1")
     int select(String book_num);
 
 
