@@ -1,5 +1,7 @@
 package com.demo.service.Impl;
 
+import com.demo.entity.Operation;
+import com.demo.mapper.OperationMapper;
 import com.demo.mapper.UserMapper;
 import com.demo.service.LoginService;
 import com.demo.utils.CurrentUser;
@@ -16,10 +18,13 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 import org.yu.myorm.core.handleErr;
 
+import java.util.Date;
+
 
 public class LoginServiceImpl implements LoginService {
 
     private UserMapper userMapper = MapperFactory.getUserMapperInstance();
+    private OperationMapper operationMapper = MapperFactory.getOperationMapperInstance();
 
     @Override
     public boolean checkReturn(String account, String password) {
@@ -28,11 +33,16 @@ public class LoginServiceImpl implements LoginService {
             int id = userMapper.select(account, password);
             userMapper.update(userMapper.select(id).getLoginNum() + 1, id);
             new CurrentUser(userMapper.select(id));
+            //操作日志
+            Operation operation = Operation.builder()
+                    .operationInfo("登录操作，第" + CurrentUser.getUserAllInfo().getLogin_num() + "次登录系统" )
+                    .operationTime(new Date())
+                    .operationUser(CurrentUser.getUserAllInfo().getId())
+                    .build();
+            operationMapper.insert(operation);
             flag = true;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

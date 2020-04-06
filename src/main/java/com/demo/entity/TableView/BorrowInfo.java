@@ -60,7 +60,9 @@ public class BorrowInfo {
         if(entity.getIsReturn() == 0){
             setIsReturn("否");
         }else setIsReturn("是");
-        setReturn_time(dateFormat.format(entity.getReturnTime()));
+        if (entity.getReturnTime() != null) {
+            setReturn_time(dateFormat.format(entity.getReturnTime()));
+        }
         setRenew_num(entity.getRenewNum());
     }
 

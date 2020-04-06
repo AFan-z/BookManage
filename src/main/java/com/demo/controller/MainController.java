@@ -92,6 +92,23 @@ public class MainController implements Initializable {
         mainService.switchView(fxml, mainContainer);
     }
 
+    /**
+     * 操作日志信息
+     * @param actionEvent
+     * @throws Exception
+     */
+    public void listOperation(ActionEvent actionEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.OPERATION_FXML, mainContainer);
+    }
+
+    /**
+     * 个人操作日志
+     * @param actionEvent
+     */
+    public void listPersonalOperation(ActionEvent actionEvent) {
+
+    }
+
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle rb) {

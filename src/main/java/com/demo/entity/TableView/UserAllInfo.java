@@ -90,18 +90,24 @@ public class UserAllInfo {
         setId(userAllInfo.getId());
         setJob_num(userAllInfo.getJobNum());
         setPassword(userAllInfo.getPassword());
-        setCreate_time(dateFormat.format(userAllInfo.getCreateTime()));
         setLogin_num(userAllInfo.getLoginNum());
         setUserinfo_id(userAllInfo.getUserinfoId());
         setName(userAllInfo.getName());
         setGender(userAllInfo.getGender());
-        setEmployment_year(dateFormat.format(userAllInfo.getEmploymentYear()));
         setPhone(userAllInfo.getPhone());
         setEmail(userAllInfo.getEmail());
         setAvatar(userAllInfo.getAvatar());
         setRole_id(userAllInfo.getRoleId());
         setRole_name(userAllInfo.getRoleName());
         setRole_info(userAllInfo.getRoleInfo());
+
+        if (userAllInfo.getCreateTime() != null) {
+            setCreate_time(dateFormat.format(userAllInfo.getCreateTime()));
+        }
+        if (userAllInfo.getEmploymentYear() != null) {
+            setEmployment_year(dateFormat.format(userAllInfo.getEmploymentYear()));
+        }
+
     }
 
     public UserAllInfo(){

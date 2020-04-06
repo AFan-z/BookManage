@@ -41,4 +41,6 @@ public class ResourcesConfig {
 
     public static final String EDIT_BORROW_FXML = "/fxml/borrow/editBorrowinfo.fxml";
 
+    public static final String OPERATION_FXML = "/fxml/operation.fxml";
+
 }

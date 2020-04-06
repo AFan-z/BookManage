@@ -1,11 +1,9 @@
 package com.demo.service.Impl;
 
-import com.demo.entity.Role;
+import com.demo.entity.*;
 import com.demo.entity.TableView.RoleInfo;
 import com.demo.entity.TableView.UserAllInfo;
-import com.demo.entity.User;
-import com.demo.entity.UserAllInfoEntity;
-import com.demo.entity.Userinfo;
+import com.demo.mapper.OperationMapper;
 import com.demo.mapper.RoleMapper;
 import com.demo.mapper.UserMapper;
 import com.demo.service.UserService;
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private static UserAllInfo userAllInfo;
     private UserMapper userMapper = MapperFactory.getUserMapperInstance();
     private RoleMapper roleMapper = MapperFactory.getRoleMapperInstance();
-
+    private OperationMapper operationMapper = MapperFactory.getOperationMapperInstance();
 
     @Override
     public void addButtonToTableView(String text, String theme, TableColumn<UserAllInfo, UserAllInfo> col, Operate operate, ObservableList<UserAllInfo> userData, TableView<UserAllInfo> userTable) {
@@ -96,8 +94,6 @@ public class UserServiceImpl implements UserService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -115,8 +111,6 @@ public class UserServiceImpl implements UserService {
             userList.add(userAllInfo);
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -183,6 +177,13 @@ public class UserServiceImpl implements UserService {
                         .userinfo_id(userMapper.select(name.getText(), phone.getText(), email.getText())).build();
                 boolean b1 = userMapper.insert(user);
                 if (b1){
+                    //操作日志
+                    Operation operation = Operation.builder()
+                            .operationInfo("新增用户信息，增加的用户工号：" +  job_num.getText())
+                            .operationTime(new Date())
+                            .operationUser(CurrentUser.getUserAllInfo().getId())
+                            .build();
+                    operationMapper.insert(operation);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("提示");
                     alert.setContentText("新增用户添加数据成功！！！");
@@ -205,8 +206,6 @@ public class UserServiceImpl implements UserService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -251,7 +250,13 @@ public class UserServiceImpl implements UserService {
             boolean b2 = userMapper.update(name.getText(), gender.getText(), editDate(employment_year.getValue().toString()),
                     phone.getText(),email.getText(),roleId, userAllInfo.getUserinfo_id());
             if (b1 && b2){
-//            new CurrentUser(userMapper.select(userAllInfo.getId()));
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("修改用户信息，修改的用户工号：" + userAllInfo.getJob_num() + "用户ID:" + userAllInfo.getId())
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setContentText("修改用户信息成功！！！");
@@ -272,8 +277,6 @@ public class UserServiceImpl implements UserService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -292,8 +295,6 @@ public class UserServiceImpl implements UserService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }        return roleList;
@@ -329,6 +330,13 @@ public class UserServiceImpl implements UserService {
             boolean b2 = userMapper.update(name.getText(), gender.getText(), phone.getText(), email.getText(), CurrentUser.getUserAllInfo().getUserinfo_id());
 
             if (b1 && b2){
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("修改个人信息，修改的用户工号：" + CurrentUser.getUserAllInfo().getJob_num() + "用户ID:" + CurrentUser.getUserAllInfo().getId())
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 new CurrentUser(userMapper.select(CurrentUser.getUserAllInfo().getId()));
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
@@ -347,8 +355,6 @@ public class UserServiceImpl implements UserService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -361,6 +367,13 @@ public class UserServiceImpl implements UserService {
         try {
             boolean b = userMapper.delete(userAllInfo.getId());
             if (b) {
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("删除用户信息，被删除的用户工号：" + userAllInfo.getJob_num() + "用户ID:" + userAllInfo.getId())
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
                 alert.setHeaderText("删除用户成功!!!");
@@ -374,8 +387,6 @@ public class UserServiceImpl implements UserService {
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

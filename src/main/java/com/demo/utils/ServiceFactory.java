@@ -27,4 +27,8 @@ public class ServiceFactory {
     public static BorrowService getBorrowServiceInstance() {
         return new BorrowServiceImpl();
     }
+
+    public static OperationService getOperationServiceInstance() {
+        return new OperationServiceImpl();
+    }
 }

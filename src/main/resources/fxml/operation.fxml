@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.OperationController">
+    <children>
+        <HBox alignment="BOTTOM_CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10">
+            <children>
+                <Button onAction="#export" styleClass="blue-theme,btn-radius" text="导出数据" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="60">
+            <children>
+                <TextField fx:id="keywordsField" promptText="请输入用户工号" />
+                <Button onAction="#search" styleClass="green-theme" text="搜索" />
+            </children>
+        </HBox>
+        <TableView fx:id="operationTable" layoutX="5.0" layoutY="1000.0" prefWidth="1050" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
+            <columns>
+                <TableColumn text="操作ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="操作内容">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="operationInfo"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="操作人ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="operationUser" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="操作人工号">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="jobNum" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="操作人名">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="name" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="操作时间">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="operationTime" />
+                    </cellValueFactory>
+                </TableColumn>
+
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
