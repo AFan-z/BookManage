@@ -1,13 +1,13 @@
 package com.demo.service.Impl;
 
 import com.demo.entity.Book;
+import com.demo.entity.Operation;
+import com.demo.entity.OperationAllEntity;
 import com.demo.entity.TableView.BookInfo;
 import com.demo.mapper.BookMapper;
+import com.demo.mapper.OperationMapper;
 import com.demo.service.BookService;
-import com.demo.utils.ComponentUtil;
-import com.demo.utils.MapperFactory;
-import com.demo.utils.Operate;
-import com.demo.utils.ResourcesConfig;
+import com.demo.utils.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +23,7 @@ import org.yu.myorm.core.handleErr;
 //import org.yu.myorm.core.handleErr;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
@@ -32,6 +33,7 @@ public class BookServiceImpl implements BookService {
     //获取所要修改或删除的图书信息
     private static BookInfo bookInfo;
     private BookMapper bookMapper = MapperFactory.getBookMapperInstance();
+    private OperationMapper operationMapper = MapperFactory.getOperationMapperInstance();
 
     @Override
     public void addButtonToTableView(String text, String theme, TableColumn<BookInfo, BookInfo> col, Operate operate,
@@ -93,8 +95,6 @@ public class BookServiceImpl implements BookService {
                 }
             } catch (NoSuchDataInDBException dbe) {
                 handleErr.printErr(dbe, dbe.getMessage(), false);
-            }catch (YAMLException e2) {
-                handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
             } catch (Exception e3) {
                 handleErr.printErr(e3, "EXCEPTION!!!", true);
             }
@@ -111,8 +111,6 @@ public class BookServiceImpl implements BookService {
 
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -166,6 +164,14 @@ public class BookServiceImpl implements BookService {
         try {
             boolean b = bookMapper.insert(book);
             if (b){
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("添加图书信息，编号为：" + bookNum.getText() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
+
                 //弹窗
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
@@ -187,9 +193,7 @@ public class BookServiceImpl implements BookService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
-         handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
+            handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -224,6 +228,13 @@ public class BookServiceImpl implements BookService {
             boolean b = bookMapper.update(bookNum.getText(), bookName.getText(), publishingHouse.getText(),
                     publicationYear.getText(),Double.valueOf(price.getText()), Integer.parseInt(number.getText()), bookInfo.getId());
             if (b) {
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("修改图书信息，编号为：" + bookNum.getText() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 //弹窗
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
@@ -245,8 +256,6 @@ public class BookServiceImpl implements BookService {
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -259,6 +268,13 @@ public class BookServiceImpl implements BookService {
         try {
             boolean b = bookMapper.delete(bookInfo.getId());
             if (b) {
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("删除图书信息，编号为：" + bookInfo.getBook_num() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
                 alert.setHeaderText("删除图书成功!!!");
@@ -272,8 +288,6 @@ public class BookServiceImpl implements BookService {
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

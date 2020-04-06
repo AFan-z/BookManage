@@ -1,34 +1,36 @@
 package com.demo.service.Impl;
 
-import com.demo.entity.Borrow;
-import com.demo.entity.BorrowAllInfoEntity;
-import com.demo.entity.TableView.BorrowInfo;
-import com.demo.mapper.BookMapper;
-import com.demo.mapper.BorrowMapper;
-import com.demo.mapper.UserMapper;
-import com.demo.service.BorrowService;
-import com.demo.utils.*;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import org.yaml.snakeyaml.error.YAMLException;
-import org.yu.myorm.core.Exception.NoSuchDataInDBException;
-import org.yu.myorm.core.handleErr;
+        import com.demo.entity.Borrow;
+        import com.demo.entity.BorrowAllInfoEntity;
+        import com.demo.entity.Operation;
+        import com.demo.entity.TableView.BorrowInfo;
+        import com.demo.mapper.BookMapper;
+        import com.demo.mapper.BorrowMapper;
+        import com.demo.mapper.OperationMapper;
+        import com.demo.mapper.UserMapper;
+        import com.demo.service.BorrowService;
+        import com.demo.utils.*;
+        import javafx.beans.property.ReadOnlyObjectWrapper;
+        import javafx.collections.ObservableList;
+        import javafx.fxml.FXMLLoader;
+        import javafx.scene.Scene;
+        import javafx.scene.control.*;
+        import javafx.scene.image.Image;
+        import javafx.scene.layout.AnchorPane;
+        import javafx.stage.Stage;
+        import org.yaml.snakeyaml.error.YAMLException;
+        import org.yu.myorm.core.Exception.NoSuchDataInDBException;
+        import org.yu.myorm.core.handleErr;
 //import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 //import org.yu.myorm.core.handleErr;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.time.LocalDate;
+        import java.util.ArrayList;
+        import java.util.Calendar;
+        import java.util.Date;
+        import java.util.List;
 
 public class BorrowServiceImpl implements BorrowService {
 
@@ -38,6 +40,7 @@ public class BorrowServiceImpl implements BorrowService {
     private BorrowMapper borrowMapper = MapperFactory.getBorrowMapperInstance();
     private UserMapper userMapper = MapperFactory.getUserMapperInstance();
     private BookMapper bookMapper = MapperFactory.getBookMapperInstance();
+    private OperationMapper operationMapper = MapperFactory.getOperationMapperInstance();
 
 
     @Override
@@ -120,14 +123,20 @@ public class BorrowServiceImpl implements BorrowService {
             Borrow entity = borrowMapper.select(borrowInfo.getUser_id(), borrowInfo.getBook_id());
             if (0 == entity.getIsReturn() &&
                     entity.getRenewTime().before(new Date())) {
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("续借图书，图书编号为：" + borrowInfo.getBook_num() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
+
                 boolean b1 = borrowMapper.update(getnewDateForDays(entity.getReturnTime(), 20),borrowInfo.getUser_id(),borrowInfo.getBook_id());
                 boolean b = borrowMapper.update(getnewDateForDays(date, 30), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
                 flag = b && b1;
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -148,8 +157,6 @@ public class BorrowServiceImpl implements BorrowService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -170,8 +177,6 @@ public class BorrowServiceImpl implements BorrowService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -191,8 +196,6 @@ public class BorrowServiceImpl implements BorrowService {
             }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -230,6 +233,13 @@ public class BorrowServiceImpl implements BorrowService {
             boolean b = borrowMapper.insert(user_id, book_id, getnewDateForDays(new Date(), 30), new Date());
 
             if (b){
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("添加借阅信息，用户工号："+ jobNum.getText() + "图书编号为：" + bookNum.getText() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setContentText("添加借阅信息成功！！！");
@@ -251,8 +261,6 @@ public class BorrowServiceImpl implements BorrowService {
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -286,6 +294,13 @@ public class BorrowServiceImpl implements BorrowService {
         try {
             boolean b = borrowMapper.update(is_return, editDate(returnTime.getValue().toString()), Integer.parseInt(renewNum.getText()), borrowInfo.getUser_id(), borrowInfo.getBook_id());
             if (b){
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("修改借阅信息，用户工号："+ borrowInfo.getJob_num() + "图书编号为：" + borrowInfo.getBook_num() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setContentText("修改借阅信息成功！！！");
@@ -307,8 +322,6 @@ public class BorrowServiceImpl implements BorrowService {
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -322,6 +335,13 @@ public class BorrowServiceImpl implements BorrowService {
         try {
             boolean b = borrowMapper.delete(borrowInfo.getUser_id(), borrowInfo.getBook_id());
             if (b) {
+                //操作日志
+                Operation operation = Operation.builder()
+                        .operationInfo("删除借阅信息，用户工号："+ borrowInfo.getJob_num() + "图书编号为：" + borrowInfo.getBook_num() )
+                        .operationTime(new Date())
+                        .operationUser(CurrentUser.getUserAllInfo().getId())
+                        .build();
+                operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
                 alert.setHeaderText("删除图书成功!!!");
@@ -335,8 +355,6 @@ public class BorrowServiceImpl implements BorrowService {
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
-        }catch (YAMLException e2) {
-            handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

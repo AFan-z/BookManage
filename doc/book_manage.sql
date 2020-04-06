@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 05/04/2020 22:55:14
+ Date: 06/04/2020 16:23:25
 */
 
 SET NAMES utf8mb4;
@@ -82,7 +82,7 @@ INSERT INTO `borrow` VALUES (3, 7, 0, '2020-04-26 11:29:19', '2020-04-05 22:53:5
 DROP TABLE IF EXISTS `operation_log`;
 CREATE TABLE `operation_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `operation_info` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作内容',
+  `operation_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '操作内容',
   `operation_user` int(11) NULL DEFAULT NULL COMMENT '操作人',
   `operation_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE,

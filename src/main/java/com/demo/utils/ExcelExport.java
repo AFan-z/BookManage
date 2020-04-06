@@ -4,6 +4,7 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.demo.entity.TableView.BookInfo;
 import com.demo.entity.TableView.BorrowInfo;
+import com.demo.entity.TableView.OperationInfo;
 import com.demo.entity.TableView.UserAllInfo;
 
 import java.util.List;
@@ -42,4 +43,14 @@ public class ExcelExport {
         writer.close();
     }
 
+    public static void exportOperation(List<OperationInfo> operationInfos) {
+        // 通过工具类创建writer
+        ExcelWriter writer = ExcelUtil.getWriter("d:/operations.xlsx");
+        // 合并单元格后的标题行，使用默认标题样式
+        writer.merge(6, "操作日志信息表");
+        // 一次性写出内容，使用默认样式
+        writer.write(operationInfos);
+        // 关闭writer，释放内存
+        writer.close();
+    }
 }

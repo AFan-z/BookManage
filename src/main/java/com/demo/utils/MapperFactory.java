@@ -1,9 +1,6 @@
 package com.demo.utils;
 
-import com.demo.mapper.BookMapper;
-import com.demo.mapper.BorrowMapper;
-import com.demo.mapper.RoleMapper;
-import com.demo.mapper.UserMapper;
+import com.demo.mapper.*;
 import org.yu.myorm.core.dynproxy.MapperInvoHander;
 
 import java.lang.reflect.InvocationHandler;
@@ -14,6 +11,7 @@ import java.lang.reflect.Proxy;
  */
 public class MapperFactory {
     private static InvocationHandler invocationHandler = new MapperInvoHander();
+
     public static BookMapper getBookMapperInstance(){
         //return new BookMapperImpl();
         return (BookMapper) Proxy.newProxyInstance(BookMapper.class.getClassLoader(), new Class[]{BookMapper.class}, invocationHandler);
@@ -33,5 +31,10 @@ public class MapperFactory {
     public static UserMapper getUserMapperInstance(){
         //return new UserMapperImpl();
         return (UserMapper) Proxy.newProxyInstance(UserMapper.class.getClassLoader(), new Class[]{UserMapper.class}, invocationHandler);
+    }
+
+    public static OperationMapper getOperationMapperInstance(){
+        //return new OperationMapperImpl();
+        return (OperationMapper) Proxy.newProxyInstance(OperationMapper.class.getClassLoader(), new Class[]{OperationMapper.class}, invocationHandler);
     }
 }

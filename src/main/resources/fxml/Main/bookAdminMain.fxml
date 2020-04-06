@@ -61,6 +61,9 @@
                                             <children>
                                                 <Button onAction="#listPersonal" styleClass="menu-btn" text="个人信息" />
                                             </children>
+                                            <children>
+                                                <Button onAction="#listPersonalOperation" styleClass="menu-btn" text="个人操作日志" />
+                                            </children>
                                         </VBox>
                                     </content>
                                 </TitledPane>
