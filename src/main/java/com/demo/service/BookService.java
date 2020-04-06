@@ -1,7 +1,7 @@
 package com.demo.service;
 
 import com.demo.entity.TableView.BookInfo;
-import com.demo.utils.Operate;
+import com.demo.utils.enumeration.Operate;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

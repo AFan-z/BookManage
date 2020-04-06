@@ -3,7 +3,7 @@ package com.demo.controller.user;
 import com.demo.entity.TableView.UserAllInfo;
 import com.demo.service.UserService;
 import com.demo.utils.ExcelExport;
-import com.demo.utils.Operate;
+import com.demo.utils.enumeration.Operate;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
 import javafx.collections.FXCollections;

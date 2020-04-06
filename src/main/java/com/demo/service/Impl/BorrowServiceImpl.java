@@ -8,6 +8,7 @@ import com.demo.mapper.BorrowMapper;
 import com.demo.mapper.UserMapper;
 import com.demo.service.BorrowService;
 import com.demo.utils.*;
+import com.demo.utils.enumeration.Operate;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;

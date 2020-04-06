@@ -6,7 +6,7 @@ import com.demo.mapper.BookMapper;
 import com.demo.service.BookService;
 import com.demo.utils.ComponentUtil;
 import com.demo.utils.MapperFactory;
-import com.demo.utils.Operate;
+import com.demo.utils.enumeration.Operate;
 import com.demo.utils.ResourcesConfig;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;

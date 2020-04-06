@@ -2,9 +2,8 @@ package com.demo.service;
 
         import com.demo.entity.TableView.RoleInfo;
         import com.demo.entity.TableView.UserAllInfo;
-        import com.demo.utils.Operate;
+        import com.demo.utils.enumeration.Operate;
         import javafx.collections.ObservableList;
-        import javafx.fxml.FXML;
         import javafx.scene.control.*;
 
         import java.text.ParseException;
