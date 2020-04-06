@@ -1,0 +1,12 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<TitledPane alignment="TOP_LEFT" text="系统维护" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.function.SystemManageController">
+    <content>
+        <VBox minHeight="130" spacing="10" styleClass="dark-theme">
+            <children>
+                <Button onAction="#listOperation" styleClass="menu-btn" text="操作日志" />
+            </children>
+        </VBox>
+    </content>
+</TitledPane>

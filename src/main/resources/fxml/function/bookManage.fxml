@@ -1,0 +1,13 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<TitledPane  alignment="TOP_LEFT" text="图书管理" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.function.BookManageController">
+    <content>
+        <VBox minHeight="130" spacing="10" styleClass="dark-theme">
+            <children>
+                <Button onAction="#listBook" styleClass="menu-btn" text="图书信息" />
+                <Button onAction="#listBookAnalysis" styleClass="menu-btn" text="统计分析" />
+            </children>
+        </VBox>
+    </content>
+</TitledPane>

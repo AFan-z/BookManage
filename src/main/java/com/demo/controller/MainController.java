@@ -8,8 +8,11 @@ import com.demo.utils.ServiceFactory;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -31,6 +34,20 @@ public class MainController implements Initializable {
 
     @FXML
     private StackPane mainContainer;
+
+    //给功能Controller获得StackPane面板
+    public static StackPane mainToOtherContainer;
+
+    @FXML
+    private Accordion functionPane;
+
+
+    public void switchView(String fileName, Accordion functionPane) throws Exception {
+        //清空原有内容
+        //pane.getChildren().clear();
+        TitledPane titledPane = new FXMLLoader(getClass().getResource(fileName)).load();
+        functionPane.getPanes().add(titledPane);
+    }
 
     /**
      * 退出登录
@@ -112,6 +129,9 @@ public class MainController implements Initializable {
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //初始化mainToOtherContainer面板
+        mainToOtherContainer = mainContainer;
+
         //开启一个UI线程,设置头像
         mainService.setAvatar(userAvatar, userName);
 //        Platform.runLater(new Runnable() {
@@ -124,6 +144,14 @@ public class MainController implements Initializable {
         //将借阅信息设置为默认页
         String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
         mainService.switchView(fxml, mainContainer);
+
+        switchView("/fxml/function/bookManage.fxml", functionPane);
+        switchView("/fxml/function/userManage.fxml", functionPane);
+        switchView("/fxml/function/borrowManage.fxml", functionPane);
+        switchView("/fxml/function/borrowerBorrow.fxml", functionPane);
+        switchView("/fxml/function/personalCenter.fxml", functionPane);
+        switchView("/fxml/function/systemManage.fxml", functionPane);
+
 
     }
 

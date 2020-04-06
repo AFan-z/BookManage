@@ -1,0 +1,13 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<TitledPane alignment="TOP_LEFT" text="个人中心" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.function.PersonalCenterController">
+    <content>
+        <VBox minHeight="130" spacing="10" styleClass="dark-theme">
+            <children>
+                <Button onAction="#listPersonalInfo" styleClass="menu-btn" text="个人信息" />
+                <Button onAction="#listPersonalOperation" styleClass="menu-btn" text="个人操作记录" />
+            </children>
+        </VBox>
+    </content>
+</TitledPane>

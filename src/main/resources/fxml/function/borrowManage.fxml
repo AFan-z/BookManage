@@ -1,0 +1,13 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<TitledPane alignment="TOP_LEFT" text="借阅管理" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.function.BorrowManageController">
+    <content>
+        <VBox minHeight="100" spacing="10" styleClass="dark-theme">
+            <children>
+                <Button onAction="#borrowInfo" styleClass="menu-btn" text="借阅信息" />
+                <Button styleClass="menu-btn" text="统计分析" />
+            </children>
+        </VBox>
+    </content>
+</TitledPane>
