@@ -3,7 +3,7 @@ package com.demo.controller.book;
 import com.demo.entity.TableView.BookInfo;
 import com.demo.service.BookService;
 import com.demo.utils.ExcelExport;
-import com.demo.utils.Operate;
+import com.demo.utils.enumeration.Operate;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;
 import javafx.collections.FXCollections;

@@ -23,7 +23,6 @@ import org.yu.myorm.core.handleErr;
 //import org.yu.myorm.core.handleErr;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
@@ -33,7 +32,6 @@ public class BookServiceImpl implements BookService {
     //获取所要修改或删除的图书信息
     private static BookInfo bookInfo;
     private BookMapper bookMapper = MapperFactory.getBookMapperInstance();
-    private OperationMapper operationMapper = MapperFactory.getOperationMapperInstance();
 
     @Override
     public void addButtonToTableView(String text, String theme, TableColumn<BookInfo, BookInfo> col, Operate operate,

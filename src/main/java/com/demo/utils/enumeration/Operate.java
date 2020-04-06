@@ -1,4 +1,4 @@
-package com.demo.utils;
+package com.demo.utils.enumeration;
 
 public enum Operate {
     ADD,
