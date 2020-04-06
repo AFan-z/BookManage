@@ -26,7 +26,7 @@
               <Button onAction="#search" styleClass="green-theme" text="搜索" />
           </children>
        </HBox>
-       <TableView fx:id="bookTable" layoutX="5.0" layoutY="1000.0" prefWidth="1200" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
+       <TableView fx:id="bookTable" layoutX="5.0" layoutY="1000.0" prefHeight="800" prefWidth="1200" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
            <columns>
                <TableColumn text="ID">
                    <cellValueFactory>

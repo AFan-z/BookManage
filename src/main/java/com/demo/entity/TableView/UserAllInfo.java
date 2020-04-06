@@ -114,6 +114,11 @@ public class UserAllInfo {
 
     }
 
+    @Override
+    public String toString() {
+        return job_num.get() + "  " + name.get();
+    }
+
     public int getId() {
         return id.get();
     }

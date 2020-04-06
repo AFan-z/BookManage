@@ -10,11 +10,7 @@ import javafx.scene.control.TextField;
 
 import java.text.ParseException;
 
-public class AddOrEditBorrowController {
-    @FXML
-    private TextField jobNum;
-    @FXML
-    private TextField bookNum;
+public class EditBorrowController {
     @FXML
     private ComboBox<String> isReturn;
     @FXML
@@ -25,10 +21,6 @@ public class AddOrEditBorrowController {
     private BorrowService borrowService = ServiceFactory.getBorrowServiceInstance();
 
     public void exitBorrow(ActionEvent actionEvent) throws ParseException {
-       borrowService.exitBorrow(isReturn, returnTime, renewNum);
-    }
-
-    public void addBorrow(ActionEvent actionEvent) throws ParseException {
-        borrowService.addBorrow(jobNum, bookNum);
+        borrowService.exitBorrow(isReturn, returnTime, renewNum);
     }
 }

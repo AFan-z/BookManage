@@ -87,11 +87,17 @@ public class BorrowServiceImpl implements BorrowService {
                             try {
                                 renewBook();
                                 borrowTable.getItems().removeAll(borrowData);
-                                if (CurrentUser.getUserAllInfo().getRole_id() != 3){
-                                    borrowData.addAll(getBorrowList());
-                                }else {
-                                    borrowData.addAll(getBorrowPersonList());
-                                }
+                                borrowData.addAll(getBorrowList());
+                                borrowTable.setItems(borrowData);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case PERSONAL_RENEW: //个人续借
+                            try {
+                                renewBook();
+                                borrowTable.getItems().removeAll(borrowData);
+                                borrowData.addAll(getBorrowPersonList());
                                 borrowTable.setItems(borrowData);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -122,20 +128,33 @@ public class BorrowServiceImpl implements BorrowService {
         Date date = format.parse(borrowInfo.getReturn_time());
         try {
             Borrow entity = borrowMapper.select(borrowInfo.getUser_id(), borrowInfo.getBook_id());
-            if (0 == entity.getIsReturn() &&
-                    entity.getRenewTime().before(new Date())) {
-                //操作日志
-                Operation operation = Operation.builder()
-                        .operationInfo("续借图书，图书编号为：" + borrowInfo.getBook_num() )
-                        .operationTime(new Date())
-                        .operationUser(CurrentUser.getUserAllInfo().getId())
-                        .build();
-                operationMapper.insert(operation);
-
-                boolean b1 = borrowMapper.update(getnewDateForDays(entity.getReturnTime(), 20),borrowInfo.getUser_id(),borrowInfo.getBook_id());
-                boolean b = borrowMapper.update(getnewDateForDays(date, 30), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
-                flag = b && b1;
+            if (1 == entity.getIsReturn()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("续借失败！！图书已归还，无法续借！！！");
+                alert.showAndWait();
+                return false;
             }
+            if ((new Date().before(entity.getRenewTime()))){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setContentText("续借失败！！请在归还时间前10后再次续借！！！");
+                alert.showAndWait();
+                return false;
+            }
+
+            //操作日志
+            Operation operation = Operation.builder()
+                    .operationInfo("续借图书，图书编号为：" + borrowInfo.getBook_num() )
+                    .operationTime(new Date())
+                    .operationUser(CurrentUser.getUserAllInfo().getId())
+                    .build();
+            operationMapper.insert(operation);
+
+            boolean b1 = borrowMapper.update(getnewDateForDays(entity.getReturnTime(), 20),borrowInfo.getUser_id(),borrowInfo.getBook_id());
+            boolean b = borrowMapper.update(getnewDateForDays(date, 30), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
+            flag = b && b1;
+
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
@@ -226,17 +245,15 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public boolean addBorrow(TextField jobNum, TextField bookNum) throws ParseException {
+    public boolean addBorrow(int userId, int bookId) throws ParseException {
         boolean flag = false;
         try {
-            int user_id = userMapper.select(jobNum.getText());
-            int book_id = bookMapper.select(bookNum.getText());
-            boolean b = borrowMapper.insert(user_id, book_id, getnewDateForDays(new Date(), 30), new Date());
+            boolean b = borrowMapper.insert(userId, bookId, getnewDateForDays(new Date(), 30), new Date());
 
             if (b){
                 //操作日志
                 Operation operation = Operation.builder()
-                        .operationInfo("添加借阅信息，用户工号："+ jobNum.getText() + "图书编号为：" + bookNum.getText() )
+                        .operationInfo("添加借阅信息，用户ID号："+ userId + ",图书ID号为：" + bookId)
                         .operationTime(new Date())
                         .operationUser(CurrentUser.getUserAllInfo().getId())
                         .build();
@@ -245,8 +262,6 @@ public class BorrowServiceImpl implements BorrowService {
                 alert.setTitle("提示");
                 alert.setContentText("添加借阅信息成功！！！");
                 alert.showAndWait();
-                Stage stage = (Stage) bookNum.getScene().getWindow();
-                stage.close();
                 //刷新数据
                 borrowTableInfo.getItems().removeAll(borrowDataInfo);
                 borrowDataInfo.addAll(getBorrowList());
@@ -256,13 +271,19 @@ public class BorrowServiceImpl implements BorrowService {
                 alert.setTitle("提示");
                 alert.setContentText("添加借阅信息失败！！！");
                 alert.showAndWait();
-                Stage stage = (Stage) bookNum.getScene().getWindow();
-                stage.close();
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setContentText("借阅信息已存在，请更改！！！");
+            alert.showAndWait();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setContentText("借阅信息已存在，请更改！！！");
+            alert.showAndWait();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 
