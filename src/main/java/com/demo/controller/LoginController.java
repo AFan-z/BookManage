@@ -1,12 +1,14 @@
 package com.demo.controller;
 
 
+import com.demo.entity.sys.remLoginUser;
 import com.demo.service.LoginService;
 import com.demo.utils.ServiceFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -24,6 +26,9 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField password;
 
+    @FXML
+    private CheckBox isRemembered;
+
     /**
      * 登录事件
      *
@@ -31,6 +36,11 @@ public class LoginController implements Initializable {
      */
     public void loginButtonClick(ActionEvent actionEvent) throws Exception {
 
+        if (isRemembered.isSelected()){
+           remLoginUser.setUsernameStr(username.getText());
+           remLoginUser.setPasswdStr(password.getText());
+           remLoginUser.setIsRem(isRemembered.isSelected());
+        }
         if (loginService.checkReturn(username.getText(), password.getText())) {
             loginService.goToMain();
             //关闭登录页
@@ -47,7 +57,11 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        if (remLoginUser.getIsRem()) {
+            isRemembered.setSelected(remLoginUser.getIsRem());
+            username.setText(remLoginUser.getUsernameStr());
+            password.setText(remLoginUser.getPasswdStr());
+        }
     }
 
 }

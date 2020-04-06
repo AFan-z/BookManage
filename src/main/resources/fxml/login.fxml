@@ -27,7 +27,7 @@
                         <HBox spacing="20" />
                         <AnchorPane>
                             <children>
-                                <CheckBox text="记住密码" AnchorPane.leftAnchor="0" />
+                                <CheckBox fx:id="isRemembered" text="记住密码" AnchorPane.leftAnchor="0" />
                                 <Hyperlink styleClass="font-green" text="忘记密码" AnchorPane.rightAnchor="0" />
                             </children>
                         </AnchorPane>
