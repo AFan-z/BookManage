@@ -22,8 +22,8 @@
                 <!--                <Label styleClass="font-gray" text="图书管理系统后台" AnchorPane.leftAnchor="190" AnchorPane.topAnchor="65" />-->
                 <VBox prefWidth="330" spacing="20" AnchorPane.leftAnchor="100" AnchorPane.topAnchor="90">
                     <children>
-                        <TextField fx:id="username" focusTraversable="false" promptText="账号" />
-                        <PasswordField fx:id="password" focusTraversable="false" promptText="密码" />
+                        <TextField fx:id="username" focusTraversable="true" promptText="账号" />
+                        <PasswordField fx:id="password" focusTraversable="true" promptText="密码" />
                         <HBox spacing="20" />
                         <AnchorPane>
                             <children>
@@ -31,7 +31,7 @@
                                 <Hyperlink styleClass="font-green" text="忘记密码" AnchorPane.rightAnchor="0" />
                             </children>
                         </AnchorPane>
-                        <Button onAction="#loginButtonClick" styleClass="login-btn" text="登入" />
+                        <Button onAction="#loginButtonClick" defaultButton="true" styleClass="login-btn" text="登入" />
                     </children>
                     <padding>
                         <Insets bottom="20" left="20" right="20" top="20" />
