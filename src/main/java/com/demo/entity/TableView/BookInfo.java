@@ -56,6 +56,10 @@ public class BookInfo {
         setNumber(book.getNumber());
     }
 
+    @Override
+    public String toString() {
+        return book_num.get() + "  " + book_name.get();
+    }
 
     public String getBook_num() {
         return book_num.get();

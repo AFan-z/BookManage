@@ -6,5 +6,6 @@ public enum Operate {
     UPDATE,
     SELECT,
     RENEW,
+    PERSONAL_RENEW,
     RETURN
 }

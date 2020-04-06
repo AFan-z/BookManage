@@ -7,7 +7,7 @@
 <?import javafx.geometry.Insets?>
 
 <?import javafx.collections.FXCollections?>
-<AnchorPane prefHeight="249.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.borrow.AddOrEditBorrowController">
+<AnchorPane prefHeight="249.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.borrow.EditBorrowController">
     <children>
         <HBox alignment="CENTER" minHeight="50" styleClass="green-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <children>
