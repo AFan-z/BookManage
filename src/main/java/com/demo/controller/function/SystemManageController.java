@@ -17,4 +17,12 @@ public class SystemManageController {
     public void listOperation(ActionEvent actionEvent) throws Exception {
         mainService.switchView(ResourcesConfig.OPERATION_FXML, MainController.mainToOtherContainer);
     }
+
+    /**
+     * 权限管理
+     * @param actionEvent
+     */
+    public void listPermission(ActionEvent actionEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.ROLE_AND_PERMISSION_FXML,MainController.mainToOtherContainer);
+    }
 }
