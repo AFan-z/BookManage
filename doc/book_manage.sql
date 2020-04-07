@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 06/04/2020 16:23:25
+ Date: 07/04/2020 10:48:32
 */
 
 SET NAMES utf8mb4;
@@ -88,7 +88,12 @@ CREATE TABLE `operation_log`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `operation_user_id_fk_1`(`operation_user`) USING BTREE,
   CONSTRAINT `operation_user_id_fk_1` FOREIGN KEY (`operation_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of operation_log
+-- ----------------------------
+INSERT INTO `operation_log` VALUES (1, '登录操作，第1次登录系统', 1, '2020-04-07 02:36:13');
 
 -- ----------------------------
 -- Table structure for permission
@@ -99,7 +104,17 @@ CREATE TABLE `permission`  (
   `permission_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限名',
   `permission_info` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of permission
+-- ----------------------------
+INSERT INTO `permission` VALUES (1, '图书管理', '/fxml/function/bookManage.fxml');
+INSERT INTO `permission` VALUES (2, '用户管理', '/fxml/function/userManage.fxml');
+INSERT INTO `permission` VALUES (3, '借阅管理', '/fxml/function/borrowManage.fxml');
+INSERT INTO `permission` VALUES (4, '个人借阅管理', '/fxml/function/borrowerBorrow.fxml');
+INSERT INTO `permission` VALUES (5, '个人中心', '/fxml/function/personalCenter.fxml');
+INSERT INTO `permission` VALUES (6, '系统维护', '/fxml/function/systemManage.fxml');
 
 -- ----------------------------
 -- Table structure for role
@@ -133,6 +148,22 @@ CREATE TABLE `role_and_permission`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of role_and_permission
+-- ----------------------------
+INSERT INTO `role_and_permission` VALUES (1, 1);
+INSERT INTO `role_and_permission` VALUES (2, 1);
+INSERT INTO `role_and_permission` VALUES (1, 2);
+INSERT INTO `role_and_permission` VALUES (1, 3);
+INSERT INTO `role_and_permission` VALUES (2, 3);
+INSERT INTO `role_and_permission` VALUES (1, 4);
+INSERT INTO `role_and_permission` VALUES (2, 4);
+INSERT INTO `role_and_permission` VALUES (3, 4);
+INSERT INTO `role_and_permission` VALUES (1, 5);
+INSERT INTO `role_and_permission` VALUES (2, 5);
+INSERT INTO `role_and_permission` VALUES (3, 5);
+INSERT INTO `role_and_permission` VALUES (1, 6);
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -151,7 +182,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '2020032301', 'system', '2020-03-23 20:00:00', 0, 1);
+INSERT INTO `user` VALUES (1, '2020032301', 'system', '2020-03-23 20:00:00', 1, 1);
 INSERT INTO `user` VALUES (2, '2020032302', 'book', '2020-03-23 20:21:02', 0, 2);
 INSERT INTO `user` VALUES (3, '2020032303', 'borrower', '2020-03-23 20:21:32', 0, 3);
 

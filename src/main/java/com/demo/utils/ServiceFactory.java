@@ -31,4 +31,8 @@ public class ServiceFactory {
     public static OperationService getOperationServiceInstance() {
         return new OperationServiceImpl();
     }
+
+    public static RoleAndPermissionService getRoleAndPermissionServiceInstance() {
+        return new RoleAndPermissionServiceImpl();
+    }
 }

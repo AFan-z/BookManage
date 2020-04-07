@@ -1,5 +1,6 @@
 package com.demo.service;
 
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -13,4 +14,6 @@ public interface MainService {
     void setAvatar(ImageView imageView, Hyperlink hyperlink);
 
     void switchView(String fileName, Pane pane) throws Exception;
+
+    void switchFunctionView(Accordion functionPane) throws Exception;
 }

@@ -11,51 +11,52 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.OperationController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.permission.RoleAndPermissionController">
     <children>
         <HBox alignment="BOTTOM_CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10">
             <children>
-                <Button onAction="#export" styleClass="blue-theme,btn-radius" text="导出数据" />
+                <Button onAction="#newUserStage" styleClass="blue-theme,btn-radius" text="添加角色权限" />
+<!--                <Button onAction="#export" styleClass="blue-theme,btn-radius" text="导出数据" />-->
             </children>
         </HBox>
         <HBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="60">
             <children>
-                <TextField fx:id="keywordsField" promptText="请输入用户工号" />
+                <TextField fx:id="keywordsField" promptText="请输入角色ID" />
                 <Button onAction="#search" styleClass="green-theme" text="搜索" />
             </children>
         </HBox>
-        <TableView fx:id="operationTable" layoutX="5.0" layoutY="1000.0" prefHeight="800" prefWidth="1050" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
+        <TableView fx:id="roleAndPermTable" layoutX="5.0" layoutY="1000.0" prefHeight="800" prefWidth="850" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
             <columns>
-                <TableColumn text="操作ID">
+                <TableColumn text="角色ID">
                     <cellValueFactory>
-                        <PropertyValueFactory property="id" />
+                        <PropertyValueFactory property="roleId" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="操作内容">
+                <TableColumn text="角色名">
                     <cellValueFactory>
-                        <PropertyValueFactory property="operationInfo"/>
+                        <PropertyValueFactory property="roleName"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="操作人ID">
+                <TableColumn text="角色信息">
                     <cellValueFactory>
-                        <PropertyValueFactory property="operationUser" />
+                        <PropertyValueFactory property="roleInfo" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="操作人工号">
+                <TableColumn text="权限ID">
                     <cellValueFactory>
-                        <PropertyValueFactory property="jobNum" />
+                        <PropertyValueFactory property="permissionId" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="操作人名">
+                <TableColumn text="权限名">
                     <cellValueFactory>
-                        <PropertyValueFactory property="name" />
+                        <PropertyValueFactory property="permissionName" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="操作时间">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="operationTime" />
-                    </cellValueFactory>
-                </TableColumn>
+<!--                <TableColumn text="权限信息">-->
+<!--                    <cellValueFactory>-->
+<!--                        <PropertyValueFactory property="permissionInfo" />-->
+<!--                    </cellValueFactory>-->
+<!--                </TableColumn>-->
 
             </columns>
         </TableView>

@@ -1,5 +1,6 @@
 package com.demo.mock;
 
+import com.demo.entity.Permission;
 import com.demo.entity.Role;
 import com.demo.mapper.RoleMapper;
 
@@ -21,7 +22,12 @@ public class RoleMapperImpl implements RoleMapper {
     }
 
     @Override
-    public List<Role> select() {
+    public List<Role> selectRole() {
         return roles;
+    }
+
+    @Override
+    public List<Permission> selectPerm() {
+        return null;
     }
 }

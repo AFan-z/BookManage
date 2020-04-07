@@ -6,6 +6,7 @@
         <VBox minHeight="130" spacing="10" styleClass="dark-theme">
             <children>
                 <Button onAction="#listOperation" styleClass="menu-btn" text="操作日志" />
+                <Button onAction="#listPermission" styleClass="menu-btn" text="权限管理" />
             </children>
         </VBox>
     </content>

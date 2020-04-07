@@ -13,10 +13,6 @@ public class ResourcesConfig {
 
     public static final String MAIN_FXML = "/fxml/Main/Main.fxml";
 
-    public static final String BOOK_MAIN_FXML = "/fxml/Main/bookAdminMain.fxml";
-
-    public static final String BORROWER_MAIN_FXML = "/fxml/Main/borrowerAdminMain.fxml";
-
     public static final String BOOK_FXML = "/fxml/book/bookinfo.fxml";
 
     public static final String ADD_BOOK_FXML = "/fxml/book/addBook.fxml";
@@ -44,5 +40,10 @@ public class ResourcesConfig {
     public static final String PERSONAL_OPERATION_FXML = "/fxml/user/personalOperation.fxml";
 
     public static final String OPERATION_FXML = "/fxml/operation.fxml";
+
+    public static final String ROLE_AND_PERMISSION_FXML = "/fxml/permission/roleAndPermission.fxml";
+
+    public static final String ADD_ROLE_AND_PERMISSION_FXML = "/fxml/permission/addPerm.fxml";
+
 
 }

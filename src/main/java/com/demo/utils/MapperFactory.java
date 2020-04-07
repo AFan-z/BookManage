@@ -37,4 +37,9 @@ public class MapperFactory {
         //return new OperationMapperImpl();
         return (OperationMapper) Proxy.newProxyInstance(OperationMapper.class.getClassLoader(), new Class[]{OperationMapper.class}, invocationHandler);
     }
+
+    public static RoleAndPermissionMapper getRoleAndPermissionMapperInstance(){
+        //return new RoleAndPermissionMapperImpl();
+        return (RoleAndPermissionMapper) Proxy.newProxyInstance(RoleAndPermissionMapper.class.getClassLoader(), new Class[]{RoleAndPermissionMapper.class}, invocationHandler);
+    }
 }

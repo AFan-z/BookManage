@@ -27,6 +27,7 @@ public interface BorrowService {
 
     List<BorrowInfo> selectBorrowByJobNum(String jobNum);
 
+    List<BorrowInfo> selectBorrowByBookNum(String bookNum);
 
     void newBorrowStage(String fxml) throws Exception;
 

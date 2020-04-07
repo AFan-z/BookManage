@@ -189,7 +189,7 @@ public class BorrowServiceImpl implements BorrowService {
 
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
         try {
-            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.select(CurrentUser.getUserAllInfo().getJob_num());
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.selectByJobNum(CurrentUser.getUserAllInfo().getJob_num());
 
             for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
@@ -208,7 +208,25 @@ public class BorrowServiceImpl implements BorrowService {
     public List<BorrowInfo> selectBorrowByJobNum(String jobNum) {
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
         try {
-            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.select(jobNum);
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.selectByJobNum(jobNum);
+
+            for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
+                BorrowInfo borrowInfo = new BorrowInfo(entity);
+                borrowInfoList.add(borrowInfo);
+            }
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return borrowInfoList;
+    }
+
+    @Override
+    public List<BorrowInfo> selectBorrowByBookNum(String bookNum) {
+        List<BorrowInfo> borrowInfoList = new ArrayList<>();
+        try {
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.selectByBookNum(bookNum);
 
             for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
@@ -247,6 +265,14 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     public boolean addBorrow(int userId, int bookId) throws ParseException {
         boolean flag = false;
+        if (userId == 0 || bookId == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示信息");
+            alert.setHeaderText("请补全信息！！！");
+            alert.showAndWait();
+            return flag;
+        }
+
         try {
             boolean b = borrowMapper.insert(userId, bookId, getnewDateForDays(new Date(), 30), new Date());
 

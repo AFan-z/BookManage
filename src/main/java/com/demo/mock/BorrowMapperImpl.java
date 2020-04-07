@@ -29,8 +29,14 @@ public class BorrowMapperImpl implements BorrowMapper {
         return borrows;
     }
 
+
     @Override
-    public List<BorrowAllInfoEntity> select(String job_num) {
+    public List<BorrowAllInfoEntity> selectByBookNum(String book_num) {
+        return null;
+    }
+
+    @Override
+    public List<BorrowAllInfoEntity> selectByJobNum(String job_num) {
         List<BorrowAllInfoEntity> list = new ArrayList<>();
         for (BorrowAllInfoEntity entity : list){
             if (entity.getJobNum().equals(job_num)){

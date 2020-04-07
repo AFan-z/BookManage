@@ -55,17 +55,7 @@ public class LoginServiceImpl implements LoginService {
         boolean flag = false;
         try {
             Stage mainStage = new Stage();
-
-            //判断角色信息
-            FXMLLoader fxmlLoader = new FXMLLoader(
-                    CurrentUser.getUserAllInfo().getRole_name().equals("SYSTEM_ADMIN") ?
-                                          getClass().getResource(ResourcesConfig.MAIN_FXML) :
-                         (
-                             CurrentUser.getUserAllInfo().getRole_name().equals("BOOK_ADMIN") ?
-                               getClass().getResource(ResourcesConfig.BOOK_MAIN_FXML) :
-                                getClass().getResource(ResourcesConfig.BORROWER_MAIN_FXML)
-                         ));
-
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ResourcesConfig.MAIN_FXML));
             BorderPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(ResourcesConfig.CSS_STYLE);
