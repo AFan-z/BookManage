@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
@@ -53,6 +54,9 @@ public class MainController implements Initializable {
         mainService.switchView(ResourcesConfig.USER_FXML, mainContainer);
     }
 
+    public void listDefault(MouseEvent mouseEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.DEFAULT_FXML, mainContainer);
+    }
 //
 //    /**
 //     * 图书列表
@@ -130,12 +134,10 @@ public class MainController implements Initializable {
 //
 //            }
 //        });
-
-        //将借阅信息设置为默认页
-        String fxml = CurrentUser.getUserAllInfo().getRole_name().equals("BORROWER") ? ResourcesConfig.BORROWER_BOOK_FXML : ResourcesConfig.BORROW_FXML;
-        mainService.switchView(fxml, mainContainer);
+        //将轮播图设置为默认页
+        mainService.switchView(ResourcesConfig.DEFAULT_FXML, mainContainer);
+        //将功能模块导入
         mainService.switchFunctionView(functionPane);
-
-
     }
+
 }

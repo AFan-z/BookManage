@@ -11,6 +11,8 @@ public class ResourcesConfig {
 
     public static final String LOGIN_FXML = "/fxml/login.fxml";
 
+    public static final String DEFAULT_FXML = "/fxml/default.fxml";
+
     public static final String MAIN_FXML = "/fxml/Main/Main.fxml";
 
     public static final String BOOK_FXML = "/fxml/book/bookinfo.fxml";

@@ -13,7 +13,7 @@
     <top>
         <AnchorPane prefHeight="49.0" prefWidth="971.0">
             <children>
-                <Label layoutX="7.0" layoutY="19.0" text="book-manage">
+                <Label layoutX="7.0" layoutY="19.0" text="book-manage" onMouseClicked="#listDefault">
                     <font>
                         <Font size="25.0" />
                     </font>
