@@ -17,7 +17,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.yaml.snakeyaml.error.YAMLException;
 import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 import org.yu.myorm.core.handleErr;
 
@@ -288,7 +287,7 @@ public class UserServiceImpl implements UserService {
     public List<RoleInfo> getRoleList(){
         List<RoleInfo> roleList = new ArrayList<>();
         try {
-            List<Role> roles = roleMapper.select();
+            List<Role> roles = roleMapper.selectRole();
             for (Role role : roles) {
                 RoleInfo roleInfo = new RoleInfo(role);
                 roleList.add(roleInfo);
@@ -297,7 +296,8 @@ public class UserServiceImpl implements UserService {
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
-        }        return roleList;
+        }
+        return roleList;
     }
 
     @Override
