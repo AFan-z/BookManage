@@ -29,11 +29,21 @@ public class PersonalOperationController implements Initializable {
     private OperationService operationService = ServiceFactory.getOperationServiceInstance();
 
     public void export(ActionEvent actionEvent) {
-        ExcelExport.exportOperation(operationService.getOperationList());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示信息");
-        alert.setHeaderText("操作数据已导出!请到D盘根目录查看!");
-        alert.showAndWait();
+        try {
+            ExcelExport.exportOperation(operationService.getOperationListByJobNum(CurrentUser.getUserAllInfo().getJob_num()));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示信息");
+            alert.setHeaderText("成功");
+            alert.setContentText("图书数据已导出!请到D盘根目录查看!");
+            alert.showAndWait();
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示信息");
+            alert.setHeaderText("失败");
+            alert.setContentText("请到D盘根目录已存在相同文件operations.xlsx，请删除或重命名，再重新导出");
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 
     public void search(ActionEvent actionEvent) {
