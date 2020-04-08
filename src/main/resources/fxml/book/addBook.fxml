@@ -10,7 +10,7 @@
    <children>
        <HBox alignment="CENTER" minHeight="50" styleClass="green-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
           <children>
-              <Label styleClass="font-title,green-theme,font-white" text="新增或修改图书"/>
+              <Label styleClass="font-title,green-theme,font-white" text="新增图书"/>
           </children>
        </HBox>
        <VBox minHeight="400" spacing="20" styleClass="default-theme" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="55">
@@ -30,6 +30,6 @@
                <Insets bottom="10" left="50" right="50" top="10" />
            </padding>
        </VBox>
-       <Button onAction="#addBook" styleClass="green-theme,btn-radius" text="确认" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="180" AnchorPane.rightAnchor="180" />
+       <Button onAction="#addBook" styleClass="green-theme,btn-radius" text="新增" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="180" AnchorPane.rightAnchor="180" />
    </children>
 </AnchorPane>

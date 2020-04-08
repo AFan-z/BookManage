@@ -295,4 +295,10 @@ public class BookServiceImpl implements BookService {
         }
         return flag;
     }
+
+
+    @Override
+    public BookInfo getBookInfo() {
+        return this.bookInfo;
+    }
 }

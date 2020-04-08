@@ -38,5 +38,6 @@ public interface BookService {
     boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
     boolean deleteBook();
 
+    BookInfo getBookInfo();
 
-    }
+}
