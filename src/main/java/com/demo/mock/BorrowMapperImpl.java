@@ -31,7 +31,7 @@ public class BorrowMapperImpl implements BorrowMapper {
 
 
     @Override
-    public List<BorrowAllInfoEntity> selectByBookNum(String book_num) {
+    public List<BorrowAllInfoEntity> selectByBookNum(String jobNum, String book_num) {
         return null;
     }
 

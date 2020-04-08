@@ -41,31 +41,35 @@ public class UserController implements Initializable {
     }
 
     public void export(ActionEvent actionEvent) {
+        String fileName = "D:\\users.xlsx";
+
         try {
-            ExcelExport.exportUser(userService.getUserList());
+            ExcelExport.exportExcel(userService.getUserList(), fileName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("成功");
-            alert.setContentText("图书数据已导出!请到D盘根目录查看!");
+            alert.setContentText("用户信息数据已导出!请到D盘根目录查看!");
             alert.showAndWait();
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("失败");
-            alert.setContentText("请到D盘根目录已存在相同文件users.xlsx，请删除或重命名，再重新导出");
+            alert.setContentText("失败，无法导出最新数据");
             alert.showAndWait();
             e.printStackTrace();
         }
     }
 
     public void search(ActionEvent actionEvent) {
-        if (!keywordsField.getText().equals("")){
-            userTable.getItems().removeAll(userData);
-            showUserData(userService.selectUserByJobNum(keywordsField.getText()));
-        }
-
+        userTable.getItems().removeAll(userData);
+        showUserData(userService.selectUserByJobNum("%"+keywordsField.getText()+"%"));
     }
 
+
+    public void refresh(ActionEvent actionEvent) {
+        userTable.getItems().removeAll(userData);
+        showUserData(userService.getUserList());
+    }
 
     //表格初始化方法
     private void initTable() {
@@ -96,4 +100,5 @@ public class UserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
     }
+
 }

@@ -17,8 +17,9 @@ public interface UserMapper {
 
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
             "name, gender, employment_year, phone, email, avatar, role_id, role_name, role_info " +
-            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id AND user.job_num = ?")
-    UserAllInfoEntity selectByJobNum(String job_num);
+            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id " +
+            "AND user.job_num like ?")
+    List<UserAllInfoEntity> selectByJobNum(String job_num);
 
 
     @SQL("SELECT id FROM user WHERE job_num = ? AND password = ? limit 1")

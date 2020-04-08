@@ -21,7 +21,8 @@
         <HBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="60">
             <children>
                 <TextField fx:id="keywordsField" promptText="请输入图书编号" />
-                <Button onAction="#search" styleClass="blue-theme,btn-radius" text="搜索" />
+                <Button onAction="#search" styleClass="green-theme" text="搜索" />
+                <Button onAction="#refresh" styleClass="blue-theme" text="刷新" />
             </children>
         </HBox>
         <TableView fx:id="borrowTable" layoutX="5.0" layoutY="1000.0" prefHeight="800" prefWidth="1050" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">

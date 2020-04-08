@@ -17,14 +17,14 @@ public interface BorrowMapper {
     @SQL("SELECT user_id, job_num, book_id, book_num, book_name, is_return, return_time, renew_num" +
             " FROM borrow, user, book" +
             " WHERE borrow.user_id = user.id AND borrow.book_id = book.id" +
-            " AND job_num = ?")
+            " AND job_num like ?")
     List<BorrowAllInfoEntity> selectByJobNum(String job_num);
 
     @SQL("SELECT user_id, job_num, book_id, book_num, book_name, is_return, return_time, renew_num" +
             " FROM borrow, user, book" +
             " WHERE borrow.user_id = user.id AND borrow.book_id = book.id" +
-            " AND book_num = ?")
-    List<BorrowAllInfoEntity> selectByBookNum(String book_num);
+            " AND job_num = ? AND book_num like ?")
+    List<BorrowAllInfoEntity> selectByBookNum(String job_num, String book_num);
 
     @SQL("SELECT * FROM borrow WHERE user_id = ? AND book_id = ? limit 1")
     Borrow select(int user_id, int book_id);

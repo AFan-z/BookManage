@@ -53,9 +53,9 @@ public class BookController implements Initializable {
     }
 
     public void export(ActionEvent actionEvent) {
-
+        String fileName = "D:\\books.xlsx";
         try {
-                ExcelExport.exportBook(bookService.getBookList());
+            ExcelExport.exportExcel(bookService.getBookList(), fileName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("成功");
@@ -65,21 +65,23 @@ public class BookController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("失败");
-            alert.setContentText("请到D盘根目录已存在相同文件books.xlsx，请删除或重命名，再重新导出");
+            alert.setContentText("失败，无法导出最新数据");
             alert.showAndWait();
             e.printStackTrace();
         }
     }
 
     public void search(ActionEvent actionEvent) {
-        if (!keywordsField.getText().equals("")) {
-            bookTable.getItems().removeAll(bookInfoData);
-            showBookData(bookService.selectBookByBookNum(keywordsField.getText()));
-        }
+        bookTable.getItems().removeAll(bookInfoData);
+        showBookData(bookService.selectBookByBookNum("%"+keywordsField.getText() + "%"));
     }
 
 
 
+    public void refresh(ActionEvent actionEvent) {
+        bookTable.getItems().removeAll(bookInfoData);
+        showBookData(bookService.getBookList());
+    }
 
     //表格初始化方法
     private void initTable() {
@@ -112,4 +114,5 @@ public class BookController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initTable();
     }
+
 }

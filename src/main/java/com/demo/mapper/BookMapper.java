@@ -14,8 +14,8 @@ public interface BookMapper {
     @SQL("SELECT * FROM book WHERE id = ? limit 1")
     Book select(int id);
 
-    @SQL("SELECT id FROM book WHERE book_num = ? limit 1")
-    int select(String book_num);
+    @SQL("SELECT * FROM book WHERE book_num like ?")
+    List<Book> select(String book_num);
 
 
     @SQL("INSERT INTO book VALUES (?E)")

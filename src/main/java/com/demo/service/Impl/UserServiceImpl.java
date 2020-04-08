@@ -105,9 +105,11 @@ public class UserServiceImpl implements UserService {
         List<UserAllInfo> userList = new ArrayList<>();
 
         try {
-            UserAllInfoEntity entity = userMapper.selectByJobNum(jobNum);
-            UserAllInfo userAllInfo = new UserAllInfo(entity);
-            userList.add(userAllInfo);
+            List<UserAllInfoEntity> entitys = userMapper.selectByJobNum(jobNum);
+            for (UserAllInfoEntity entity : entitys) {
+                UserAllInfo userAllInfo = new UserAllInfo(entity);
+                userList.add(userAllInfo);
+            }
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
@@ -399,6 +401,11 @@ public class UserServiceImpl implements UserService {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
+    }
+
+    @Override
+    public UserAllInfo getUserAllInfo() {
+        return this.userAllInfo;
     }
 
     private Date editDate(String date) throws ParseException {

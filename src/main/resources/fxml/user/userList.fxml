@@ -24,6 +24,7 @@
 <!--                <ComboBox fx:id="typeComboBox" prefWidth="150" promptText="选择图书类别" />-->
                 <TextField fx:id="keywordsField" promptText="请输入工号查询" />
                 <Button onAction="#search" styleClass="green-theme" text="搜索" />
+                <Button onAction="#refresh" styleClass="blue-theme" text="刷新" />
             </children>
         </HBox>
         <TableView fx:id="userTable" layoutX="5.0" layoutY="500.0" prefHeight="800" prefWidth="1350" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">
