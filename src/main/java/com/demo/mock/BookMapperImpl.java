@@ -29,13 +29,14 @@ public class BookMapperImpl implements BookMapper {
     }
 
     @Override
-    public int select(String book_num) {
-        for (Book book : books){
+    public List<Book> select(String book_num) {
+/*        for (Book book : books){
             if (book.getBookNum().equals(book_num)){
                 return book.getId();
             }
         }
-        return 0;
+        return 0;*/
+        return null;
     }
 
     @Override

@@ -32,4 +32,6 @@ public interface UserService {
     boolean editPersonal(TextField password, TextField name, TextField gender, TextField email, TextField phone);
 
     boolean delete();
+
+    UserAllInfo getUserAllInfo();
 }

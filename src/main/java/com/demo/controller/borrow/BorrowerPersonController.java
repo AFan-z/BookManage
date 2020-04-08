@@ -2,6 +2,7 @@ package com.demo.controller.borrow;
 
 import com.demo.entity.TableView.BorrowInfo;
 import com.demo.service.BorrowService;
+import com.demo.utils.CurrentUser;
 import com.demo.utils.ExcelExport;
 import com.demo.utils.enumeration.Operate;
 import com.demo.utils.ServiceFactory;
@@ -32,26 +33,31 @@ public class BorrowerPersonController implements Initializable {
     private BorrowService borrowService = ServiceFactory.getBorrowServiceInstance();
 
     public void search(ActionEvent actionEvent) {
-        if (!keywordsField.getText().equals("")) {
-            borrowTable.getItems().removeAll(borrowData);
-            showUserData(borrowService.selectBorrowByBookNum(keywordsField.getText()));
-        }
+        borrowTable.getItems().removeAll(borrowData);
+        showUserData(borrowService.selectBorrowByBookNum(CurrentUser.getUserAllInfo().getJob_num(), "%"+keywordsField.getText()+"%"));
     }
 
 
+    public void refresh(ActionEvent actionEvent) throws ParseException {
+        borrowTable.getItems().removeAll(borrowData);
+        showUserData(borrowService.getBorrowPersonList());
+    }
+
     public void export(ActionEvent actionEvent) {
+        String fileName = "D:\\personalBorrows.xlsx";
+
         try {
-            ExcelExport.exportBorrow(borrowService.getBorrowPersonList());
+            ExcelExport.exportExcel(borrowService.getBorrowPersonList(), fileName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("成功");
-            alert.setContentText("图书数据已导出!请到D盘根目录查看!");
+            alert.setContentText("个人借阅信息数据已导出!请到D盘根目录查看!");
             alert.showAndWait();
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("失败");
-            alert.setContentText("请到D盘根目录已存在相同文件borrows.xlsx，请删除或重命名，再重新导出");
+            alert.setContentText("失败，无法导出最新数据");
             alert.showAndWait();
             e.printStackTrace();
         }
@@ -83,6 +89,5 @@ public class BorrowerPersonController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
     }
-
 
 }

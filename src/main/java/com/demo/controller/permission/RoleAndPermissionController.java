@@ -50,6 +50,12 @@ public class RoleAndPermissionController implements Initializable {
         }
     }
 
+    public void refresh(ActionEvent actionEvent) {
+        roleAndPermTable.getItems().removeAll(roleAndPermissionDate);
+        roleAndPermissionDate.addAll(roleAndPermissionService.getRoleAndPermList());
+        roleAndPermTable.setItems(roleAndPermissionDate);
+    }
+
     //表格初始化方法
     private void initTable() {
         //水平方向不显示滚动条，表格的列宽会均匀分布
@@ -72,4 +78,5 @@ public class RoleAndPermissionController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
     }
+
 }

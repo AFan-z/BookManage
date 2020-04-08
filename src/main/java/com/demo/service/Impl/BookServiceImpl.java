@@ -107,9 +107,11 @@ public class BookServiceImpl implements BookService {
     public List<BookInfo> selectBookByBookNum(String bookNum) {
         List<BookInfo> bookInfoList = new ArrayList<>();
         try {
-             Book book = bookMapper.select(bookMapper.select(bookNum));
-             BookInfo bookInfo = new BookInfo(book);
-             bookInfoList.add(bookInfo);
+             List<Book> books = bookMapper.select(bookNum);
+             for (Book book : books) {
+                 BookInfo bookInfo = new BookInfo(book);
+                 bookInfoList.add(bookInfo);
+             }
 
         } catch (NoSuchDataInDBException dbe) {
             handleErr.printErr(dbe, dbe.getMessage(), false);

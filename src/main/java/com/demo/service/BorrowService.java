@@ -27,7 +27,7 @@ public interface BorrowService {
 
     List<BorrowInfo> selectBorrowByJobNum(String jobNum);
 
-    List<BorrowInfo> selectBorrowByBookNum(String bookNum);
+    List<BorrowInfo> selectBorrowByBookNum(String jobNum, String bookNum);
 
     void newBorrowStage(String fxml) throws Exception;
 
@@ -39,4 +39,6 @@ public interface BorrowService {
     boolean addBorrow(int userId, int bookId) throws ParseException;
 
     boolean deleteBorrow();
+
+    BorrowInfo getBorrowInfo();
 }

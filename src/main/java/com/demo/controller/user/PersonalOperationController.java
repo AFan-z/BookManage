@@ -12,15 +12,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PersonalOperationController implements Initializable {
 
-    @FXML
-    private TextField keywordsField;
+/*    @FXML
+    private TextField keywordsField;*/
     @FXML
     private TableView<OperationInfo> operationTable;
 
@@ -29,30 +28,30 @@ public class PersonalOperationController implements Initializable {
     private OperationService operationService = ServiceFactory.getOperationServiceInstance();
 
     public void export(ActionEvent actionEvent) {
+        String fileName = "D:\\personalOperations.xlsx";
+
         try {
-            ExcelExport.exportOperation(operationService.getOperationListByJobNum(CurrentUser.getUserAllInfo().getJob_num()));
+            ExcelExport.exportExcel(operationService.getOperationListByJobNum(CurrentUser.getUserAllInfo().getJob_num()), fileName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("成功");
-            alert.setContentText("图书数据已导出!请到D盘根目录查看!");
+            alert.setContentText("个人操作日志数据已导出!请到D盘根目录查看!");
             alert.showAndWait();
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("失败");
-            alert.setContentText("请到D盘根目录已存在相同文件operations.xlsx，请删除或重命名，再重新导出");
+            alert.setContentText("失败，无法导出最新数据");
             alert.showAndWait();
             e.printStackTrace();
         }
     }
 
-    public void search(ActionEvent actionEvent) {
-        if (!keywordsField.getText().equals("")) {
-            operationTable.getItems().removeAll(operationDate);
-            operationDate.addAll(operationService.getOperationListByJobNum(keywordsField.getText()));
-            operationTable.setItems(operationDate);
-        }
-    }
+/*    public void search(ActionEvent actionEvent) {
+        operationTable.getItems().removeAll(operationDate);
+        operationDate.addAll(operationService.getOperationListByJobNum("%"+keywordsField.getText()+"%"));
+        operationTable.setItems(operationDate);
+    }*/
 
 
     //表格初始化方法

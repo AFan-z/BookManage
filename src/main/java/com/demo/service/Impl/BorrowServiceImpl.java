@@ -230,10 +230,10 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public List<BorrowInfo> selectBorrowByBookNum(String bookNum) {
+    public List<BorrowInfo> selectBorrowByBookNum(String jobNum, String bookNum) {
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
         try {
-            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.selectByBookNum(bookNum);
+            List<BorrowAllInfoEntity> borrowAllInfoEntities = borrowMapper.selectByBookNum(jobNum, bookNum);
 
             for (BorrowAllInfoEntity entity : borrowAllInfoEntities){
                 BorrowInfo borrowInfo = new BorrowInfo(entity);
@@ -422,6 +422,11 @@ public class BorrowServiceImpl implements BorrowService {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
+    }
+
+    @Override
+    public BorrowInfo getBorrowInfo() {
+        return this.borrowInfo;
     }
 
     private Date editDate(String date) throws ParseException {

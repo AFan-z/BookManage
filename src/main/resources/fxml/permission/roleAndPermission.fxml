@@ -23,6 +23,7 @@
             <children>
                 <TextField fx:id="keywordsField" promptText="请输入角色ID" />
                 <Button onAction="#search" styleClass="green-theme" text="搜索" />
+                <Button onAction="#refresh" styleClass="blue-theme" text="刷新" />
             </children>
         </HBox>
         <TableView fx:id="roleAndPermTable" layoutX="5.0" layoutY="1000.0" prefHeight="800" prefWidth="850" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="102.0">

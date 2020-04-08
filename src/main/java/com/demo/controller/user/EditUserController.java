@@ -1,6 +1,7 @@
 package com.demo.controller.user;
 
 import com.demo.entity.TableView.RoleInfo;
+import com.demo.entity.TableView.UserAllInfo;
 import com.demo.service.UserService;
 import com.demo.utils.ServiceFactory;
 import javafx.collections.FXCollections;
@@ -50,5 +51,13 @@ public class EditUserController implements Initializable {
         roleInfo.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             roleId = newValue.getId();
         });
+
+        UserAllInfo userAllInfo = userService.getUserAllInfo();
+        job_num.setText(userAllInfo.getJob_num());
+        password.setText(userAllInfo.getPassword());
+        name.setText(userAllInfo.getName());
+        gender.setText(userAllInfo.getGender());
+        phone.setText(userAllInfo.getPhone());
+        email.setText(userAllInfo.getEmail());
     }
 }

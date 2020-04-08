@@ -39,7 +39,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public UserAllInfoEntity selectByJobNum(String job_num) {
+    public List<UserAllInfoEntity> selectByJobNum(String job_num) {
         return null;
     }
 
