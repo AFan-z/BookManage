@@ -31,6 +31,7 @@ public class OperationController implements Initializable {
         ExcelExport.exportOperation(operationService.getOperationList());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("提示信息");
+        alert.setHeaderText("成功");
         alert.setHeaderText("操作数据已导出!请到D盘根目录查看!");
         alert.showAndWait();
     }

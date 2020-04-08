@@ -131,17 +131,21 @@ public class BorrowServiceImpl implements BorrowService {
             if (1 == entity.getIsReturn()){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
-                alert.setContentText("续借失败！！图书已归还，无法续借！！！");
+                alert.setHeaderText("续借失败！");
+                alert.setContentText("图书已归还，无法续借！！！");
                 alert.showAndWait();
                 return false;
             }
             if ((new Date().before(entity.getRenewTime()))){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
-                alert.setContentText("续借失败！！请在归还时间前10后再次续借！！！");
+                alert.setHeaderText("续借失败！");
+                alert.setContentText("只能在归还时间前 10 天内续借！！！");
                 alert.showAndWait();
                 return false;
             }
+            boolean b1 = borrowMapper.update(getnewDateForDays(entity.getReturnTime(), 20),borrowInfo.getUser_id(),borrowInfo.getBook_id());
+            boolean b = borrowMapper.update(getnewDateForDays(date, 30), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
 
             //操作日志
             Operation operation = Operation.builder()
@@ -151,8 +155,11 @@ public class BorrowServiceImpl implements BorrowService {
                     .build();
             operationMapper.insert(operation);
 
-            boolean b1 = borrowMapper.update(getnewDateForDays(entity.getReturnTime(), 20),borrowInfo.getUser_id(),borrowInfo.getBook_id());
-            boolean b = borrowMapper.update(getnewDateForDays(date, 30), borrowInfo.getRenew_num() + 1, borrowInfo.getUser_id(), borrowInfo.getBook_id());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("续借成功！");
+            alert.setContentText("请在： " + format.format(getnewDateForDays(date, 30)) + " 前归还图书！！！");
+            alert.showAndWait();
             flag = b && b1;
 
         } catch (NoSuchDataInDBException dbe) {
@@ -274,7 +281,7 @@ public class BorrowServiceImpl implements BorrowService {
         }
 
         try {
-            boolean b = borrowMapper.insert(userId, bookId, getnewDateForDays(new Date(), 30), new Date());
+            boolean b = borrowMapper.insert(userId, bookId, getnewDateForDays(new Date(), 30), getnewDateForDays(new Date(), 20));
 
             if (b){
                 //操作日志
@@ -286,6 +293,7 @@ public class BorrowServiceImpl implements BorrowService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("已添加！");
                 alert.setContentText("添加借阅信息成功！！！");
                 alert.showAndWait();
                 //刷新数据
@@ -295,6 +303,7 @@ public class BorrowServiceImpl implements BorrowService {
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("添加失败！");
                 alert.setContentText("添加借阅信息失败！！！");
                 alert.showAndWait();
             }
@@ -302,12 +311,14 @@ public class BorrowServiceImpl implements BorrowService {
         } catch (NoSuchDataInDBException dbe) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
+            alert.setHeaderText("添加失败！");
             alert.setContentText("借阅信息已存在，请更改！！！");
             alert.showAndWait();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
+            alert.setHeaderText("添加失败！");
             alert.setContentText("借阅信息已存在，请更改！！！");
             alert.showAndWait();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
@@ -351,6 +362,7 @@ public class BorrowServiceImpl implements BorrowService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("已修改！");
                 alert.setContentText("修改借阅信息成功！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) isReturn.getScene().getWindow();
@@ -362,6 +374,7 @@ public class BorrowServiceImpl implements BorrowService {
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("修改失败！");
                 alert.setContentText("修改借阅信息失败！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) isReturn.getScene().getWindow();
@@ -392,11 +405,13 @@ public class BorrowServiceImpl implements BorrowService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("已删除！");
                 alert.setHeaderText("删除图书成功!!!");
                 alert.showAndWait();
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("删除失败！");
                 alert.setHeaderText("删除图书失败!!!");
                 alert.showAndWait();
             }

@@ -44,6 +44,7 @@ public class UserController implements Initializable {
         ExcelExport.exportUser(userService.getUserList());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("提示信息");
+        alert.setHeaderText("成功");
         alert.setHeaderText("图书数据已导出!请到D盘根目录查看!");
         alert.showAndWait();
     }

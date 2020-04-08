@@ -49,6 +49,7 @@ public class LoginController implements Initializable {
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
+            alert.setHeaderText("失败");
             alert.setContentText("账号或密码错误，登录失败!");
             alert.showAndWait();
         }
