@@ -185,6 +185,7 @@ public class UserServiceImpl implements UserService {
                     operationMapper.insert(operation);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("提示");
+                    alert.setHeaderText("成功");
                     alert.setContentText("新增用户添加数据成功！！！");
                     alert.showAndWait();
                     Stage stage = (Stage) job_num.getScene().getWindow();
@@ -196,6 +197,7 @@ public class UserServiceImpl implements UserService {
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("提示");
+                    alert.setHeaderText("失败");
                     alert.setContentText("新增用户添加数据成功！！！");
                     alert.showAndWait();
                     Stage stage = (Stage) job_num.getScene().getWindow();
@@ -258,6 +260,7 @@ public class UserServiceImpl implements UserService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("成功");
                 alert.setContentText("修改用户信息成功！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) job_num.getScene().getWindow();
@@ -269,6 +272,7 @@ public class UserServiceImpl implements UserService {
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("失败");
                 alert.setContentText("修改用户信息失败！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) job_num.getScene().getWindow();
@@ -340,6 +344,7 @@ public class UserServiceImpl implements UserService {
                 new CurrentUser(userMapper.select(CurrentUser.getUserAllInfo().getId()));
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("成功");
                 alert.setContentText("修改用户信息成功！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) password.getScene().getWindow();
@@ -348,6 +353,7 @@ public class UserServiceImpl implements UserService {
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("失败");
                 alert.setContentText("修改用户信息失败！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) password.getScene().getWindow();
@@ -376,11 +382,13 @@ public class UserServiceImpl implements UserService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("成功");
                 alert.setHeaderText("删除用户成功!!!");
                 alert.showAndWait();
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("失败");
                 alert.setHeaderText("删除用户失败!!!");
                 alert.showAndWait();
             }

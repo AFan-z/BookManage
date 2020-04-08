@@ -177,6 +177,7 @@ public class BookServiceImpl implements BookService {
                 //弹窗
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("成功");
                 alert.setHeaderText("新增图书成功!!!");
                 alert.showAndWait();
                 Stage stage = (Stage) bookName.getScene().getWindow();
@@ -188,6 +189,7 @@ public class BookServiceImpl implements BookService {
                 //弹窗
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("失败");
                 alert.setHeaderText("新增图书失败!!!");
                 alert.showAndWait();
                 Stage stage = (Stage) bookName.getScene().getWindow();
@@ -240,6 +242,7 @@ public class BookServiceImpl implements BookService {
                 //弹窗
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("成功");
                 alert.setHeaderText("修改图书成功！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) bookName.getScene().getWindow();
@@ -250,6 +253,7 @@ public class BookServiceImpl implements BookService {
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("失败");
                 alert.setHeaderText("修改图书失败！！！");
                 alert.showAndWait();
                 Stage stage = (Stage) bookName.getScene().getWindow();
@@ -279,11 +283,13 @@ public class BookServiceImpl implements BookService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("成功");
                 alert.setHeaderText("删除图书成功!!!");
                 alert.showAndWait();
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示信息");
+                alert.setHeaderText("失败");
                 alert.setHeaderText("删除图书失败!!!");
                 alert.showAndWait();
             }

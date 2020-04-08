@@ -161,6 +161,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("成功");
                 alert.setContentText("添加角色权限信息成功！！！");
                 alert.showAndWait();
                 roleAndPermissionInfoTable.getItems().removeAll(roleAndPermissionDate);
@@ -170,18 +171,21 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("失败");
                 alert.setContentText("添加角色权限信息失败！！！");
                 alert.showAndWait();
             }
         } catch (NoSuchDataInDBException dbe) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
+            alert.setHeaderText("失败");
             alert.setContentText("权限信息已存在，请更改！！！");
             alert.showAndWait();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
+            alert.setHeaderText("失败");
             alert.setContentText("权限信息已存在，请更改！！！");
             alert.showAndWait();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
@@ -204,12 +208,14 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 operationMapper.insert(operation);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("成功");
                 alert.setContentText("删除角色权限信息成功！！！");
                 alert.showAndWait();
                 flag = true;
             }else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
+                alert.setHeaderText("失败");
                 alert.setContentText("添加角色权限信息失败！！！");
                 alert.showAndWait();
             }
