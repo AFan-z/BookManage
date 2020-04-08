@@ -18,6 +18,7 @@ public class BookManageController {
         mainService.switchView(ResourcesConfig.BOOK_FXML, MainController.mainToOtherContainer);
     }
 
-    public void listBookAnalysis(ActionEvent actionEvent) {
+    public void listBookAnalysis(ActionEvent actionEvent) throws Exception {
+        mainService.switchView("/fxml/chart/bookInfoChart.fxml", MainController.mainToOtherContainer);
     }
 }
