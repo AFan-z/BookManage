@@ -45,8 +45,8 @@ public class MainServiceImpl implements MainService {
     public void switchView(String fileName, Pane pane) throws Exception {
         //清空原有内容
         pane.getChildren().clear();
-        AnchorPane anchorPane = new FXMLLoader(getClass().getResource(fileName)).load();
-        pane.getChildren().add(anchorPane);
+        Pane aPane = new FXMLLoader(getClass().getResource(fileName)).load();
+        pane.getChildren().add(aPane);
     }
 
     @Override
