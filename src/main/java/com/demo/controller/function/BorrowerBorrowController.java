@@ -21,4 +21,8 @@ public class BorrowerBorrowController {
             e.printStackTrace();
         }
     }
+
+    public void borrowInfoAnalysis(ActionEvent actionEvent) {
+
+    }
 }

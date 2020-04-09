@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.control.Button?>
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.borrow.analysisBorrowController">
+    <children>
+        <BarChart layoutX="160.0" layoutY="38.0" fx:id="xyBarChart">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" fx:id="xAxisBarChart"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" fx:id="yAxisBarChart"/>
+            </yAxis>
+        </BarChart>
+        <PieChart fx:id="pieChart" layoutX="800.0" layoutY="38.0" />
+        <PieChart fx:id="typePieChart" layoutX="160.0" layoutY="438.0" />
+        <Button mnemonicParsing="false" onAction="#refresh" prefHeight="49.0" prefWidth="97.0" styleClass="green-theme,btn-radius" text="刷新" />
+    </children>
+</AnchorPane>

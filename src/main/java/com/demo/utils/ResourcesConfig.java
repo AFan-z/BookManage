@@ -52,5 +52,6 @@ public class ResourcesConfig {
 
     public static final String CHART_BOOKINFO_FXML = "/fxml/chart/bookInfoChart.fxml";
 
+    public static final String CHART_BORROW_FXML = "/fxml/chart/borrowInfoChart.fxml";
 
 }
