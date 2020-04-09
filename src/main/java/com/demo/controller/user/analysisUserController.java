@@ -33,6 +33,11 @@ public class analysisUserController implements Initializable {
     private PieChart pieChart;
 
 
+    public void refresh() {
+        xyLineChart.getData().clear();
+        pieChart.getData().clear();
+        initialize(null, null);
+    }
 
 
     @Override
