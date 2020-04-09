@@ -9,18 +9,18 @@ import java.util.List;
 
 public interface BookMapper {
 
-    @SQL("SELECT book.id AS id, book_type.id type_id, type_name, book_num, book_name, publishing_house, " +
+    @SQL("SELECT book.id AS id, type_id, type_name, book_num, book_name, publishing_house, " +
             "publication_year, price, number FROM book, book_type" +
             " WHERE book.type_id = book_type.id")
     List<Book> select();
 
-    @SQL("SELECT book.id AS id, book_type.id type_id, type_name, book_num, book_name, publishing_house, " +
+    @SQL("SELECT book.id AS id, type_id, type_name, book_num, book_name, publishing_house, " +
             "publication_year, price, number " +
             "FROM book, book_type WHERE book.type_id = book_type.id " +
             "AND book.id = ? limit 1")
     Book select(int id);
 
-    @SQL("SELECT book.id AS id, book_type.id type_id, type_name, book_num, book_name, publishing_house, " +
+    @SQL("SELECT book.id AS id, type_id, type_name, book_num, book_name, publishing_house, " +
             "publication_year, price, number " +
             "FROM book, book_type WHERE book.type_id = book_type.id" +
             " AND book_num like ?")
