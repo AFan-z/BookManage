@@ -6,7 +6,7 @@
         <VBox minHeight="100" spacing="10" styleClass="dark-theme">
             <children>
                 <Button onAction="#borrowInfo" styleClass="menu-btn" text="借阅信息" />
-                <Button styleClass="menu-btn" text="统计分析" />
+                <Button onAction="#listBorrowAnalysis" styleClass="menu-btn" text="统计分析" />
             </children>
         </VBox>
     </content>

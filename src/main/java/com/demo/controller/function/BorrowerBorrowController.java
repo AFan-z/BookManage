@@ -17,4 +17,8 @@ public class BorrowerBorrowController {
     public void borrowInfo(ActionEvent actionEvent) throws Exception {
         mainService.switchView(ResourcesConfig.BORROWER_BOOK_FXML, MainController.mainToOtherContainer);
     }
+
+    public void borrowInfoAnalysis(ActionEvent actionEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.CHART_PERSONAL_BORROW_FXML, MainController.mainToOtherContainer);
+    }
 }
