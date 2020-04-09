@@ -15,7 +15,7 @@ public interface userAnalysis {
             "     group by role.role_name, year0" +
             "     order by year0) a" +
             "        RIGHT JOIN (" +
-            "            SELECT distinct role_name, YEAR(ua.create_time) as year FROM user ua, role WHERE role.id = ua.role_id" +
+            "            SELECT distinct role_name, YEAR(user.create_time) as year FROM user, role" +
             "        ) b" +
             "        ON a.role_name = b.role_name and year0=year" +
             "    order by year, role_name")
