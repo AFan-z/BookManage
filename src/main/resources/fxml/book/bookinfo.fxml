@@ -39,6 +39,11 @@
                        <PropertyValueFactory property="book_num" />
                    </cellValueFactory>
                </TableColumn>
+               <TableColumn text="类型">
+                   <cellValueFactory>
+                       <PropertyValueFactory property="type_name" />
+                   </cellValueFactory>
+               </TableColumn>
                <TableColumn text="书名">
                    <cellValueFactory>
                        <PropertyValueFactory property="book_name" />

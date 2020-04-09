@@ -18,6 +18,16 @@ public class BookInfo {
     private SimpleStringProperty book_num = new SimpleStringProperty("");
 
     /**
+     * 编号
+     */
+    private SimpleIntegerProperty type_id = new SimpleIntegerProperty();
+
+    /**
+     * 类型
+     */
+    private SimpleStringProperty type_name = new SimpleStringProperty("");
+
+    /**
      *书名
      */
     private SimpleStringProperty book_name = new SimpleStringProperty("");
@@ -48,6 +58,8 @@ public class BookInfo {
 
     public BookInfo(Book book){
         setId(book.getId());
+        setType_id(book.getTypeId());
+        setType_name(book.getTypeName());
         setBook_num(book.getBookNum());
         setBook_name(book.getBookName());
         setPublishing_house(book.getPublishingHouse());
@@ -59,6 +71,30 @@ public class BookInfo {
     @Override
     public String toString() {
         return book_num.get() + "  " + book_name.get();
+    }
+
+    public int getType_id() {
+        return type_id.get();
+    }
+
+    public SimpleIntegerProperty type_idProperty() {
+        return type_id;
+    }
+
+    public void setType_id(int type_id) {
+        this.type_id.set(type_id);
+    }
+
+    public String getType_name() {
+        return type_name.get();
+    }
+
+    public SimpleStringProperty type_nameProperty() {
+        return type_name;
+    }
+
+    public void setType_name(String type_name) {
+        this.type_name.set(type_name);
     }
 
     public String getBook_num() {

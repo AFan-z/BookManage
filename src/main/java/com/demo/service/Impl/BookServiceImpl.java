@@ -1,9 +1,11 @@
 package com.demo.service.Impl;
 
 import com.demo.entity.Book;
+import com.demo.entity.BookType;
 import com.demo.entity.Operation;
 import com.demo.entity.OperationAllEntity;
 import com.demo.entity.TableView.BookInfo;
+import com.demo.entity.TableView.BookTypeInfo;
 import com.demo.mapper.BookMapper;
 import com.demo.mapper.OperationMapper;
 import com.demo.service.BookService;
@@ -144,11 +146,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
+    public boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number, int typeId) {
 
         boolean flag = false;
 
-        if(bookNum.getText().equals("") || bookName.getText().equals("") || publishingHouse.getText().equals("") || publicationYear.getText().equals("") || price.getText().equals("") || number.getText().equals("")){
+        if(typeId == 0 || bookNum.getText().equals("") || bookName.getText().equals("") || publishingHouse.getText().equals("") || publicationYear.getText().equals("") || price.getText().equals("") || number.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
             alert.setHeaderText("请补全信息！！！");
@@ -157,6 +159,7 @@ public class BookServiceImpl implements BookService {
         }
 
         Book book = Book.builder()
+                .typeId(typeId)
                 .bookNum(bookNum.getText())
                 .bookName(bookName.getText())
                 .publishingHouse(publishingHouse.getText())
@@ -208,7 +211,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number) {
+    public boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number, int typeId) {
         boolean flag = false;
         if(bookNum.getText().equals("")){
             bookNum.setText(bookInfo.getBook_num());
@@ -229,10 +232,14 @@ public class BookServiceImpl implements BookService {
             number.setText(bookInfo.getNumber()+"");
         }
 
+        if (typeId == 0){
+            typeId = bookInfo.getType_id();
+        }
+
         try {
 
             boolean b = bookMapper.update(bookNum.getText(), bookName.getText(), publishingHouse.getText(),
-                    publicationYear.getText(),Double.valueOf(price.getText()), Integer.parseInt(number.getText()), bookInfo.getId());
+                    publicationYear.getText(),Double.valueOf(price.getText()), Integer.parseInt(number.getText()), typeId, bookInfo.getId());
             if (b) {
                 //操作日志
                 Operation operation = Operation.builder()
@@ -263,8 +270,22 @@ public class BookServiceImpl implements BookService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示信息");
+            alert.setHeaderText("失败");
+            alert.setHeaderText("修改图书失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) bookName.getScene().getWindow();
+            stage.close();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示信息");
+            alert.setHeaderText("失败");
+            alert.setHeaderText("修改图书失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) bookName.getScene().getWindow();
+            stage.close();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
@@ -304,6 +325,23 @@ public class BookServiceImpl implements BookService {
         return flag;
     }
 
+    @Override
+    public List<BookTypeInfo> getBookTypeList() {
+        List<BookTypeInfo> bookTypeList = new ArrayList<>();
+        try {
+            List<BookType> bookTypes = bookMapper.selectBookTypeList();
+            for (BookType bookType : bookTypes) {
+                BookTypeInfo bookTypeInfo = new BookTypeInfo(bookType);
+                bookTypeList.add(bookTypeInfo);
+            }
+
+        } catch (NoSuchDataInDBException dbe) {
+            handleErr.printErr(dbe, dbe.getMessage(), false);
+        } catch (Exception e3) {
+            handleErr.printErr(e3, "EXCEPTION!!!", true);
+        }
+        return bookTypeList;
+    }
 
     @Override
     public BookInfo getBookInfo() {
