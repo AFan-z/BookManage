@@ -18,6 +18,12 @@ public class UserManageController {
         mainService.switchView(ResourcesConfig.USER_LIST_FXML, MainController.mainToOtherContainer);
     }
 
-    public void listReaderAnalysis(ActionEvent actionEvent) {
+    /**
+     * 用户列表-统计分析
+     * @param actionEvent
+     * @throws Exception
+     */
+    public void listReaderAnalysis(ActionEvent actionEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.CHART_USERINFO_FXML, MainController.mainToOtherContainer);
     }
 }

@@ -1,17 +1,16 @@
 package com.demo.controller.book;
 
-import com.demo.entity.analysis.pubYearAls;
 import com.demo.entity.analysis.pubHouseAls;
+import com.demo.entity.analysis.pubYearAls;
 import com.demo.mapper.analysis.bookAnalysis;
+import com.demo.utils.AlyServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.chart.*;
-import org.yu.myorm.core.dynproxy.MapperInvoHander;
 
-import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,9 +25,7 @@ public class analysisBookController implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
-//    private BookService bookService = ServiceFactory.getBookServiceInstance();
-
-    private bookAnalysis bookAnalysis = (bookAnalysis) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{com.demo.mapper.analysis.bookAnalysis.class},new MapperInvoHander());
+    private bookAnalysis bookAnalysis = AlyServiceFactory.getBookAnalysisService();
 
 
     @FXML
@@ -58,12 +55,11 @@ public class analysisBookController implements Initializable {
         XYChart.Series<String, Long> series = new XYChart.Series<>();
         series.setName("馆藏数量");
         ObservableList<XYChart.Data<String, Long>> dataList = series.getData();
-        for (int i=0; i< analysisList.size(); i++) {
-            pubYearAls pa = analysisList.get(i);
+        analysisList.stream().forEach(pa -> {
             String xValue = pa.getPublicationYear();
             Long yValue = pa.getCount();
-            dataList.add(new XYChart.Data<String, Long>(xValue, yValue));
-        }
+            dataList.add(new XYChart.Data<>(xValue, yValue));
+        });
         xyLineChart.getData().add(series);
     }
 

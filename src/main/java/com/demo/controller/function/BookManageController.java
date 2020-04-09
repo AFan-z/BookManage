@@ -18,7 +18,12 @@ public class BookManageController {
         mainService.switchView(ResourcesConfig.BOOK_FXML, MainController.mainToOtherContainer);
     }
 
+    /**
+     * 图书列表-统计分析
+     * @param actionEvent
+     * @throws Exception
+     */
     public void listBookAnalysis(ActionEvent actionEvent) throws Exception {
-        mainService.switchView("/fxml/chart/bookInfoChart.fxml", MainController.mainToOtherContainer);
+        mainService.switchView(ResourcesConfig.CHART_BOOKINFO_FXML, MainController.mainToOtherContainer);
     }
 }

@@ -3,7 +3,7 @@ package com.demo.utils.enumeration;
 public enum Roles {
     SYSTEM_ADMIN("SYSTEM_ADMIN"),
     BOOK_ADMIN("BOOK_ADMIN"),
-    BORROWER("BOOK_ADMIN");
+    BORROWER("BORROWER");
 
     private final String role;
 

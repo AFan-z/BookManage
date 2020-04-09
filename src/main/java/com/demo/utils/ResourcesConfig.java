@@ -48,4 +48,9 @@ public class ResourcesConfig {
     public static final String ADD_ROLE_AND_PERMISSION_FXML = "/fxml/permission/addPerm.fxml";
 
 
+    public static final String CHART_USERINFO_FXML = "/fxml/chart/userInfoChart.fxml";
+
+    public static final String CHART_BOOKINFO_FXML = "/fxml/chart/bookInfoChart.fxml";
+
+
 }
