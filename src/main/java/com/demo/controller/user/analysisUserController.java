@@ -53,12 +53,9 @@ public class analysisUserController implements Initializable {
 
     private void initLineChart() {
         xyLineChart.setTitle("新增注册用户分析");
-        xAxis.setLabel("新增用户数量");
-        yAxis.setLabel("年份");
+        xAxis.setLabel("年份");
+        yAxis.setLabel("新增用户数量");
         yAxis.setTickUnit(20);
-//        yAxis.setTickLabelRotation(90);
-//        xyLineChart.getOnMouseReleased()
-
 
         List<userNewAls> userNewAlsList = userAnalysis.selectNewUser();
 
@@ -70,11 +67,6 @@ public class analysisUserController implements Initializable {
         cSeries.setName("借阅者");
         for (userNewAls ua: userNewAlsList) {
             XYChart.Data data = new XYChart.Data<>(String.valueOf(ua.getYear()), ua.getCount());
-            XYChart.Data zeroData = new XYChart.Data<>(String.valueOf(0),0);
-
-
-            String lastValueYear = String.valueOf(ua.getYear());
-
             String roleName = ua.getRoleName();
             if (roleName.equals(Roles.SYSTEM_ADMIN.value())) {
                 aSeries.getData().add(data);
