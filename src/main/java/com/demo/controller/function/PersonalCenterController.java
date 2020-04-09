@@ -14,15 +14,23 @@ public class PersonalCenterController {
      * @param actionEvent
      * @throws Exception
      */
-    public void listPersonalInfo(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.USER_FXML, MainController.mainToOtherContainer);
+    public void listPersonalInfo(ActionEvent actionEvent){
+        try {
+            mainService.switchView(ResourcesConfig.USER_FXML, MainController.mainToOtherContainer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
      * 个人操作日志
      * @param actionEvent
      */
-    public void listPersonalOperation(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.PERSONAL_OPERATION_FXML, MainController.mainToOtherContainer);
+    public void listPersonalOperation(ActionEvent actionEvent) {
+        try {
+            mainService.switchView(ResourcesConfig.PERSONAL_OPERATION_FXML, MainController.mainToOtherContainer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

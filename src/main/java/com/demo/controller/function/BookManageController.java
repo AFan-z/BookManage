@@ -14,8 +14,12 @@ public class BookManageController {
      * @param actionEvent
      * @throws Exception
      */
-    public void listBook(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.BOOK_FXML, MainController.mainToOtherContainer);
+    public void listBook(ActionEvent actionEvent) {
+        try {
+            mainService.switchView(ResourcesConfig.BOOK_FXML, MainController.mainToOtherContainer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -23,7 +27,11 @@ public class BookManageController {
      * @param actionEvent
      * @throws Exception
      */
-    public void listBookAnalysis(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.CHART_BOOKINFO_FXML, MainController.mainToOtherContainer);
+    public void listBookAnalysis(ActionEvent actionEvent) {
+        try {
+            mainService.switchView(ResourcesConfig.CHART_BOOKINFO_FXML, MainController.mainToOtherContainer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
