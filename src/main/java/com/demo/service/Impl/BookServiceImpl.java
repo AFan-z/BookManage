@@ -158,18 +158,8 @@ public class BookServiceImpl implements BookService {
             return flag;
         }
 
-        Book book = Book.builder()
-                .typeId(typeId)
-                .bookNum(bookNum.getText())
-                .bookName(bookName.getText())
-                .publishingHouse(publishingHouse.getText())
-                .publicationYear(publicationYear.getText())
-                .price(Double.valueOf(price.getText()))
-                .number(Integer.parseInt(number.getText()))
-                .build();
-
         try {
-            boolean b = bookMapper.insert(book);
+            boolean b = bookMapper.insert(typeId, bookNum.getText(), bookName.getText(), publishingHouse.getText(), publicationYear.getText(), Double.valueOf(price.getText()), Integer.parseInt(number.getText()));
             if (b){
                 //操作日志
                 Operation operation = Operation.builder()

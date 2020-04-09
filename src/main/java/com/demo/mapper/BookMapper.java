@@ -27,8 +27,8 @@ public interface BookMapper {
     List<Book> select(String book_num);
 
 
-    @SQL("INSERT INTO book VALUES (?E)")
-    boolean insert(Book Entity);
+    @SQL("INSERT INTO book(type_id, book_num, book_name, publishing_house, publication_year, price, number) VALUES (?,?,?,?,?,?,?)")
+    boolean insert(int type_id, String book_num, String book_name, String publishing_house, String publication_year, double price, int number);
 
     @SQL("DELETE FROM book WHERE id = ?")
     boolean delete(int id);

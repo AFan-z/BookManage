@@ -41,19 +41,16 @@ public class BookMapperImpl implements BookMapper {
     }
 
     @Override
+    public boolean insert(int type_id, String book_num, String book_name, String publishing_house, String publication_year, double price, int number) {
+        return false;
+    }
+
+    @Override
     public Book select(int id) {
         return null;
     }
 
-    @Override
-    public boolean insert(Book Entity) {
 
-        //自增id
-        Entity.setId(books.get(books.size()-1).getId() + 1);
-
-        books.add(Entity);
-        return true;
-    }
 
     @Override
     public boolean delete(int id) {
