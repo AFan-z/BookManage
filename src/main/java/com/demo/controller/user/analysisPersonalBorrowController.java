@@ -34,7 +34,7 @@ public class analysisPersonalBorrowController implements Initializable {
     private personalAnalysis personalAnalysis = AlyServiceFactory.getPersonalAnalysisService();
 
     public void refresh() {
-        //yAxisBarChart.getCssMetaData().clear();
+        xyBarChart.getData().clear();
         pieChart.getData().clear();
         typePieChart.getData().clear();
         initialize(null, null);

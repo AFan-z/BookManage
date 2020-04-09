@@ -30,7 +30,7 @@ public class analysisBorrowController implements Initializable {
     private borrowAnalysis borrowAnalysis = AlyServiceFactory.getBorrowAnalysisService();
 
     public void refresh() {
-        //yAxisBarChart.getCssMetaData().clear();
+        xyBarChart.getData().clear();
         pieChart.getData().clear();
         typePieChart.getData().clear();
         initialize(null, null);
