@@ -1,7 +1,7 @@
 package com.demo.utils;
 
 public class ResourcesConfig {
-    public static final String YML_PATH = "src/main/resources/tconf.yml";
+    public static final String YML_PATH = "src/main/resources/myconf.yml";
 
     public static final String BOOK_MANAGE_TITLE = "图书室管理系统";
 

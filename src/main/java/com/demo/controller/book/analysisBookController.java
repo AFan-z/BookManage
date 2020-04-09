@@ -2,6 +2,7 @@ package com.demo.controller.book;
 
 import com.demo.entity.analysis.pubHouseAls;
 import com.demo.entity.analysis.pubYearAls;
+import com.demo.entity.analysis.typeBookAls;
 import com.demo.mapper.analysis.bookAnalysis;
 import com.demo.utils.AlyServiceFactory;
 import javafx.collections.FXCollections;
@@ -31,14 +32,24 @@ public class analysisBookController implements Initializable {
     @FXML
     private PieChart pieChart;
 
+    @FXML
+    private PieChart typePieChart;
 
+
+
+    public void refresh() {
+        xyLineChart.getData().clear();
+        pieChart.getData().clear();
+        typePieChart.getData().clear();
+        initialize(null, null);
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLineChart();
         initPieChart();
-
+        initTypePieChart();
     }
 
     private void initLineChart() {
@@ -73,5 +84,16 @@ public class analysisBookController implements Initializable {
             dataList.add(new PieChart.Data(pub.getPublishingHouse(), pub.getCount()));
         }
         pieChart.setData(dataList);
+    }
+
+    private void initTypePieChart(){
+        typePieChart.setClockwise(true);
+        List<typeBookAls> typeBookAlsList = bookAnalysis.selectTypePie();
+
+        ObservableList<PieChart.Data> dataList = FXCollections.observableArrayList();
+        for (typeBookAls typeb : typeBookAlsList) {
+            dataList.add(new PieChart.Data(typeb.getTypeName(), typeb.getCount()));
+        }
+        typePieChart.setData(dataList);
     }
 }
