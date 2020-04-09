@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.Label?>
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.book.analysisBookController">
    <children>
       <LineChart layoutX="160.0" layoutY="38.0" fx:id="xyLineChart">
@@ -20,6 +21,6 @@
       <PieChart fx:id="pieChart" layoutX="800.0" layoutY="38.0" />
       <PieChart fx:id="typePieChart" layoutX="160.0" layoutY="438.0" />
        <Button mnemonicParsing="false" onAction="#refresh" prefHeight="49.0" prefWidth="97.0" styleClass="green-theme,btn-radius" text="刷新" />
-
+       <Label fx:id="label"></Label>
    </children>
 </AnchorPane>

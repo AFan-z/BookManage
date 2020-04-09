@@ -16,6 +16,6 @@
       </LineChart>
       <PieChart fx:id="pieChart" layoutX="800.0" layoutY="38.0" />
        <Button mnemonicParsing="false" onAction="#refresh" prefHeight="49.0" prefWidth="97.0" styleClass="blue-theme,btn-radius" text="刷新" />
-
+       <Label fx:id="label"></Label>
    </children>
 </AnchorPane>

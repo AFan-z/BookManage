@@ -4,12 +4,14 @@ import com.demo.entity.analysis.userNewAls;
 import com.demo.entity.analysis.userPieAls;
 import com.demo.mapper.analysis.userAnalysis;
 import com.demo.utils.AlyServiceFactory;
+import com.demo.utils.GUIEventer;
 import com.demo.utils.enumeration.Roles;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 
 import java.net.URL;
@@ -26,11 +28,14 @@ public class analysisUserController implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
-    private userAnalysis userAnalysis = AlyServiceFactory.getUserAnalysisService();
-
-
     @FXML
     private PieChart pieChart;
+
+    @FXML
+    private Label label;
+
+    private userAnalysis userAnalysis = AlyServiceFactory.getUserAnalysisService();
+
 
 
     public void refresh() {
@@ -88,6 +93,6 @@ public class analysisUserController implements Initializable {
             dataList.add(new PieChart.Data(pub.getRoleName(), pub.getCount()));
         }
         pieChart.setData(dataList);
-
+        GUIEventer.setEventerFor(pieChart, label);
     }
 }
