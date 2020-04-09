@@ -14,8 +14,12 @@ public class UserManageController {
      * @param actionEvent
      * @throws Exception
      */
-    public void listUser(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.USER_LIST_FXML, MainController.mainToOtherContainer);
+    public void listUser(ActionEvent actionEvent)  {
+        try {
+            mainService.switchView(ResourcesConfig.USER_LIST_FXML, MainController.mainToOtherContainer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -23,7 +27,11 @@ public class UserManageController {
      * @param actionEvent
      * @throws Exception
      */
-    public void listReaderAnalysis(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.CHART_USERINFO_FXML, MainController.mainToOtherContainer);
+    public void listReaderAnalysis(ActionEvent actionEvent) {
+        try {
+            mainService.switchView(ResourcesConfig.CHART_USERINFO_FXML, MainController.mainToOtherContainer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

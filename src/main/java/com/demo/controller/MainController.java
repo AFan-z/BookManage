@@ -125,7 +125,6 @@ public class MainController implements Initializable {
 //
 //    }
 
-    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //初始化mainToOtherContainer面板
@@ -140,9 +139,14 @@ public class MainController implements Initializable {
 //            }
 //        });
         //将轮播图设置为默认页
-        mainService.switchView(ResourcesConfig.DEFAULT_FXML, mainContainer);
-        //将功能模块导入
-        mainService.switchFunctionView(functionPane);
+        try {
+            mainService.switchFunctionView(functionPane);
+            mainService.switchView(ResourcesConfig.DEFAULT_FXML, mainContainer);
+            //将功能模块导入
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

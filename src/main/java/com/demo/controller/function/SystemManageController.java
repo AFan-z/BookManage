@@ -14,15 +14,23 @@ public class SystemManageController {
      * @param actionEvent
      * @throws Exception
      */
-    public void listOperation(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.OPERATION_FXML, MainController.mainToOtherContainer);
+    public void listOperation(ActionEvent actionEvent) {
+        try {
+            mainService.switchView(ResourcesConfig.OPERATION_FXML, MainController.mainToOtherContainer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 权限管理
      * @param actionEvent
      */
-    public void listPermission(ActionEvent actionEvent) throws Exception {
-        mainService.switchView(ResourcesConfig.ROLE_AND_PERMISSION_FXML,MainController.mainToOtherContainer);
+    public void listPermission(ActionEvent actionEvent) {
+        try {
+            mainService.switchView(ResourcesConfig.ROLE_AND_PERMISSION_FXML,MainController.mainToOtherContainer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

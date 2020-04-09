@@ -18,6 +18,7 @@ import javafx.scene.shape.Circle;
 import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 import org.yu.myorm.core.handleErr;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +43,15 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public void switchView(String fileName, Pane pane) throws Exception {
+    public void switchView(String fileName, Pane pane) {
         //清空原有内容
         pane.getChildren().clear();
-        Pane aPane = new FXMLLoader(getClass().getResource(fileName)).load();
+        Pane aPane = null;
+        try {
+            aPane = new FXMLLoader(getClass().getResource(fileName)).load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         pane.getChildren().add(aPane);
     }
 
