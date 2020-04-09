@@ -2,7 +2,6 @@ package com.demo.controller.book;
 
 import com.demo.entity.TableView.BookInfo;
 import com.demo.entity.TableView.BookTypeInfo;
-import com.demo.entity.TableView.RoleInfo;
 import com.demo.service.BookService;
 import com.demo.utils.ResourcesConfig;
 import com.demo.utils.ServiceFactory;

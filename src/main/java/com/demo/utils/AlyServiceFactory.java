@@ -1,6 +1,7 @@
 package com.demo.utils;
 
 import com.demo.mapper.analysis.bookAnalysis;
+import com.demo.mapper.analysis.personalAnalysis;
 import com.demo.mapper.analysis.userAnalysis;
 import org.yu.myorm.core.dynproxy.MapperInvoHander;
 
@@ -15,4 +16,8 @@ public class AlyServiceFactory {
         return (bookAnalysis) Proxy.newProxyInstance(bookAnalysis.class.getClassLoader(), new Class[]{com.demo.mapper.analysis.bookAnalysis.class},new MapperInvoHander());
     }
 
+
+    public static personalAnalysis getPersonalAnalysisService() {
+        return (personalAnalysis) Proxy.newProxyInstance(personalAnalysis.class.getClassLoader(), new Class[]{com.demo.mapper.analysis.personalAnalysis.class},new MapperInvoHander());
+    }
 }
