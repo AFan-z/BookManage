@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 09/04/2020 12:50:56
+ Date: 09/04/2020 16:56:35
 */
 
 SET NAMES utf8mb4;
@@ -39,9 +39,6 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, 2, '9787506384476', '苦难辉煌（大字版）', '作家出版社', '2016', 61.60, 20);
-INSERT INTO `book` VALUES (2, 6, '9787115472588', '鸟哥的Linux私房菜 基础学习篇 第四版', '人民邮电出版社', '2018', 59.00, 20);
-INSERT INTO `book` VALUES (3, 6, '9787111603702', '利用Python进行数据分析（原书第2版）', '机械工业出版社', '2018', 88.60, 20);
 INSERT INTO `book` VALUES (4, 6, '9787115514226', '浪潮之巅 第四版', '人民邮电出版社', '2019', 93.20, 20);
 INSERT INTO `book` VALUES (5, 6, '9787111641247', '深入理解Java虚拟机：JVM高级特性与最佳实践（第3版）', '机械工业出版社', '2019', 100.60, 20);
 INSERT INTO `book` VALUES (6, 6, '9787111636663', 'Java核心技术 卷I 基础知识（原书第11版）', '机械工业出版社', '2019', 96.90, 20);
@@ -105,21 +102,17 @@ CREATE TABLE `borrow`  (
 -- ----------------------------
 -- Records of borrow
 -- ----------------------------
-INSERT INTO `borrow` VALUES (1, 1, 0, '2020-05-01 11:17:10', '2020-04-21 11:17:10', 21);
-INSERT INTO `borrow` VALUES (1, 3, 0, '2020-03-01 11:27:15', '2020-03-01 22:53:29', 0);
 INSERT INTO `borrow` VALUES (1, 8, 0, '2020-05-03 11:27:37', '2020-03-01 22:53:34', 0);
 INSERT INTO `borrow` VALUES (1, 14, 0, '2020-05-09 10:46:50', '2020-04-29 10:46:50', 0);
 INSERT INTO `borrow` VALUES (1, 17, 0, '2020-05-09 10:46:58', '2020-04-29 10:46:58', 0);
 INSERT INTO `borrow` VALUES (1, 18, 0, '2020-05-09 10:46:35', '2020-04-29 10:46:35', 0);
 INSERT INTO `borrow` VALUES (1, 25, 0, '2020-05-09 10:46:42', '2020-04-29 10:46:42', 0);
-INSERT INTO `borrow` VALUES (2, 2, 0, '2020-04-04 11:28:03', '2020-03-01 22:53:37', 0);
 INSERT INTO `borrow` VALUES (2, 5, 0, '2020-04-01 11:28:15', '2020-04-05 22:53:40', 0);
 INSERT INTO `borrow` VALUES (2, 6, 0, '2020-05-08 11:28:31', '2020-04-05 22:53:43', 0);
 INSERT INTO `borrow` VALUES (2, 11, 0, '2020-05-09 10:47:17', '2020-04-29 10:47:17', 0);
 INSERT INTO `borrow` VALUES (2, 16, 0, '2020-05-09 10:47:13', '2020-04-29 10:47:13', 0);
 INSERT INTO `borrow` VALUES (2, 20, 0, '2020-05-09 10:47:31', '2020-04-29 10:47:31', 0);
 INSERT INTO `borrow` VALUES (2, 23, 0, '2020-05-09 10:47:06', '2020-04-29 10:47:06', 0);
-INSERT INTO `borrow` VALUES (3, 3, 0, '2020-04-08 15:28:43', '2020-04-05 22:53:47', 0);
 INSERT INTO `borrow` VALUES (3, 4, 0, '2020-05-15 11:29:04', '2020-04-05 22:53:50', 0);
 INSERT INTO `borrow` VALUES (3, 7, 0, '2020-04-26 11:29:19', '2020-04-05 22:53:53', 0);
 INSERT INTO `borrow` VALUES (3, 12, 0, '2020-05-09 10:47:57', '2020-04-29 10:47:57', 0);
@@ -139,13 +132,58 @@ CREATE TABLE `operation_log`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `operation_user_id_fk_1`(`operation_user`) USING BTREE,
   CONSTRAINT `operation_user_id_fk_1` FOREIGN KEY (`operation_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of operation_log
 -- ----------------------------
 INSERT INTO `operation_log` VALUES (1, '登录操作，第1次登录系统', 1, '2020-04-09 12:37:10');
 INSERT INTO `operation_log` VALUES (2, '登录操作，第2次登录系统', 1, '2020-04-09 12:44:04');
+INSERT INTO `operation_log` VALUES (3, '登录操作，第3次登录系统', 1, '2020-04-09 12:51:26');
+INSERT INTO `operation_log` VALUES (4, '新增用户信息，增加的用户工号：2020032304', 1, '2020-04-09 12:52:06');
+INSERT INTO `operation_log` VALUES (5, '修改用户信息，修改的用户工号：2020032304用户ID:4', 1, '2020-04-09 12:52:14');
+INSERT INTO `operation_log` VALUES (6, '修改个人信息，修改的用户工号：2020032301用户ID:1', 1, '2020-04-09 12:52:35');
+INSERT INTO `operation_log` VALUES (7, '修改个人信息，修改的用户工号：2020032301用户ID:1', 1, '2020-04-09 12:52:44');
+INSERT INTO `operation_log` VALUES (8, '登录操作，第4次登录系统', 1, '2020-04-09 13:22:37');
+INSERT INTO `operation_log` VALUES (9, '登录操作，第5次登录系统', 1, '2020-04-09 13:24:07');
+INSERT INTO `operation_log` VALUES (10, '登录操作，第6次登录系统', 1, '2020-04-09 13:26:14');
+INSERT INTO `operation_log` VALUES (11, '登录操作，第7次登录系统', 1, '2020-04-09 13:29:04');
+INSERT INTO `operation_log` VALUES (12, '登录操作，第8次登录系统', 1, '2020-04-09 13:54:03');
+INSERT INTO `operation_log` VALUES (13, '删除图书信息，编号为：9787506384476', 1, '2020-04-09 13:54:31');
+INSERT INTO `operation_log` VALUES (14, '登录操作，第9次登录系统', 1, '2020-04-09 14:01:23');
+INSERT INTO `operation_log` VALUES (15, '删除图书信息，编号为：9787535488473', 1, '2020-04-09 14:01:38');
+INSERT INTO `operation_log` VALUES (16, '登录操作，第10次登录系统', 1, '2020-04-09 14:06:09');
+INSERT INTO `operation_log` VALUES (17, '登录操作，第11次登录系统', 1, '2020-04-09 14:25:43');
+INSERT INTO `operation_log` VALUES (18, '登录操作，第1次登录系统', 2, '2020-04-09 14:30:04');
+INSERT INTO `operation_log` VALUES (19, '登录操作，第2次登录系统', 2, '2020-04-09 14:33:19');
+INSERT INTO `operation_log` VALUES (20, '登录操作，第3次登录系统', 2, '2020-04-09 14:40:41');
+INSERT INTO `operation_log` VALUES (21, '登录操作，第4次登录系统', 2, '2020-04-09 14:51:18');
+INSERT INTO `operation_log` VALUES (22, '登录操作，第5次登录系统', 2, '2020-04-09 14:52:21');
+INSERT INTO `operation_log` VALUES (23, '登录操作，第6次登录系统', 2, '2020-04-09 14:58:08');
+INSERT INTO `operation_log` VALUES (24, '登录操作，第12次登录系统', 1, '2020-04-09 15:04:28');
+INSERT INTO `operation_log` VALUES (25, '登录操作，第13次登录系统', 1, '2020-04-09 15:19:30');
+INSERT INTO `operation_log` VALUES (26, '登录操作，第14次登录系统', 1, '2020-04-09 15:28:04');
+INSERT INTO `operation_log` VALUES (27, '删除图书信息，编号为：9787111603702', 1, '2020-04-09 15:28:14');
+INSERT INTO `operation_log` VALUES (28, '登录操作，第15次登录系统', 1, '2020-04-09 15:31:40');
+INSERT INTO `operation_log` VALUES (29, '登录操作，第16次登录系统', 1, '2020-04-09 15:41:45');
+INSERT INTO `operation_log` VALUES (30, '登录操作，第17次登录系统', 1, '2020-04-09 15:43:18');
+INSERT INTO `operation_log` VALUES (31, '登录操作，第18次登录系统', 1, '2020-04-09 15:44:43');
+INSERT INTO `operation_log` VALUES (32, '登录操作，第19次登录系统', 1, '2020-04-09 15:45:49');
+INSERT INTO `operation_log` VALUES (33, '登录操作，第7次登录系统', 2, '2020-04-09 15:46:54');
+INSERT INTO `operation_log` VALUES (34, '登录操作，第20次登录系统', 1, '2020-04-09 15:51:23');
+INSERT INTO `operation_log` VALUES (35, '登录操作，第21次登录系统', 1, '2020-04-09 15:52:20');
+INSERT INTO `operation_log` VALUES (36, '登录操作，第22次登录系统', 1, '2020-04-09 15:54:15');
+INSERT INTO `operation_log` VALUES (37, '登录操作，第23次登录系统', 1, '2020-04-09 15:55:12');
+INSERT INTO `operation_log` VALUES (38, '登录操作，第24次登录系统', 1, '2020-04-09 16:00:32');
+INSERT INTO `operation_log` VALUES (39, '修改图书信息，编号为：9787805017259', 1, '2020-04-09 16:02:36');
+INSERT INTO `operation_log` VALUES (40, '修改图书信息，编号为：9787805017259', 1, '2020-04-09 16:02:56');
+INSERT INTO `operation_log` VALUES (41, '登录操作，第25次登录系统', 1, '2020-04-09 16:03:28');
+INSERT INTO `operation_log` VALUES (42, '登录操作，第26次登录系统', 1, '2020-04-09 16:12:23');
+INSERT INTO `operation_log` VALUES (43, '登录操作，第27次登录系统', 1, '2020-04-09 16:18:22');
+INSERT INTO `operation_log` VALUES (44, '登录操作，第28次登录系统', 1, '2020-04-09 16:23:03');
+INSERT INTO `operation_log` VALUES (45, '新增用户信息，增加的用户工号：2020032305', 1, '2020-04-09 16:34:42');
+INSERT INTO `operation_log` VALUES (46, '新增用户信息，增加的用户工号：2020032306', 1, '2020-04-09 16:38:36');
+INSERT INTO `operation_log` VALUES (47, '新增用户信息，增加的用户工号：1', 1, '2020-04-09 16:56:15');
 
 -- ----------------------------
 -- Table structure for permission
@@ -231,16 +269,21 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `job_num_unique`(`job_num`) USING BTREE,
   INDEX `userInfo_fk_1`(`userinfo_id`) USING BTREE,
   INDEX `role_id_fk_2`(`role_id`) USING BTREE,
-  CONSTRAINT `userInfo_fk_1` FOREIGN KEY (`userinfo_id`) REFERENCES `userinfo` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `role_id_fk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `role_id_fk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `userInfo_fk_1` FOREIGN KEY (`userinfo_id`) REFERENCES `userinfo` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '2020032301', 'system', '2020-03-23 20:00:00', 2, 1, 1);
-INSERT INTO `user` VALUES (2, '2020032302', 'book', '2020-03-23 20:21:02', 0, 2, 2);
+INSERT INTO `user` VALUES (1, '2020032301', 'system', '2020-03-23 20:00:00', 28, 1, 1);
+INSERT INTO `user` VALUES (2, '2020032302', 'book', '2020-03-23 20:21:02', 7, 2, 2);
 INSERT INTO `user` VALUES (3, '2020032303', 'borrower', '2020-03-23 20:21:32', 0, 3, 3);
+INSERT INTO `user` VALUES (4, '2020032304', '123456', '2020-04-09 12:52:06', 0, 4, 2);
+INSERT INTO `user` VALUES (5, '2020032305', '123456', '2018-01-01 16:34:42', 0, 5, 3);
+INSERT INTO `user` VALUES (6, '2020032306', '123456', '2019-07-01 16:38:36', 0, 6, 1);
+INSERT INTO `user` VALUES (7, '2020032307', '123456', '2019-01-09 16:41:51', 0, 7, 2);
+INSERT INTO `user` VALUES (8, '1', '1', '2020-04-09 16:56:15', 0, 8, 1);
 
 -- ----------------------------
 -- Table structure for userinfo
@@ -255,7 +298,7 @@ CREATE TABLE `userinfo`  (
   `email` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
   `avatar` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of userinfo
@@ -263,6 +306,11 @@ CREATE TABLE `userinfo`  (
 INSERT INTO `userinfo` VALUES (1, '张一二', '男', '2020-04-01 00:00:00', '13147258360', '123456@qq.com', '/image/avatar/1.jpg');
 INSERT INTO `userinfo` VALUES (2, '李三三', '女', '2020-04-02 20:25:34', '13225836947', '45678945@qq.com', '/image/avatar/2.jpg');
 INSERT INTO `userinfo` VALUES (3, '王五六', '男', '2020-04-02 20:26:23', '19314785269', '6936963@qq.com', '/image/avatar/3.jpg');
+INSERT INTO `userinfo` VALUES (4, '叶某痛', '男', '2020-04-09 00:00:00', '1231313', '465465564@qq.com', '/image/avatar/2.jpg');
+INSERT INTO `userinfo` VALUES (5, '陈某人', '女', '2019-04-12 00:00:00', '1835563641', '15646@qq.com', '/image/avatar/6.jpg');
+INSERT INTO `userinfo` VALUES (6, '王某人', '男', '2020-04-09 00:00:00', '1313133131', '2046316@163.com', '/image/avatar/4.jpg');
+INSERT INTO `userinfo` VALUES (7, '周某某', '男', '2020-04-09 16:43:20', '12345642', '78d546@qq.com', '/image/avatar/6.jpg');
+INSERT INTO `userinfo` VALUES (8, '叶老板', '女', '2020-04-15 00:00:00', '12313132', '13264645@qq.com', '/image/avatar/3.jpg');
 
 -- ----------------------------
 -- Procedure structure for get_operation_num
