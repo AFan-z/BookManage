@@ -18,11 +18,7 @@ public class BorrowManageController {
         mainService.switchView(ResourcesConfig.BORROW_FXML, MainController.mainToOtherContainer);
     }
 
-    public void listBorrowAnalysis(ActionEvent actionEvent) {
-        try{
-            mainService.switchView(ResourcesConfig.CHART_BORROW_FXML, MainController.mainToOtherContainer);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public void listBorrowAnalysis(ActionEvent actionEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.CHART_BORROW_FXML, MainController.mainToOtherContainer);
     }
 }

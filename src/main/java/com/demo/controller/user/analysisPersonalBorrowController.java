@@ -1,10 +1,11 @@
-package com.demo.controller.borrow;
+package com.demo.controller.user;
 
 import com.demo.entity.analysis.personalBorrowAls;
 import com.demo.entity.analysis.pubHouseAls;
 import com.demo.entity.analysis.typeBookAls;
-import com.demo.mapper.analysis.borrowAnalysis;
+import com.demo.mapper.analysis.personalAnalysis;
 import com.demo.utils.AlyServiceFactory;
+import com.demo.utils.CurrentUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,7 +16,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class analysisBorrowController implements Initializable {
+public class analysisPersonalBorrowController implements Initializable {
+
     @FXML
     private BarChart xyBarChart;
     @FXML
@@ -27,7 +29,9 @@ public class analysisBorrowController implements Initializable {
     @FXML
     private PieChart typePieChart;
 
-    private borrowAnalysis borrowAnalysis = AlyServiceFactory.getBorrowAnalysisService();
+    private int currentUserId = CurrentUser.getUserAllInfo().getId();
+
+    private personalAnalysis personalAnalysis = AlyServiceFactory.getPersonalAnalysisService();
 
     public void refresh() {
         //yAxisBarChart.getCssMetaData().clear();
@@ -45,7 +49,7 @@ public class analysisBorrowController implements Initializable {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("本年度统计数据");
 
-        List<personalBorrowAls> personalBorrowAlsList = borrowAnalysis.selectBorrowType();
+        List<personalBorrowAls> personalBorrowAlsList = personalAnalysis.selectBorrowType(currentUserId);
         ObservableList<XYChart.Data<String, Number>> dataList = series.getData();
         personalBorrowAlsList.stream().forEach(pb -> {
             String xValue = pb.getTypeName();
@@ -58,7 +62,7 @@ public class analysisBorrowController implements Initializable {
 
     private void initPieChart(){
         pieChart.setClockwise(true);
-        List<pubHouseAls> pubHouseAls = borrowAnalysis.selectPub();
+        List<pubHouseAls> pubHouseAls = personalAnalysis.selectPub(currentUserId);
 
         ObservableList<PieChart.Data> dataList = FXCollections.observableArrayList();
         for (pubHouseAls pub : pubHouseAls) {
@@ -69,7 +73,7 @@ public class analysisBorrowController implements Initializable {
 
     private void initTypePieChart(){
         typePieChart.setClockwise(true);
-        List<typeBookAls> typeBookAlsList = borrowAnalysis.selectTypePie();
+        List<typeBookAls> typeBookAlsList = personalAnalysis.selectTypePie(currentUserId);
 
         ObservableList<PieChart.Data> dataList = FXCollections.observableArrayList();
         for (typeBookAls typeb : typeBookAlsList) {
@@ -84,6 +88,4 @@ public class analysisBorrowController implements Initializable {
         initPieChart();
         initTypePieChart();
     }
-
-
 }
