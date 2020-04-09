@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.book.analysisBookController">
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.controller.book.analysisBookController">
    <children>
       <LineChart layoutX="160.0" layoutY="38.0" fx:id="xyLineChart">
         <xAxis>
@@ -17,10 +19,7 @@
       </LineChart>
       <PieChart fx:id="pieChart" layoutX="800.0" layoutY="38.0" />
       <PieChart fx:id="typePieChart" layoutX="160.0" layoutY="438.0" />
-       <ButtonBar layoutX="210.0" layoutY="-6.0" prefHeight="40.0" prefWidth="200.0">
-           <buttons>
-               <Button onAction="#refresh" mnemonicParsing="false" text="刷新" />
-           </buttons>
-       </ButtonBar>
+       <Button mnemonicParsing="false" onAction="#refresh" prefHeight="49.0" prefWidth="97.0" styleClass="green-theme,btn-radius" text="刷新" />
+
    </children>
 </AnchorPane>

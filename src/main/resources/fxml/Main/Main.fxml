@@ -19,7 +19,7 @@
                     </font>
                 </Label>
                 <!--                <Label fx:id="timeLabel" styleClass="font-white" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="30.0" />-->
-                <ImageView fx:id="userAvatar" fitHeight="40" fitWidth="40" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0">
+                <ImageView fx:id="userAvatar" fitHeight="40" fitWidth="40" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0" onMouseClicked="#showPersonalInfo">
                 </ImageView>
                 <Hyperlink fx:id="userName" onAction="#personal" ellipsisString="" styleClass="font-black" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="55.0" />
                 <Button onAction="#logout" styleClass="blue-theme" text="退出系统" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20" />

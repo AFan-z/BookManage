@@ -54,6 +54,11 @@ public class MainController implements Initializable {
         mainService.switchView(ResourcesConfig.USER_FXML, mainContainer);
     }
 
+
+    public void showPersonalInfo(MouseEvent mouseEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.USER_FXML, mainContainer);
+    }
+
     public void listDefault(MouseEvent mouseEvent) throws Exception {
         mainService.switchView(ResourcesConfig.DEFAULT_FXML, mainContainer);
     }

@@ -72,6 +72,7 @@ public class AddOrEditBookController  implements Initializable {
             publicationYear.setText(bookInfo.getPublication_year());
             price.setText(String.valueOf(bookInfo.getPrice()));
             number.setText(String.valueOf(bookInfo.getNumber()));
+            bookType.getSelectionModel().select(bookInfo.getType_id() - 1);
         }else{
             bookTypeData.addAll(bookService.getBookTypeList());
             bookType.setItems(bookTypeData);

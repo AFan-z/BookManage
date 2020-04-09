@@ -12,9 +12,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class EditUserController implements Initializable {
@@ -44,6 +48,7 @@ public class EditUserController implements Initializable {
     }
 
 
+    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         roleData.addAll(userService.getRoleList());
@@ -52,6 +57,7 @@ public class EditUserController implements Initializable {
             roleId = newValue.getId();
         });
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         UserAllInfo userAllInfo = userService.getUserAllInfo();
         job_num.setText(userAllInfo.getJob_num());
         password.setText(userAllInfo.getPassword());
@@ -59,5 +65,9 @@ public class EditUserController implements Initializable {
         gender.setText(userAllInfo.getGender());
         phone.setText(userAllInfo.getPhone());
         email.setText(userAllInfo.getEmail());
+        roleInfo.getSelectionModel().select(userAllInfo.getRole_id() -1);
+
+        Date date = dateFormat.parse(userAllInfo.getEmployment_year());
+        employment_year.setValue(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 }

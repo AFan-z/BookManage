@@ -15,10 +15,7 @@
         </yAxis>
       </LineChart>
       <PieChart fx:id="pieChart" layoutX="800.0" layoutY="38.0" />
-      <ButtonBar layoutX="210.0" layoutY="-6.0" prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-          <Button onAction="#refresh" mnemonicParsing="false" text="刷新" />
-        </buttons>
-      </ButtonBar>
+       <Button mnemonicParsing="false" onAction="#refresh" prefHeight="49.0" prefWidth="97.0" styleClass="blue-theme,btn-radius" text="刷新" />
+
    </children>
 </AnchorPane>
