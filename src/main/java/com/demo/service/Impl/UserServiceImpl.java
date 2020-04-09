@@ -170,12 +170,12 @@ public class UserServiceImpl implements UserService {
         try {
             Userinfo userinfo = Userinfo.builder().name(name.getText()).gender(gender.getText())
                     .employment_year(editDate(employment_year.getValue().toString())).phone(phone.getText())
-                    .email(email.getText()).avatar("/image/avatar/" + (new Random().nextInt(7) + 1) + ".jpg").roleId(roleId).build();
+                    .email(email.getText()).avatar("/image/avatar/" + (new Random().nextInt(7) + 1) + ".jpg").build();
 
             boolean b = userMapper.insert(userinfo);
             if (b){
                 User user = User.builder().job_num(job_num.getText()).password(password.getText()).create_time(new Date())
-                        .userinfo_id(userMapper.select(name.getText(), phone.getText(), email.getText())).build();
+                        .userinfo_id(userMapper.select(name.getText(), phone.getText(), email.getText())).roleId(roleId).build();
                 boolean b1 = userMapper.insert(user);
                 if (b1){
                     //操作日志
@@ -249,9 +249,9 @@ public class UserServiceImpl implements UserService {
         }
         //userAllInfo,为所要修改的用户之前信息
         try {
-            boolean b1 = userMapper.update(job_num.getText(), password.getText(), userAllInfo.getId());
+            boolean b1 = userMapper.update(job_num.getText(), password.getText(), roleId, userAllInfo.getId());
             boolean b2 = userMapper.update(name.getText(), gender.getText(), editDate(employment_year.getValue().toString()),
-                    phone.getText(),email.getText(),roleId, userAllInfo.getUserinfo_id());
+                    phone.getText(),email.getText(), userAllInfo.getUserinfo_id());
             if (b1 && b2){
                 //操作日志
                 Operation operation = Operation.builder()
@@ -281,8 +281,22 @@ public class UserServiceImpl implements UserService {
                 stage.close();
             }
         } catch (NoSuchDataInDBException dbe) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("失败");
+            alert.setContentText("修改用户信息失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) job_num.getScene().getWindow();
+            stage.close();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("失败");
+            alert.setContentText("修改用户信息失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) job_num.getScene().getWindow();
+            stage.close();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;
@@ -332,7 +346,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            boolean b1 = userMapper.update(CurrentUser.getUserAllInfo().getJob_num(), password.getText(), CurrentUser.getUserAllInfo().getId());
+            boolean b1 = userMapper.update(CurrentUser.getUserAllInfo().getJob_num(), password.getText(), CurrentUser.getUserAllInfo().getRole_id() ,CurrentUser.getUserAllInfo().getId());
             boolean b2 = userMapper.update(name.getText(), gender.getText(), phone.getText(), email.getText(), CurrentUser.getUserAllInfo().getUserinfo_id());
 
             if (b1 && b2){
@@ -362,8 +376,22 @@ public class UserServiceImpl implements UserService {
                 stage.close();
             }
         } catch (NoSuchDataInDBException dbe) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("失败");
+            alert.setContentText("修改用户信息失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) password.getScene().getWindow();
+            stage.close();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("失败");
+            alert.setContentText("修改用户信息失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) password.getScene().getWindow();
+            stage.close();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
         return flag;

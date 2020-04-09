@@ -1,6 +1,7 @@
 package com.demo.service;
 
 import com.demo.entity.TableView.BookInfo;
+import com.demo.entity.TableView.BookTypeInfo;
 import com.demo.utils.enumeration.Operate;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -34,10 +35,12 @@ public interface BookService {
 
     void newBookStage(String fxml, ObservableList<BookInfo> bookInfoData, TableView<BookInfo> bookTable) throws Exception;
 
-    boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
-    boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number);
+    boolean addBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number, int typeId);
+    boolean editBook(TextField bookNum, TextField bookName, TextField publishingHouse, TextField publicationYear, TextField price, TextField number, int typeId);
     boolean deleteBook();
 
     BookInfo getBookInfo();
+
+    List<BookTypeInfo> getBookTypeList();
 
 }

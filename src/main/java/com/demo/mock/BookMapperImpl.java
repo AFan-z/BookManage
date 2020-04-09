@@ -1,6 +1,7 @@
 package com.demo.mock;
 
 import com.demo.entity.Book;
+import com.demo.entity.BookType;
 import com.demo.mapper.BookMapper;
 
 import java.util.ArrayList;
@@ -68,6 +69,11 @@ public class BookMapperImpl implements BookMapper {
     }
 
     @Override
+    public boolean update(String book_num, String book_name, String publishing_house, String publication_year, double price, int number, int type_id, int id) {
+        return false;
+    }
+
+/*    @Override
     public boolean update(String book_num, String book_name, String publishing_house, String publication_year, double price, int number, int id) {
         for (Book book : books){
             if (book.getId() == id){
@@ -81,6 +87,11 @@ public class BookMapperImpl implements BookMapper {
             }
         }
         return false;
+    }*/
+
+    @Override
+    public List<BookType> selectBookTypeList() {
+        return null;
     }
 
 }

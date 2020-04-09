@@ -40,6 +40,11 @@ public class User {
      */
     private int userinfo_id;
 
+    /**
+     * 角色表id
+     */
+    private int roleId;
+
     @Tolerate
     public User(){}
 }

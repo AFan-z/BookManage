@@ -12,12 +12,12 @@ public interface UserMapper {
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
             "name, gender, employment_year, phone, email, avatar, role_id, role_name, role_info " +
             "FROM user, userinfo, role " +
-            "WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id")
+            "WHERE user.userinfo_id = userinfo.id AND user.role_id = role.id")
     List<UserAllInfoEntity> select();
 
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
             "name, gender, employment_year, phone, email, avatar, role_id, role_name, role_info " +
-            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id " +
+            "FROM user, userinfo, role WHERE user.userinfo_id = userinfo.id AND user.role_id = role.id " +
             "AND user.job_num like ?")
     List<UserAllInfoEntity> selectByJobNum(String job_num);
 
@@ -31,7 +31,7 @@ public interface UserMapper {
     @SQL("SELECT user.id, job_num, password, create_time, login_num, userinfo_id," +
             "name, gender, employment_year, phone, email, avatar, role_id, role_name, role_info " +
             "FROM user, userinfo, role " +
-            "WHERE user.userinfo_id = userinfo.id AND userinfo.role_id = role.id AND user.id = ?")
+            "WHERE user.userinfo_id = userinfo.id AND user.role_id = role.id AND user.id = ?")
     UserAllInfoEntity select(int id);
 
     @SQL("DELETE FROM user WHERE id = ?" )
@@ -46,11 +46,11 @@ public interface UserMapper {
      @SQL("SELECT id FROM userinfo WHERE name = ? AND phone = ? AND email = ? limit 1")
     int select(String name, String phone, String email);
 
-    @SQL("UPDATE user SET job_num = ?, password = ? WHERE id = ?")
-    boolean update(String job_num, String password, int id);
+    @SQL("UPDATE user SET job_num = ?, password = ? , role_id = ? WHERE id = ?")
+    boolean update(String job_num, String password, int role_id, int id);
 
-    @SQL("UPDATE userinfo SET name = ?, gender = ?, employment_year = ?, phone = ?, email = ?, role_id = ? WHERE id = ?")
-    boolean update(String name, String gender, Date employment_year, String phone, String email, int role_id, int id);
+    @SQL("UPDATE userinfo SET name = ?, gender = ?, employment_year = ?, phone = ?, email = ? WHERE id = ?")
+    boolean update(String name, String gender, Date employment_year, String phone, String email, int id);
 
     @SQL("UPDATE userinfo SET name = ?, gender = ?, phone = ?, email = ? WHERE id = ?")
     boolean update(String name, String gender, String phone, String email, int id);

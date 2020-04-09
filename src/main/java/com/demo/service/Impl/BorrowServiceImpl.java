@@ -382,8 +382,22 @@ public class BorrowServiceImpl implements BorrowService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("修改失败！");
+            alert.setContentText("修改借阅信息失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) isReturn.getScene().getWindow();
+            stage.close();
             handleErr.printErr(dbe, dbe.getMessage(), false);
         } catch (Exception e3) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("修改失败！");
+            alert.setContentText("修改借阅信息失败！！！");
+            alert.showAndWait();
+            Stage stage = (Stage) isReturn.getScene().getWindow();
+            stage.close();
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
 

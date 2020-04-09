@@ -122,12 +122,12 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public boolean update(String job_num, String password, int id) {
+    public boolean update(String job_num, String password, int roleId, int id) {
         return false;
     }
 
     @Override
-    public boolean update(String name, String gender, Date employment_year, String phone, String email, int role_id, int id) {
+    public boolean update(String name, String gender, Date employment_year, String phone, String email, int id) {
         return false;
     }
 

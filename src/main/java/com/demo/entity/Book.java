@@ -15,6 +15,16 @@ public class Book {
     private int id;
 
     /**
+     * 图书类型ID
+     */
+    private int typeId;
+
+    /**
+     * 图书类型
+     */
+    private String typeName;
+
+    /**
      * 编号
      */
     private String bookNum;
