@@ -14,11 +14,7 @@ public class BorrowManageController {
      * @param actionEvent
      * @throws Exception
      */
-    public void borrowInfo(ActionEvent actionEvent) {
-        try {
-            mainService.switchView(ResourcesConfig.BORROW_FXML, MainController.mainToOtherContainer);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public void borrowInfo(ActionEvent actionEvent) throws Exception {
+        mainService.switchView(ResourcesConfig.BORROW_FXML, MainController.mainToOtherContainer);
     }
 }

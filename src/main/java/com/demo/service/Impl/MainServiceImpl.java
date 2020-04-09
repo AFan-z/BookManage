@@ -49,10 +49,13 @@ public class MainServiceImpl implements MainService {
         Pane aPane = null;
         try {
             aPane = new FXMLLoader(getClass().getResource(fileName)).load();
-        } catch (IOException e) {
-            e.printStackTrace();
+            pane.getChildren().add(aPane);
+        } catch (IOException ioe) {
+            // may caused by NoSuchDataInDBException
+            handleErr.printErr((null != ioe.getCause())? (Exception) ioe.getCause() : ioe, "IOException!", true);
+        } catch (Exception e) {
+            handleErr.printErr(e, "Exception!", true);
         }
-        pane.getChildren().add(aPane);
     }
 
     @Override
