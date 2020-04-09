@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yu.myorm.core.DBConnecter;
 import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 import org.yu.myorm.core.handleErr;
 
@@ -42,7 +43,7 @@ public class LoginServiceImpl implements LoginService {
             operationMapper.insert(operation);
             flag = true;
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -68,6 +69,7 @@ public class LoginServiceImpl implements LoginService {
             mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
+                    DBConnecter.close(DBConnecter.getConnection());
                     System.exit(0);
                 }
             });

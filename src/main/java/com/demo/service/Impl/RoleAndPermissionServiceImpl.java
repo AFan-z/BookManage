@@ -112,7 +112,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 roleAndPermissionInfos.add(roleAndPermissionInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -131,7 +131,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 roleAndPermissionInfos.add(roleAndPermissionInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -181,7 +181,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
             alert.setHeaderText("失败");
             alert.setContentText("权限信息已存在，请更改！！！");
             alert.showAndWait();
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
@@ -220,7 +220,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 alert.showAndWait();
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -238,7 +238,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 roleList.add(roleInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -255,7 +255,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
                 permList.add(permInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

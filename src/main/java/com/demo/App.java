@@ -35,16 +35,15 @@ public class App extends Application {
     }
 
     private void getDBConnect(){
-            Connection conn = null;
             YMLConfig ymlConfig;
             DBConfig dbconf;
             // 获取连接的一个状态
             try {
                 ymlConfig = YMLConfig.loadDataFromYML(ResourcesConfig.YML_PATH);
                 dbconf = ymlConfig.getDB();
-                conn = DBConnecter.getConnection(dbconf);
+                DBConnecter.getConnection(dbconf);
             } catch (NoSuchDataInDBException dbe) {
-                handleErr.printErr(dbe, dbe.getMessage(), false);
+                handleErr.printErr(dbe, "No Such Data In DB!", false);
             }catch (ClassNotFoundException e) {
                 // 数据库驱动类异常处理
                 handleErr.printErr(e, "DB Driver Load Failed!", false);

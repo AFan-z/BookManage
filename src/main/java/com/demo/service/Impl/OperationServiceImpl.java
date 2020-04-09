@@ -26,7 +26,7 @@ public class OperationServiceImpl implements OperationService {
                 operationInfos.add(operationInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         }catch (YAMLException e2) {
             handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
@@ -47,7 +47,7 @@ public class OperationServiceImpl implements OperationService {
                 operationInfos.add(operationInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         }catch (YAMLException e2) {
             handleErr.printErr(e2, "LOAD OBJECT FROM YAML FAILED!", false);
         } catch (Exception e3) {
