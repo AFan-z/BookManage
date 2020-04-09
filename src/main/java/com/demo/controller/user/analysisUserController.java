@@ -66,14 +66,13 @@ public class analysisUserController implements Initializable {
         bSeries.setName("图书管理员");
         cSeries.setName("借阅者");
         for (userNewAls ua: userNewAlsList) {
-            XYChart.Data data = new XYChart.Data<>(String.valueOf(ua.getYear()), ua.getCount());
             String roleName = ua.getRoleName();
             if (roleName.equals(Roles.SYSTEM_ADMIN.value())) {
-                aSeries.getData().add(data);
+                aSeries.getData().add(new XYChart.Data<>(String.valueOf(ua.getYear()), ua.getCount()+0.00));
             } else if (roleName.equals(Roles.BOOK_ADMIN.value())) {
-                bSeries.getData().add(data);
+                bSeries.getData().add(new XYChart.Data<>(String.valueOf(ua.getYear()), ua.getCount()+0.02));
             } else if (roleName.equals(Roles.BORROWER.value())) {
-                cSeries.getData().add(data);
+                cSeries.getData().add(new XYChart.Data<>(String.valueOf(ua.getYear()), ua.getCount()+0.01));
             }
         }
         xyLineChart.getData().addAll(aSeries, bSeries, cSeries);
