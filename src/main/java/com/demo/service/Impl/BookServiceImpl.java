@@ -98,7 +98,7 @@ public class BookServiceImpl implements BookService {
                     bookInfoList.add(bookInfo);
                 }
             } catch (NoSuchDataInDBException dbe) {
-                handleErr.printErr(dbe, dbe.getMessage(), false);
+                handleErr.printErr(dbe, "No Such Data In DB!", false);
             } catch (Exception e3) {
                 handleErr.printErr(e3, "EXCEPTION!!!", true);
             }
@@ -116,7 +116,7 @@ public class BookServiceImpl implements BookService {
              }
 
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -202,7 +202,7 @@ public class BookServiceImpl implements BookService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -277,7 +277,7 @@ public class BookServiceImpl implements BookService {
             alert.showAndWait();
             Stage stage = (Stage) bookName.getScene().getWindow();
             stage.close();
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示信息");
@@ -318,7 +318,7 @@ public class BookServiceImpl implements BookService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -336,7 +336,7 @@ public class BookServiceImpl implements BookService {
             }
 
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

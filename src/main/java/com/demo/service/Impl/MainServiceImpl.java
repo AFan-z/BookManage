@@ -58,7 +58,7 @@ public class MainServiceImpl implements MainService {
                 functionPane.getPanes().add(titledPane);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }

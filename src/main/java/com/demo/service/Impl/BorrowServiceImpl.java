@@ -19,7 +19,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.yaml.snakeyaml.error.YAMLException;
 import org.yu.myorm.core.Exception.NoSuchDataInDBException;
 import org.yu.myorm.core.handleErr;
 //import org.yu.myorm.core.Exception.NoSuchDataInDBException;
@@ -163,7 +162,7 @@ public class BorrowServiceImpl implements BorrowService {
             flag = b && b1;
 
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -183,7 +182,7 @@ public class BorrowServiceImpl implements BorrowService {
                 borrowInfoList.add(borrowInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -203,7 +202,7 @@ public class BorrowServiceImpl implements BorrowService {
                 borrowInfoList.add(borrowInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -222,7 +221,7 @@ public class BorrowServiceImpl implements BorrowService {
                 borrowInfoList.add(borrowInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -240,7 +239,7 @@ public class BorrowServiceImpl implements BorrowService {
                 borrowInfoList.add(borrowInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -314,7 +313,7 @@ public class BorrowServiceImpl implements BorrowService {
             alert.setHeaderText("添加失败！");
             alert.setContentText("借阅信息已存在，请更改！！！");
             alert.showAndWait();
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
@@ -389,7 +388,7 @@ public class BorrowServiceImpl implements BorrowService {
             alert.showAndWait();
             Stage stage = (Stage) isReturn.getScene().getWindow();
             stage.close();
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
@@ -431,7 +430,7 @@ public class BorrowServiceImpl implements BorrowService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -445,12 +444,11 @@ public class BorrowServiceImpl implements BorrowService {
 
     private Date editDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateStr1[] = borrowInfo.getReturn_time().split("-");
-        String dateStr2[] = dateStr1[2].split(" ");
-        String dateStr3[] = date.split("-");
-        String newdate = dateStr3[0]+"-"+dateStr3[1]+"-"+dateStr3[2] + " " + dateStr2[1];
-        Date newDate = format.parse(newdate);
-        return newDate;
+        String[] dateStr1 = borrowInfo.getReturn_time().split("-");
+        String[] dateStr2 = dateStr1[2].split(" ");
+        String[] dateStr3 = date.split("-");
+        String newDate = dateStr3[0]+"-"+dateStr3[1]+"-"+dateStr3[2] + " " + dateStr2[1];
+        return format.parse(newDate);
     }
 
 //    private Date getnewDateForMonths(Date olddate, int months) throws ParseException {
@@ -481,8 +479,7 @@ public class BorrowServiceImpl implements BorrowService {
         ca.setTime(olddate);
         ca.add(Calendar.DATE, days);
         olddate = ca.getTime();
-        String newdata = format.format(olddate);
-        Date newDate = format.parse(newdata);
-        return newDate;
+        String newDate = format.format(olddate);
+        return format.parse(newDate);
     }
 }

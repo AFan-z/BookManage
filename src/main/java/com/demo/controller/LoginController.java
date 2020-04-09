@@ -12,6 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.yu.myorm.core.DBConnecter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,7 +36,7 @@ public class LoginController implements Initializable {
      * @param actionEvent
      */
     public void loginButtonClick(ActionEvent actionEvent) throws Exception {
-
+        if (!IsDBConnected()) return;
         if (isRemembered.isSelected()){
            remLoginUser.setUsernameStr(username.getText());
            remLoginUser.setPasswdStr(password.getText());
@@ -53,6 +54,19 @@ public class LoginController implements Initializable {
             alert.setContentText("账号或密码错误，登录失败!");
             alert.showAndWait();
         }
+    }
+    
+    private boolean IsDBConnected() {
+        if (null != DBConnecter.getConnection()) {
+            return true;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("警告");
+        alert.setHeaderText("连接数据库失败");
+        alert.setContentText("请检查数据库连接的相关配置，或联系管理员解决！！！");
+        alert.showAndWait();
+        return false;
     }
 
 

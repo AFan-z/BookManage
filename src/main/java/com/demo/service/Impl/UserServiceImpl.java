@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
                 userList.add(userAllInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
                 userList.add(userAllInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -288,7 +288,7 @@ public class UserServiceImpl implements UserService {
             alert.showAndWait();
             Stage stage = (Stage) job_num.getScene().getWindow();
             stage.close();
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
@@ -313,7 +313,7 @@ public class UserServiceImpl implements UserService {
                 roleList.add(roleInfo);
             }
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
@@ -383,7 +383,7 @@ public class UserServiceImpl implements UserService {
             alert.showAndWait();
             Stage stage = (Stage) password.getScene().getWindow();
             stage.close();
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
@@ -424,7 +424,7 @@ public class UserServiceImpl implements UserService {
             }
             flag = b;
         } catch (NoSuchDataInDBException dbe) {
-            handleErr.printErr(dbe, dbe.getMessage(), false);
+            handleErr.printErr(dbe, "No Such Data In DB!", false);
         } catch (Exception e3) {
             handleErr.printErr(e3, "EXCEPTION!!!", true);
         }
