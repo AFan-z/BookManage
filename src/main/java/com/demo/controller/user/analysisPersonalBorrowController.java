@@ -6,11 +6,13 @@ import com.demo.entity.analysis.typeBookAls;
 import com.demo.mapper.analysis.personalAnalysis;
 import com.demo.utils.AlyServiceFactory;
 import com.demo.utils.CurrentUser;
+import com.demo.utils.GUIEventer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.List;
@@ -28,6 +30,10 @@ public class analysisPersonalBorrowController implements Initializable {
     private PieChart pieChart;
     @FXML
     private PieChart typePieChart;
+
+    @FXML
+    private Label label;
+
 
     private int currentUserId = CurrentUser.getUserAllInfo().getId();
 
@@ -69,6 +75,7 @@ public class analysisPersonalBorrowController implements Initializable {
             dataList.add(new PieChart.Data(pub.getPublishingHouse(), pub.getCount()));
         }
         pieChart.setData(dataList);
+        GUIEventer.setEventerFor(pieChart, label);
     }
 
     private void initTypePieChart(){
@@ -80,6 +87,7 @@ public class analysisPersonalBorrowController implements Initializable {
             dataList.add(new PieChart.Data(typeb.getTypeName(), typeb.getCount()));
         }
         typePieChart.setData(dataList);
+        GUIEventer.setEventerFor(typePieChart, label);
     }
 
     @Override
