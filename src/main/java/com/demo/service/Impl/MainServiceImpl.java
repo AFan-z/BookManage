@@ -52,7 +52,10 @@ public class MainServiceImpl implements MainService {
             pane.getChildren().add(aPane);
         } catch (IOException ioe) {
             // may caused by NoSuchDataInDBException
-            handleErr.printErr((null != ioe.getCause())? (Exception) ioe.getCause() : ioe, "IOException!", true);
+            Throwable cause;
+            if ((null != (cause = ioe.getCause())) && cause instanceof  NoSuchDataInDBException) {
+                handleErr.printErr((NoSuchDataInDBException)ioe.getCause(), "No Such Data In DB!", false);
+            } else handleErr.printErr(ioe, "IOException!", true);
         } catch (Exception e) {
             handleErr.printErr(e, "Exception!", true);
         }
